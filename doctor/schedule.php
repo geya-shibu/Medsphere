@@ -476,7 +476,7 @@ if(isset($_POST['suspend']))
 				<td> 	
 					<form action="" method="POST">
 						<button name="suspend" class="btn btn-warning" value="<?=$row['schedule_id']?>">Cancel</button>
-					</form>	
+					</form>
 				</td>
             	<!-- <td>
 					<form action="del_session.php" method="POST">
