@@ -1,0 +1,6 @@
+<?php
+define('MERCHENT KEY', '')
+define('MERCHENT MID', '')
+define('ENV', 'TEST')
+?>
+
