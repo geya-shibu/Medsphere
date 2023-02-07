@@ -1312,3 +1312,143 @@ profile.php
                     </div>
                 </div>
             </div>
+
+
+
+
+doctor profile
+
+
+		<div class="col-md-6 border-right">
+            <div class="p-3 py-5">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h2 class="text-center">Personal Profile</h2>
+                </div>
+                <!-- <div class="row mt-1">
+                </div> -->
+                <div class="row mt-3">
+					<div class="col-md-12"><label class="labels">Full Name</label><input type="text" class="form-control" placeholder="Full name" value=""></div>
+                    <div class="col-md-12"><label class="labels">Mobile Number</label><input type="text" class="form-control" placeholder="enter phone number" value=""></div>
+					<div class="col-md-12"><label class="labels">Email ID</label><input type="text" class="form-control" placeholder="enter email id" value=""></div>
+					<div class="col-md-12"><label class="labels">Address Line 1</label><input type="text" class="form-control" placeholder="enter address" value=""></div>
+                    <div class="col-md-12"><label class="labels">Pin code</label><input type="text" class="form-control" placeholder="Pincode" value=""></div>
+                    <div class="col-md-12"><label class="labels">State</label><input type="text" class="form-control" placeholder="State" value=""></div>
+                    <div class="col-md-12"><label class="labels">Area</label><input type="text" class="form-control" placeholder="Area" value=""></div>
+                    <div class="col-md-12"><label class="labels">Education</label><input type="text" class="form-control" placeholder="education" value=""></div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-md-6"><label class="labels">Country</label><input type="text" class="form-control" placeholder="country" value=""></div>
+                    <div class="col-md-6"><label class="labels">State/Region</label><input type="text" class="form-control" value="" placeholder="state"></div>
+                </div>
+                <div class="mt-5 text-center"><button class="btn btn-primary profile-button" type="button">Save Profile</button></div>
+            </div>
+        </div>
+
+		<div class="col-md-6">
+            <div class="p-3 py-5">
+			<div class="d-flex justify-content-between align-items-center mb-3">
+                    <h2 class="text-center">Work Profile</h2>
+                </div>
+                <div class="d-flex justify-content-between align-items-center experience"><span>Experience</span></div><br>
+                <div class="col-md-12"><label class="labels">Organisation</label><input type="text" class="form-control" placeholder="additional details" value=""></div>
+				<div class="col-md-12"><label class="labels">Experience</label><input type="text" class="form-control" placeholder="experience" value=""></div> <br>
+				<div class="col-md-12"><label class="labels">Duration</label><input type="text" class="form-control" placeholder="experience" value=""></div> <br>
+				<div class="col-md-12"><label class="labels">Additional Details</label><input type="text" class="form-control" placeholder="additional details" value=""></div>
+			</div>
+        </div>
+
+
+
+
+		<?php 
+                        $did=$_SESSION['d'];
+                        $ret=mysqli_query($con,"select * from tbl_schedule where doc_id='$did'");
+                        while($row=mysqli_fetch_array($ret))
+                        {
+                        ?>
+                        <!-- <option value="<?php echo htmlentities($row['start_time']);?>">
+                            <?php echo htmlentities($row['start_time']);?> - <?php echo htmlentities($row['end_time']);?>
+                        </option> -->
+                        
+                        <?php 
+                    } ?>
+
+					<?php 
+                        $did=$_SESSION['d'];
+                        $ret=mysqli_query($con,"select * from tbl_schedule where doc_id='$did'");
+                        while($row=mysqli_fetch_array($ret))
+                        {
+                        ?>
+                        <option value="<?php echo htmlentities($row['s_day']);?>">
+                            <?php echo htmlentities($row['s_day']);?>
+                        </option>
+                        
+                        <?php 
+                    } ?>
+
+
+
+
+
+					// patient page
+					<style>
+						select {
+							width: 550px;
+							
+						}
+						select:focus {
+							min-width: 150px;
+							width: auto;
+						}
+					</style>
+                    <div class="row">
+                        <form action="disease_update.php" method="POST" enctype="multipart/form-data">	
+                            <div class="form-group">
+                                <label>Patient Name</label>
+                                <input type="text" id="name" name="dept_name" class="form-control" placeholder="Patient Name" value="Geya Merin Shibu" required>
+                            </div>
+                            <h6 class="error-message" id="name_err" style="color:red;"></h6>
+                            <div class="form-group" >
+								<label>Symptoms</label><br>
+								<select class="js-example-basic-multiple" name="sym[]" width="50" multiple="multiple" onChange="getdisease(this.value);">
+									<?php
+										$sql="SELECT * from tbl_symptoms";
+										$result=$con->query($sql);
+                                		if ($result-> num_rows > 0){
+                                		while ($row=$result-> fetch_assoc()) {
+									?>
+										<option value="<?=$row["dis_id"];?>">
+											<?=$row["sym_name"];?>
+										</option>
+									<?php }}?>
+								</select>
+                            </div>
+											
+							<div class="form-group">
+							<select name="disease" class="form-control" id="disease"  required="required">
+                        		<option value="">Disease</option>
+                    		</select>
+							</div>
+
+                            <!-- <div class="form-group">
+								<input type="text" id="name" name="dept_name" class="form-control" placeholder="Medicine" required>
+							</div>
+                            <h6 class="error-message" id="name_err"></h6> -->
+            
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" name="add_disease" class="btn btn-primary">Update</button>
+                            </div>
+						</form>
+                    </div>
+
+
+// Disease 
+
+					<?php
+													$disid=$row["disease"];
+													$sql2="SELECT * from tbl_disease where dis_id='$disid'";
+													$result2=$con->query($sql2);
+													if ($result2-> num_rows > 0){
+													while ($row2=$result2->fetch_assoc()) {
+														echo $row2["dis_name"];}}?>

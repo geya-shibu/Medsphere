@@ -16,6 +16,7 @@
 	<link rel="stylesheet" href="assets/css/bootstrap.min.css">
 	<link rel="stylesheet" href="assets/css/azzara.min.css">
 	<link rel="stylesheet" href="assets/css/demo.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
 </head>
 <body>
 	<div class="wrapper">
@@ -229,45 +230,48 @@
 				<div class="sidebar-wrapper scrollbar-inner">
 					<div class="sidebar-content">
 						<div class="user">
-						<div class="avatar-sm ml-4" style="height:120px; width:120px;">
-							<img src="../patient/images/no_image.jpg" alt="..." class="avatar-img rounded-circle">
+							<div class="avatar-sm ml-4" style="height:120px; width:120px;">
+								<img src="../patient/images/no_image.jpg" alt="..." class="avatar-img rounded-circle">
+							</div>
+							<div class="info">
+								<a data-toggle="collapse" href="#collapseExample" aria-expanded="true">
+									<span class="text-center mt-2">
+									<?php
+										$doc_id=$_SESSION['id'];
+										$sql="SELECT * from tbl_doctor where login_id='$doc_id'";
+										$result=$con->query($sql);
+										if ($result-> num_rows > 0){
+										while ($row=$result-> fetch_assoc()) {?>
+										<h4><?=$row["doc_name"]?></h4>
+										<?php $docid=$row["doc_id"];
+										$_SESSION['docid']=$docid;?>
+										<?php }
+											}?>
+									</span>
+										<span class="text-center">Doctor</span>
+										<!-- <span class="caret"></span> -->
+									
+								</a>
+							</div>
 						</div>
-						<div class="info">
-							<a data-toggle="collapse" href="#collapseExample" aria-expanded="true">
-								<span class="ml-5 mt-2">
-								<?php
-									$doc_id=$_SESSION['id'];
-									$sql="SELECT * from tbl_doctor where login_id='$doc_id'";
-									$result=$con->query($sql);
-									if ($result-> num_rows > 0){
-									while ($row=$result-> fetch_assoc()) {?>
-									<h4><?=$row["doc_name"]?></h4>
-									<?php }
-										}?>
-									<span class="ml-2">Doctor</span>
-									<!-- <span class="caret"></span> -->
-								</span>
-							</a>
-						</div>
-					</div>
 					<ul class="nav">
 						<li class="nav-item active">
 							<a href="index.html">
-								<i class="fas fa-home"></i>
+							<i class="fa-solid fa-bars"></i>
 								<p>Dashboard</p>
 								<!-- <span class="badge badge-count">5</span> -->
 							</a>
 						</li>
 						<li class="nav-item">
 							<a href="schedule.php">
-								<i class="fas fa-home"></i>
+							<i class="fa-regular fa-calendar"></i>
 								<p>Schedule</p>
 								<!-- <span class="badge badge-count">5</span> -->
 							</a>
 						</li>
 						<li class="nav-item">
 							<a href="appointment.php">
-								<i class="fas fa-layer-group"></i>
+							<i class="fa-solid fa-user"></i>
 								<p>Appointment</p>
 								<!-- <span class="caret"></span> -->
 							</a>
@@ -289,7 +293,7 @@
 						
 						<li class="nav-item">
 							<a href="profile.php">
-								<i class="fas fa-home"></i>
+							<i class="fa-solid fa-circle-user"></i>
 								<p>Profile</p>
 							</a>
 						</li>
@@ -396,388 +400,338 @@
 							</div>
 						</div>
 					</div>
+
 					<div class="row">
 						<div class="col-md-12">
 							<div class="card">
 								<div class="card-header">
 									<div class="card-head-row">
 										<div class="card-title">Today Appointments</div>
-										<div class="card-tools">
-											<!-- <a href="#" class="btn btn-info btn-border btn-round btn-sm mr-2">
-												<span class="btn-label">
-													<i class="fa fa-pencil"></i>
-												</span>
-												Export
-											</a> -->
-											<a href="#" class="btn btn-info btn-border btn-round btn-sm">
-												<span class="btn-label">
-													<i class="fa fa-print"></i>
-												</span>
-												Print
-											</a>
+											<div class="card-tools">
+												<!-- <a href="#" class="btn btn-info btn-border btn-round btn-sm mr-2">
+													<span class="btn-label">
+														<i class="fa fa-pencil"></i>
+													</span>
+													Export
+												</a> -->
+												<a href="#" class="btn btn-info btn-border btn-round btn-sm">
+													<span class="btn-label">
+														<i class="fa fa-print"></i>
+													</span>
+													Print
+												</a>
+											</div>
 										</div>
 									</div>
-								</div>
-								<table class="table mt-3">
+									
+									<table class="table mt-3">
 										<thead>
 											<tr>
 												<th scope="col">Sl No</th>
 												<th scope="col">Patient Name</th>
 												<th scope="col">Time</th>
 												<th scope="col">Token Number</th>
+												<th scope="col">More</th>
 											</tr>
 										</thead>
 										<tbody>
 											<tr>
 												<?php
-												$doc_id=$_SESSION['id'];
-												$sql="SELECT * from tbl_appointment where doc_id='$doc_id'";
+												$doc_id=$_SESSION['docid'];
+												$date = date('20y-m-d');
+												$sql="SELECT * from tbl_appointment where doc_id='$doc_id'and day='$date'";
+												$count=1;
 												$result=$con->query($sql);
 												if ($result-> num_rows > 0){
 												while ($row=$result-> fetch_assoc()) {?>
-												<td>1</td>
+												<td><?=$count?></td>
 												<td><?=$row["dept_id"]?></td>
 												<td><?=$row["time"]?></td>
-												<td>@mdo</td>
+												<td>5</td>
+												<td>
+												<form action="disease_update.php" method="POST">
+													<!-- <input type="hidden" name="delete_id" value="">
+													<button type="submit" name="delete_btn" class="btn btn-danger"> DELETE</button> -->
+													<button class="btn btn-danger"  name="d_btn" value="<?=$row['dept_id']?>" style="height:40px">More</button>
+										</form>
+												</td>
 											</tr>
-											<?php }
-													}?>
+											<?php $count=$count+1; }}?>
 										</tbody>
 									</table>
-							</div>
-						</div>
-						
-									</div>
-					<!-- <div class="row">
-						<div class="col-md-4">
-							<div class="card">
-								<div class="card-header">
-									<div class="card-title">Payment</div>
-								</div>
-								<div class="card-body pb-0">
-									<div class="d-flex">
-										<div class="avatar">
-											<img src="assets/img/logoproduct.svg" alt="..." class="avatar-img rounded-circle">
-										</div>
-										<div class="flex-1 pt-1 ml-2">
-											<h5 class="fw-bold mb-1">Larry</h5>
-											<small class="text-muted">Finished</small>
-										</div>
-										<div class="d-flex ml-auto align-items-center">
-											<h3 class="text-info fw-bold">Rs 250</h3>
-										</div>
-									</div>
-									<div class="separator-dashed"></div>
-									<div class="d-flex">
-										<div class="avatar">
-											<img src="assets/img/logoproduct2.svg" alt="..." class="avatar-img rounded-circle">
-										</div>
-										<div class="flex-1 pt-1 ml-2">
-											<h5 class="fw-bold mb-1">J.CO Donuts</h5>
-											<small class="text-muted">The Best Donuts</small>
-										</div>
-										<div class="d-flex ml-auto align-items-center">
-											<h3 class="text-info fw-bold">+$300</h3>
-										</div>
-									</div>
-									<div class="separator-dashed"></div>
-									<div class="d-flex">
-										<div class="avatar">
-											<img src="assets/img/logoproduct3.svg" alt="..." class="avatar-img rounded-circle">
-										</div>
-										<div class="flex-1 pt-1 ml-2">
-											<h5 class="fw-bold mb-1">Ready Pro</h5>
-											<small class="text-muted">Bootstrap 4 Admin Dashboard</small>
-										</div>
-										<div class="d-flex ml-auto align-items-center">
-											<h3 class="text-info fw-bold">+$350</h3>
-										</div>
-									</div>
-									<div class="separator-dashed"></div>
-									<div class="pull-in">
-										<canvas id="topProductsChart"></canvas>
-									</div>
 								</div>
 							</div>
 						</div>
-						<div class="col-md-4">
-							<div class="card">
-								<div class="card-body">
-									<div class="card-title fw-mediumbold">Suggestions</div>
-									<div class="card-list">
-										<div class="item-list">
+						<!-- <div class="row">
+							<div class="col-md-4">
+								<div class="card">
+									<div class="card-header">
+										<div class="card-title">Payment</div>
+									</div>
+									<div class="card-body pb-0">
+										<div class="d-flex">
 											<div class="avatar">
-												<img src="assets/img/jm_denis.jpg" alt="..." class="avatar-img rounded-circle">
+												<img src="assets/img/logoproduct.svg" alt="..." class="avatar-img rounded-circle">
 											</div>
-											<div class="info-user ml-3">
-												<div class="username">Larry</div>
-												<div class="status">Good Approach</div>
+											<div class="flex-1 pt-1 ml-2">
+												<h5 class="fw-bold mb-1">Larry</h5>
+												<small class="text-muted">Finished</small>
 											</div>
-											<button class="btn btn-icon btn-primary btn-round btn-sm">
-												<i class="fa fa-plus"></i>
-											</button>
+											<div class="d-flex ml-auto align-items-center">
+												<h3 class="text-info fw-bold">Rs 250</h3>
+											</div>
 										</div>
-										<div class="item-list">
+										<div class="separator-dashed"></div>
+										<div class="d-flex">
 											<div class="avatar">
-												<img src="assets/img/chadengle.jpg" alt="..." class="avatar-img rounded-circle">
+												<img src="assets/img/logoproduct2.svg" alt="..." class="avatar-img rounded-circle">
 											</div>
-											<div class="info-user ml-3">
-												<div class="username">Mary</div>
-												<div class="status">Friendly</div>
+											<div class="flex-1 pt-1 ml-2">
+												<h5 class="fw-bold mb-1">J.CO Donuts</h5>
+												<small class="text-muted">The Best Donuts</small>
 											</div>
-											<button class="btn btn-icon btn-primary btn-round btn-sm">
-												<i class="fa fa-plus"></i>
-											</button>
+											<div class="d-flex ml-auto align-items-center">
+												<h3 class="text-info fw-bold">+$300</h3>
+											</div>
 										</div>
+										<div class="separator-dashed"></div>
+										<div class="d-flex">
+											<div class="avatar">
+												<img src="assets/img/logoproduct3.svg" alt="..." class="avatar-img rounded-circle">
+											</div>
+											<div class="flex-1 pt-1 ml-2">
+												<h5 class="fw-bold mb-1">Ready Pro</h5>
+												<small class="text-muted">Bootstrap 4 Admin Dashboard</small>
+											</div>
+											<div class="d-flex ml-auto align-items-center">
+												<h3 class="text-info fw-bold">+$350</h3>
+											</div>
+										</div>
+										<div class="separator-dashed"></div>
+										<div class="pull-in">
+											<canvas id="topProductsChart"></canvas>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-4">
+								<div class="card">
+									<div class="card-body">
+										<div class="card-title fw-mediumbold">Suggestions</div>
+										<div class="card-list">
+											<div class="item-list">
+												<div class="avatar">
+													<img src="assets/img/jm_denis.jpg" alt="..." class="avatar-img rounded-circle">
+												</div>
+												<div class="info-user ml-3">
+													<div class="username">Larry</div>
+													<div class="status">Good Approach</div>
+												</div>
+												<button class="btn btn-icon btn-primary btn-round btn-sm">
+													<i class="fa fa-plus"></i>
+												</button>
+											</div>
+											<div class="item-list">
+												<div class="avatar">
+													<img src="assets/img/chadengle.jpg" alt="..." class="avatar-img rounded-circle">
+												</div>
+												<div class="info-user ml-3">
+													<div class="username">Mary</div>
+													<div class="status">Friendly</div>
+												</div>
+												<button class="btn btn-icon btn-primary btn-round btn-sm">
+													<i class="fa fa-plus"></i>
+												</button>
+											</div>
+											
+											<div class="item-list">
+												<div class="avatar">
+													<img src="assets/img/mlane.jpg" alt="..." class="avatar-img rounded-circle">
+												</div>
+												<div class="info-user ml-3">
+													<div class="username">John Doe</div>
+													<div class="status">Terrible</div>
+												</div>
+												<button class="btn btn-icon btn-primary btn-round btn-sm">
+													<i class="fa fa-plus"></i>
+												</button>
+											</div>
+											<div class="item-list">
+												<div class="avatar">
+													<img src="assets/img/talha.jpg" alt="..." class="avatar-img rounded-circle">
+												</div>
+												<div class="info-user ml-3">
+													<div class="username">Talha</div>
+													<div class="status">Front End Designer</div>
+												</div>
+												<button class="btn btn-icon btn-primary btn-round btn-sm">
+													<i class="fa fa-plus"></i>
+												</button>
+											</div>
+											
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-4">
+								<div class="card card-primary bg-primary-gradient bubble-shadow">
+									<div class="card-body">
+										<h4 class="mt-3 b-b1 pb-2 mb-4 fw-bold">Active user right now</h4>
+										<h1 class="mb-4 fw-bold">17</h1>
+										<h4 class="mt-3 b-b1 pb-2 mb-5 fw-bold">Page view per minutes</h4>
+										<h1 class="mb-2 fw-bold">10</h1>
 										
-										<div class="item-list">
-											<div class="avatar">
-												<img src="assets/img/mlane.jpg" alt="..." class="avatar-img rounded-circle">
-											</div>
-											<div class="info-user ml-3">
-												<div class="username">John Doe</div>
-												<div class="status">Terrible</div>
-											</div>
-											<button class="btn btn-icon btn-primary btn-round btn-sm">
-												<i class="fa fa-plus"></i>
-											</button>
-										</div>
-										<div class="item-list">
-											<div class="avatar">
-												<img src="assets/img/talha.jpg" alt="..." class="avatar-img rounded-circle">
-											</div>
-											<div class="info-user ml-3">
-												<div class="username">Talha</div>
-												<div class="status">Front End Designer</div>
-											</div>
-											<button class="btn btn-icon btn-primary btn-round btn-sm">
-												<i class="fa fa-plus"></i>
-											</button>
-										</div>
 										
 									</div>
 								</div>
 							</div>
-						</div>
-						<div class="col-md-4">
-							<div class="card card-primary bg-primary-gradient bubble-shadow">
-								<div class="card-body">
-									<h4 class="mt-3 b-b1 pb-2 mb-4 fw-bold">Active user right now</h4>
-									<h1 class="mb-4 fw-bold">17</h1>
-									<h4 class="mt-3 b-b1 pb-2 mb-5 fw-bold">Page view per minutes</h4>
-									<h1 class="mb-2 fw-bold">10</h1>
-									
-									
+						</div> -->
+						<!-- <div class="row">
+							<div class="col-md-6">
+								<div class="card">
+									<div class="card-header">
+										<div class="card-title">Feed Activity</div>
+									</div>
+									<div class="card-body">
+										<ol class="activity-feed">
+											<li class="feed-item feed-item-secondary">
+												<time class="date" datetime="9-25">Sep 25</time>
+												<span class="text">Responded to need <a href="#">"Volunteer opportunity"</a></span>
+											</li>
+											<li class="feed-item feed-item-success">
+												<time class="date" datetime="9-24">Sep 24</time>
+												<span class="text">Added an interest <a href="#">"Volunteer Activities"</a></span>
+											</li>
+											<li class="feed-item feed-item-warning">
+												<time class="date" datetime="9-21">Sep 21</time>
+												<span class="text">Responded to need <a href="#">"In-Kind Opportunity"</a></span>
+											</li>
+											<li class="feed-item feed-item-danger">
+												<time class="date" datetime="9-18">Sep 18</time>
+												<span class="text">Created need <a href="#">"Volunteer Opportunity"</a></span>
+											</li>
+											<li class="feed-item">
+												<time class="date" datetime="9-17">Sep 17</time>
+												<span class="text">Attending the event <a href="single-event.php">"Some New Event"</a></span>
+											</li>
+										</ol>
+									</div>
 								</div>
 							</div>
-						</div>
-					</div> -->
-					<!-- <div class="row">
-						<div class="col-md-6">
-							<div class="card">
-								<div class="card-header">
-									<div class="card-title">Feed Activity</div>
-								</div>
-								<div class="card-body">
-									<ol class="activity-feed">
-										<li class="feed-item feed-item-secondary">
-											<time class="date" datetime="9-25">Sep 25</time>
-											<span class="text">Responded to need <a href="#">"Volunteer opportunity"</a></span>
-										</li>
-										<li class="feed-item feed-item-success">
-											<time class="date" datetime="9-24">Sep 24</time>
-											<span class="text">Added an interest <a href="#">"Volunteer Activities"</a></span>
-										</li>
-										<li class="feed-item feed-item-warning">
-											<time class="date" datetime="9-21">Sep 21</time>
-											<span class="text">Responded to need <a href="#">"In-Kind Opportunity"</a></span>
-										</li>
-										<li class="feed-item feed-item-danger">
-											<time class="date" datetime="9-18">Sep 18</time>
-											<span class="text">Created need <a href="#">"Volunteer Opportunity"</a></span>
-										</li>
-										<li class="feed-item">
-											<time class="date" datetime="9-17">Sep 17</time>
-											<span class="text">Attending the event <a href="single-event.php">"Some New Event"</a></span>
-										</li>
-									</ol>
-								</div>
-							</div>
-						</div>
-						<div class="col-md-6">
-							<div class="card">
-								<div class="card-header">
-									<div class="card-head-row">
-										<div class="card-title">Support Tickets</div>
-										<div class="card-tools">
-											<ul class="nav nav-pills nav-secondary nav-pills-no-bd nav-sm" id="pills-tab" role="tablist">
-												<li class="nav-item">
-													<a class="nav-link" id="pills-today" data-toggle="pill" href="#pills-today" role="tab" aria-selected="true">Today</a>
-												</li>
-												<li class="nav-item">
-													<a class="nav-link active" id="pills-week" data-toggle="pill" href="#pills-week" role="tab" aria-selected="false">Week</a>
-												</li>
-												<li class="nav-item">
-													<a class="nav-link" id="pills-month" data-toggle="pill" href="#pills-month" role="tab" aria-selected="false">Month</a>
-												</li>
-											</ul>
+							<div class="col-md-6">
+								<div class="card">
+									<div class="card-header">
+										<div class="card-head-row">
+											<div class="card-title">Support Tickets</div>
+											<div class="card-tools">
+												<ul class="nav nav-pills nav-secondary nav-pills-no-bd nav-sm" id="pills-tab" role="tablist">
+													<li class="nav-item">
+														<a class="nav-link" id="pills-today" data-toggle="pill" href="#pills-today" role="tab" aria-selected="true">Today</a>
+													</li>
+													<li class="nav-item">
+														<a class="nav-link active" id="pills-week" data-toggle="pill" href="#pills-week" role="tab" aria-selected="false">Week</a>
+													</li>
+													<li class="nav-item">
+														<a class="nav-link" id="pills-month" data-toggle="pill" href="#pills-month" role="tab" aria-selected="false">Month</a>
+													</li>
+												</ul>
+											</div>
 										</div>
 									</div>
-								</div>
-								<div class="card-body">
-									<div class="d-flex">
-										<div class="avatar avatar-online">
-											<span class="avatar-title rounded-circle border border-white bg-info">J</span>
+									<div class="card-body">
+										<div class="d-flex">
+											<div class="avatar avatar-online">
+												<span class="avatar-title rounded-circle border border-white bg-info">J</span>
+											</div>
+											<div class="flex-1 ml-3 pt-1">
+												<h5 class="text-uppercase fw-bold mb-1">Joko Subianto <span class="text-warning pl-3">pending</span></h5>
+												<span class="text-muted">I am facing some trouble with my viewport. When i start my</span>
+											</div>
+											<div class="float-right pt-1">
+												<small class="text-muted">8:40 PM</small>
+											</div>
 										</div>
-										<div class="flex-1 ml-3 pt-1">
-											<h5 class="text-uppercase fw-bold mb-1">Joko Subianto <span class="text-warning pl-3">pending</span></h5>
-											<span class="text-muted">I am facing some trouble with my viewport. When i start my</span>
+										<div class="separator-dashed"></div>
+										<div class="d-flex">
+											<div class="avatar avatar-offline">
+												<span class="avatar-title rounded-circle border border-white bg-secondary">P</span>
+											</div>
+											<div class="flex-1 ml-3 pt-1">
+												<h5 class="text-uppercase fw-bold mb-1">Prabowo Widodo <span class="text-success pl-3">open</span></h5>
+												<span class="text-muted">I have some query regarding the license issue.</span>
+											</div>
+											<div class="float-right pt-1">
+												<small class="text-muted">1 Day Ago</small>
+											</div>
 										</div>
-										<div class="float-right pt-1">
-											<small class="text-muted">8:40 PM</small>
+										<div class="separator-dashed"></div>
+										<div class="d-flex">
+											<div class="avatar avatar-away">
+												<span class="avatar-title rounded-circle border border-white bg-danger">L</span>
+											</div>
+											<div class="flex-1 ml-3 pt-1">
+												<h5 class="text-uppercase fw-bold mb-1">Lee Chong Wei <span class="text-muted pl-3">closed</span></h5>
+												<span class="text-muted">Is there any update plan for RTL version near future?</span>
+											</div>
+											<div class="float-right pt-1">
+												<small class="text-muted">2 Days Ago</small>
+											</div>
 										</div>
-									</div>
-									<div class="separator-dashed"></div>
-									<div class="d-flex">
-										<div class="avatar avatar-offline">
-											<span class="avatar-title rounded-circle border border-white bg-secondary">P</span>
+										<div class="separator-dashed"></div>
+										<div class="d-flex">
+											<div class="avatar avatar-offline">
+												<span class="avatar-title rounded-circle border border-white bg-secondary">P</span>
+											</div>
+											<div class="flex-1 ml-3 pt-1">
+												<h5 class="text-uppercase fw-bold mb-1">Peter Parker <span class="text-success pl-3">open</span></h5>
+												<span class="text-muted">I have some query regarding the license issue.</span>
+											</div>
+											<div class="float-right pt-1">
+												<small class="text-muted">2 Day Ago</small>
+											</div>
 										</div>
-										<div class="flex-1 ml-3 pt-1">
-											<h5 class="text-uppercase fw-bold mb-1">Prabowo Widodo <span class="text-success pl-3">open</span></h5>
-											<span class="text-muted">I have some query regarding the license issue.</span>
-										</div>
-										<div class="float-right pt-1">
-											<small class="text-muted">1 Day Ago</small>
-										</div>
-									</div>
-									<div class="separator-dashed"></div>
-									<div class="d-flex">
-										<div class="avatar avatar-away">
-											<span class="avatar-title rounded-circle border border-white bg-danger">L</span>
-										</div>
-										<div class="flex-1 ml-3 pt-1">
-											<h5 class="text-uppercase fw-bold mb-1">Lee Chong Wei <span class="text-muted pl-3">closed</span></h5>
-											<span class="text-muted">Is there any update plan for RTL version near future?</span>
-										</div>
-										<div class="float-right pt-1">
-											<small class="text-muted">2 Days Ago</small>
-										</div>
-									</div>
-									<div class="separator-dashed"></div>
-									<div class="d-flex">
-										<div class="avatar avatar-offline">
-											<span class="avatar-title rounded-circle border border-white bg-secondary">P</span>
-										</div>
-										<div class="flex-1 ml-3 pt-1">
-											<h5 class="text-uppercase fw-bold mb-1">Peter Parker <span class="text-success pl-3">open</span></h5>
-											<span class="text-muted">I have some query regarding the license issue.</span>
-										</div>
-										<div class="float-right pt-1">
-											<small class="text-muted">2 Day Ago</small>
-										</div>
-									</div>
-									<div class="separator-dashed"></div>
-									<div class="d-flex">
-										<div class="avatar avatar-away">
-											<span class="avatar-title rounded-circle border border-white bg-danger">L</span>
-										</div>
-										<div class="flex-1 ml-3 pt-1">
-											<h5 class="text-uppercase fw-bold mb-1">Logan Paul <span class="text-muted pl-3">closed</span></h5>
-											<span class="text-muted">Is there any update plan for RTL version near future?</span>
-										</div>
-										<div class="float-right pt-1">
-											<small class="text-muted">2 Days Ago</small>
+										<div class="separator-dashed"></div>
+										<div class="d-flex">
+											<div class="avatar avatar-away">
+												<span class="avatar-title rounded-circle border border-white bg-danger">L</span>
+											</div>
+											<div class="flex-1 ml-3 pt-1">
+												<h5 class="text-uppercase fw-bold mb-1">Logan Paul <span class="text-muted pl-3">closed</span></h5>
+												<span class="text-muted">Is there any update plan for RTL version near future?</span>
+											</div>
+											<div class="float-right pt-1">
+												<small class="text-muted">2 Days Ago</small>
+											</div>
 										</div>
 									</div>
 								</div>
 							</div>
-						</div>
-					</div> -->
+						</div> -->
+					</div>
 				</div>
 			</div>
 		</div>
-		
-		<!-- Custom template | don't include it in your project! -->
-		<!-- <div class="custom-template">
-			<div class="title">Settings</div>
-			<div class="custom-content">
-				<div class="switcher">
-					<div class="switch-block">
-						<h4>Topbar</h4>
-						<div class="btnSwitch">
-							<button type="button" class="changeMainHeaderColor" data-color="blue"></button>
-							<button type="button" class="selected changeMainHeaderColor" data-color="purple"></button>
-							<button type="button" class="changeMainHeaderColor" data-color="light-blue"></button>
-							<button type="button" class="changeMainHeaderColor" data-color="green"></button>
-							<button type="button" class="changeMainHeaderColor" data-color="orange"></button>
-							<button type="button" class="changeMainHeaderColor" data-color="red"></button>
-						</div>
-					</div>
-					<div class="switch-block">
-						<h4>Background</h4>
-						<div class="btnSwitch">
-							<button type="button" class="changeBackgroundColor" data-color="bg2"></button>
-							<button type="button" class="changeBackgroundColor selected" data-color="bg1"></button>
-							<button type="button" class="changeBackgroundColor" data-color="bg3"></button>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="custom-toggle">
-				<i class="flaticon-settings"></i>
-			</div>
-		</div> -->
-		<!-- End Custom template -->
 	</div>
-</div>
-<!--   Core JS Files   -->
-<script src="assets/js/core/jquery.3.2.1.min.js"></script>
-<script src="assets/js/core/popper.min.js"></script>
-<script src="assets/js/core/bootstrap.min.js"></script>
-
-<!-- jQuery UI -->
-<script src="assets/js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
-<script src="assets/js/plugin/jquery-ui-touch-punch/jquery.ui.touch-punch.min.js"></script>
-
-<!-- jQuery Scrollbar -->
-<script src="assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
-
-<!-- Moment JS -->
-<script src="assets/js/plugin/moment/moment.min.js"></script>
-
-<!-- Chart JS -->
-<script src="assets/js/plugin/chart.js/chart.min.js"></script>
-
-<!-- jQuery Sparkline -->
-<script src="assets/js/plugin/jquery.sparkline/jquery.sparkline.min.js"></script>
-
-<!-- Chart Circle -->
-<script src="assets/js/plugin/chart-circle/circles.min.js"></script>
-
-<!-- Datatables -->
-<script src="assets/js/plugin/datatables/datatables.min.js"></script>
-
-<!-- Bootstrap Notify -->
-<script src="assets/js/plugin/bootstrap-notify/bootstrap-notify.min.js"></script>
-
-<!-- Bootstrap Toggle -->
-<script src="assets/js/plugin/bootstrap-toggle/bootstrap-toggle.min.js"></script>
-
-<!-- jQuery Vector Maps -->
-<script src="assets/js/plugin/jqvmap/jquery.vmap.min.js"></script>
-<script src="assets/js/plugin/jqvmap/maps/jquery.vmap.world.js"></script>
-
-<!-- Google Maps Plugin -->
-<script src="assets/js/plugin/gmaps/gmaps.js"></script>
-
-<!-- Sweet Alert -->
-<script src="assets/js/plugin/sweetalert/sweetalert.min.js"></script>
-
-<!-- Azzara JS -->
-<script src="assets/js/ready.min.js"></script>
-
-<!-- Azzara DEMO methods, don't include it in your project! -->
-<script src="assets/js/setting-demo.js"></script>
-<script src="assets/js/demo.js"></script>
+	<script src="assets/js/core/jquery.3.2.1.min.js"></script>
+	<script src="assets/js/core/popper.min.js"></script>
+	<script src="assets/js/core/bootstrap.min.js"></script>
+	<script src="assets/js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
+	<script src="assets/js/plugin/jquery-ui-touch-punch/jquery.ui.touch-punch.min.js"></script>
+	<script src="assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
+	<script src="assets/js/plugin/moment/moment.min.js"></script>
+	<script src="assets/js/plugin/chart.js/chart.min.js"></script>
+	<script src="assets/js/plugin/jquery.sparkline/jquery.sparkline.min.js"></script>
+	<script src="assets/js/plugin/chart-circle/circles.min.js"></script>
+	<script src="assets/js/plugin/datatables/datatables.min.js"></script>
+	<script src="assets/js/plugin/bootstrap-notify/bootstrap-notify.min.js"></script>
+	<script src="assets/js/plugin/bootstrap-toggle/bootstrap-toggle.min.js"></script>
+	<script src="assets/js/plugin/jqvmap/jquery.vmap.min.js"></script>
+	<script src="assets/js/plugin/jqvmap/maps/jquery.vmap.world.js"></script>
+	<script src="assets/js/plugin/gmaps/gmaps.js"></script>
+	<script src="assets/js/plugin/sweetalert/sweetalert.min.js"></script>
+	<script src="assets/js/ready.min.js"></script>
+	<script src="assets/js/setting-demo.js"></script>
+	<script src="assets/js/demo.js"></script>
+	<script src="https://kit.fontawesome.com/368b730f26.js" crossorigin="anonymous"></script>
 </body>
 </html>

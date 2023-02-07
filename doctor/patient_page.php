@@ -5,6 +5,11 @@
 	{
 		header("Location:../login.php");
 	}
+
+	if(isset($_POST['a_btn']))
+	{
+		$_SESSION['cur_pid']=$_POST['a_btn'];
+	}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -16,6 +21,21 @@
 	<link rel="stylesheet" href="assets/css/bootstrap.min.css">
 	<link rel="stylesheet" href="assets/css/azzara.min.css">
 	<link rel="stylesheet" href="assets/css/demo.css">
+	<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+
+	<script>
+        function getdisease(val) {
+            $.ajax({
+            type: "POST",
+            url: "php/get_consult.php",
+            data:'sym_id='+val,
+            success: function(data){
+                $("#disease").html(data);
+            }
+            });
+        }
+    </script>	
 </head>
 <body>
 	<div class="wrapper">
@@ -222,7 +242,7 @@
 			</nav>
 			<!-- End Navbar -->
 		</div>
-
+		
 		<!-- Sidebar -->
 		<div class="sidebar">
 			<div class="sidebar-background"></div>
@@ -244,7 +264,7 @@
 									<h4><?=$row["doc_name"]?></h4>
 									<?php }
 										}?>
-									<span class="ml-2">Doctor</span>
+									<span class="ml-2">Doctor </span>
 									<!-- <span class="caret"></span> -->
 								</span>
 							</a>
@@ -302,512 +322,243 @@
 		<div class="main-panel">
 			<div class="content">
 				<div class="page-inner">
-					<div class="page-header">
-						<!-- <h4 class="page-title">Dashboard</h4> -->
-						<!-- <div class="btn-group btn-group-page-header ml-auto">
-							<button type="button" class="btn btn-light btn-round btn-page-header-dropdown dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-								<i class="fa fa-ellipsis-h"></i>
-							</button>
-							<div class="dropdown-menu">
-								<div class="arrow"></div>
-								<a class="dropdown-item" href="#">Action</a>
-								<a class="dropdown-item" href="#">Another action</a>
-								<a class="dropdown-item" href="#">Something else here</a>
-								<div class="dropdown-divider"></div>
-								<a class="dropdown-item" href="#">Separated link</a>
-							</div>
-						</div> -->
-					</div>
-					<!-- <div class="row">
-						<div class="col-sm-6 col-md-3">
-							<div class="card card-stats card-round">
-								<div class="card-body ">
-									<div class="row align-items-center">
-										<div class="col-icon">
-											<div class="icon-big text-center icon-primary bubble-shadow-small">
-												<i class="fas fa-users"></i>
+					<div class="container-fluid">
+						
+  						<div class="row">
+    						<div class="col-6">
+							<h2 class="text-center" style="font-size:27px;">Consultation Details</h2>
+								<!-- Button trigger modal -->
+								<button type="button" class="btn btn-primary mb-2 float-right" data-toggle="modal" data-target="#exampleModalLong">
+									Add Consultation Details
+								</button>
+
+								<!-- Modal -->
+								<div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+									<div class="modal-dialog" role="document">
+										<div class="modal-content">
+											<div class="modal-header">
+												<h5 class="modal-title" id="exampleModalLongTitle">Consultation Details</h5>
+												<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+												<span aria-hidden="true">&times;</span>
+												</button>
 											</div>
-										</div>
-										<div class="col col-stats ml-3 ml-sm-0">
-											<div class="numbers">
-												<p class="card-category">Total Patients</p>
-												<h4 class="card-title">0</h4>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-sm-6 col-md-3">
-							<div class="card card-stats card-round">
-								<div class="card-body">
-									<div class="row align-items-center">
-										<div class="col-icon">
-											<div class="icon-big text-center icon-info bubble-shadow-small">
-												<i class="far fa-newspaper"></i>
-											</div>
-										</div>
-										<div class="col col-stats ml-3 ml-sm-0">
-											<div class="numbers">
-												<p class="card-category">Total Appointments</p>
-												<h4 class="card-title">0</h4>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-sm-6 col-md-3">
-							<div class="card card-stats card-round">
-								<div class="card-body">
-									<div class="row align-items-center">
-										<div class="col-icon">
-											<div class="icon-big text-center icon-success bubble-shadow-small">
-												<i class="far fa-chart-bar"></i>
-											</div>
-										</div>
-										<div class="col col-stats ml-3 ml-sm-0">
-											<div class="numbers">
-												<p class="card-category">Income</p>
-												<h4 class="card-title">0</h4>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-sm-6 col-md-3">
-							<div class="card card-stats card-round">
-								<div class="card-body">
-									<div class="row align-items-center">
-										<div class="col-icon">
-											<div class="icon-big text-center icon-secondary bubble-shadow-small">
-												<i class="far fa-check-circle"></i>
-											</div>
-										</div>
-										<div class="col col-stats ml-3 ml-sm-0">
-											<div class="numbers">
-												<p class="card-category">Treatments</p>
-												<h4 class="card-title">0</h4>
+											<div class="modal-body">
+												<style>
+													select {
+														width: 450px;
+														
+													}
+													select:focus {
+														min-width: 150px;
+														width: auto;
+													}
+												</style>
+												<form action="disease_update.php" method="POST">	
+													<!-- <div class="form-group">
+														<label>Patient Name</label>
+														<input type="text" id="name" name="dept_name" class="form-control" placeholder="Patient Name" value="Geya Merin Shibu" required>
+													</div> -->
+													<!-- <h6 class="error-message" id="name_err" style="color:red;"></h6> -->
+													<div class="form-group" >
+														<label>Symptoms</label><br>
+														<select class="js-example-basic-multiple" name="sym" width="50" multiple="multiple" onChange="getdisease(this.value);">
+															<?php
+																$sql="SELECT * from tbl_symptoms";
+																$result=$con->query($sql);
+																if ($result-> num_rows > 0){
+																while ($row=$result-> fetch_assoc()) {
+															?>
+																<option value="<?=$row["dis_id"];?>">
+																	<?=$row["sym_name"];?>
+																</option>
+															<?php }}?>
+														</select>
+													</div>
+																	
+													<div class="form-group">
+														<select name="disease" class="form-control" id="disease"  required="required">
+															<option value="">Disease</option>
+														</select>
+													</div>
+													<div class="form-group">
+														<input type="text" id="medicine" name="medicine" class="form-control" placeholder="Medicine" required>
+													</div>
+													
+													<div class="form-group">
+														<input type="text" id="dosage" name="dosage" class="form-control" placeholder="Dose" required>
+													</div>
+												
+													<div class="modal-footer">
+														<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+														<button type="submit" name="add_consultation" class="btn btn-primary">Add</button>
+													</div>
+												</form>
 											</div>
 										</div>
 									</div>
-								</div>
-							</div>
-						</div>
-					</div> -->
-					<!-- <div class="row">
-						<div class="col-md-12">
-							<div class="card">
-								<div class="card-header">
-									<div class="card-head-row">
-										<div class="card-title">Today Appointments</div>
-										<div class="card-tools">
-											<a href="#" class="btn btn-info btn-border btn-round btn-sm mr-2">
-												<span class="btn-label">
-													<i class="fa fa-pencil"></i>
-												</span>
-												Export
-											</a>
-											<a href="#" class="btn btn-info btn-border btn-round btn-sm">
-												<span class="btn-label">
-													<i class="fa fa-print"></i>
-												</span>
-												Print
-											</a>
-										</div>
-									</div>
-								</div>
-								<table class="table mt-3">
-										<thead>
-											<tr>
-												<th scope="col">Sl No</th>
-												<th scope="col">Patient Name</th>
-												<th scope="col">Time</th>
-												<th scope="col">Token Number</th>
-											</tr>
-										</thead>
+								</div>		
+
+								<table class="table table-bordered" width="100%">
+									<thead>
+										<tr>
+										<th scope="col" width="10%">Sl No</th>
+										<th scope="col">Symptoms</th>
+										<th scope="col">Disease</th>
+										<th scope="col">Medicine</th>
+										<th scope="col">Dosage</th>
+										</tr>
+									</thead>
+									<?php
+										$cpid=$_SESSION['cur_pid'];
+										$sql="SELECT * from tbl_record where p_id='$cpid'";
+										$result=$con->query($sql);
+										$count=1;
+										if($result-> num_rows > 0){
+										while ($row=$result-> fetch_assoc()) {?>
 										<tbody>
 											<tr>
-												<?php
-												$doc_id=$_SESSION['id'];
-												$sql="SELECT * from tbl_appointment where doc_id='$doc_id'";
-												$result=$con->query($sql);
-												if ($result-> num_rows > 0){
-												while ($row=$result-> fetch_assoc()) {?>
-												<td>1</td>
-												<td><?=$row["dept_id"]?></td>
-												<td><?=$row["time"]?></td>
-												<td>@mdo</td>
+												<th scope="row"><?php echo $count;?></th>
+												<td><?php
+													$symid=$row["symptoms"];
+													$sql1="SELECT * from tbl_symptoms where sym_id='$symid'";
+													$result1=$con->query($sql1);
+													if ($result1-> num_rows > 0){
+													while ($row1=$result1-> fetch_assoc()) {
+														echo $row1["sym_name"];}} ?>
+												</td>
+												<td><?php
+													$disid=$row["disease"];
+													$sql2="SELECT * from tbl_disease where dis_id='$disid'";
+													$result2=$con->query($sql2);
+													if ($result2-> num_rows > 0){
+													while ($row2=$result2->fetch_assoc()) {
+														echo $row2["dis_name"];}}?>
+												</td>
+												<td><?=$row["med_name"]?></td>
+												<td><?=$row["dosage"]?></td>
 											</tr>
-											<?php }
-													}?>
 										</tbody>
-									</table>
-							</div>
-						</div>
-						
-					</div> -->
-					<!-- <div class="row">
-						<div class="col-md-4">
-							<div class="card">
-								<div class="card-header">
-									<div class="card-title">Payment</div>
-								</div>
-								<div class="card-body pb-0">
-									<div class="d-flex">
-										<div class="avatar">
-											<img src="assets/img/logoproduct.svg" alt="..." class="avatar-img rounded-circle">
-										</div>
-										<div class="flex-1 pt-1 ml-2">
-											<h5 class="fw-bold mb-1">Larry</h5>
-											<small class="text-muted">Finished</small>
-										</div>
-										<div class="d-flex ml-auto align-items-center">
-											<h3 class="text-info fw-bold">Rs 250</h3>
-										</div>
-									</div>
-									<div class="separator-dashed"></div>
-									<div class="d-flex">
-										<div class="avatar">
-											<img src="assets/img/logoproduct2.svg" alt="..." class="avatar-img rounded-circle">
-										</div>
-										<div class="flex-1 pt-1 ml-2">
-											<h5 class="fw-bold mb-1">J.CO Donuts</h5>
-											<small class="text-muted">The Best Donuts</small>
-										</div>
-										<div class="d-flex ml-auto align-items-center">
-											<h3 class="text-info fw-bold">+$300</h3>
-										</div>
-									</div>
-									<div class="separator-dashed"></div>
-									<div class="d-flex">
-										<div class="avatar">
-											<img src="assets/img/logoproduct3.svg" alt="..." class="avatar-img rounded-circle">
-										</div>
-										<div class="flex-1 pt-1 ml-2">
-											<h5 class="fw-bold mb-1">Ready Pro</h5>
-											<small class="text-muted">Bootstrap 4 Admin Dashboard</small>
-										</div>
-										<div class="d-flex ml-auto align-items-center">
-											<h3 class="text-info fw-bold">+$350</h3>
-										</div>
-									</div>
-									<div class="separator-dashed"></div>
-									<div class="pull-in">
-										<canvas id="topProductsChart"></canvas>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-md-4">
-							<div class="card">
-								<div class="card-body">
-									<div class="card-title fw-mediumbold">Suggestions</div>
-									<div class="card-list">
-										<div class="item-list">
-											<div class="avatar">
-												<img src="assets/img/jm_denis.jpg" alt="..." class="avatar-img rounded-circle">
-											</div>
-											<div class="info-user ml-3">
-												<div class="username">Larry</div>
-												<div class="status">Good Approach</div>
-											</div>
-											<button class="btn btn-icon btn-primary btn-round btn-sm">
-												<i class="fa fa-plus"></i>
-											</button>
-										</div>
-										<div class="item-list">
-											<div class="avatar">
-												<img src="assets/img/chadengle.jpg" alt="..." class="avatar-img rounded-circle">
-											</div>
-											<div class="info-user ml-3">
-												<div class="username">Mary</div>
-												<div class="status">Friendly</div>
-											</div>
-											<button class="btn btn-icon btn-primary btn-round btn-sm">
-												<i class="fa fa-plus"></i>
-											</button>
-										</div>
-										
-										<div class="item-list">
-											<div class="avatar">
-												<img src="assets/img/mlane.jpg" alt="..." class="avatar-img rounded-circle">
-											</div>
-											<div class="info-user ml-3">
-												<div class="username">John Doe</div>
-												<div class="status">Terrible</div>
-											</div>
-											<button class="btn btn-icon btn-primary btn-round btn-sm">
-												<i class="fa fa-plus"></i>
-											</button>
-										</div>
-										<div class="item-list">
-											<div class="avatar">
-												<img src="assets/img/talha.jpg" alt="..." class="avatar-img rounded-circle">
-											</div>
-											<div class="info-user ml-3">
-												<div class="username">Talha</div>
-												<div class="status">Front End Designer</div>
-											</div>
-											<button class="btn btn-icon btn-primary btn-round btn-sm">
-												<i class="fa fa-plus"></i>
-											</button>
-										</div>
-										
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-md-4">
-							<div class="card card-primary bg-primary-gradient bubble-shadow">
-								<div class="card-body">
-									<h4 class="mt-3 b-b1 pb-2 mb-4 fw-bold">Active user right now</h4>
-									<h1 class="mb-4 fw-bold">17</h1>
-									<h4 class="mt-3 b-b1 pb-2 mb-5 fw-bold">Page view per minutes</h4>
-									<h1 class="mb-2 fw-bold">10</h1>
+										<?php $count=$count+1;}}?>
+								</table>
+    						</div>
+							<div class="col-6">
+								<section style="background-color: #eee;">
 									
+									<div class="container-fluid py-5">
+									<h2 class="text-center" style="font-size:30px;">Patient Data</h2>
+									<?php
+											$cpid=$_SESSION['cur_pid'];
+											$sql="SELECT * from tbl_patient where p_id='$cpid'";
+											$result=$con->query($sql);
+											$count=1;
+											if($result-> num_rows > 0){
+											while ($row=$result-> fetch_assoc()) {
+												$image=$row['image'];?>
+										<div class="row">
+											<div class="col-lg-8">
+												<div class="card mb-4">
+													<div class="card-body">
+														<div class="row">
+														<div class="col-sm-3">
+															<p class="mb-0">Name</p>
+														</div>
+														<div class="col-sm-9">
+															<p class="text-muted mb-0"><?=$row["name"]?></p>
+														</div>
+														</div>
+														<hr>
+														<div class="row">
+														<div class="col-sm-3">
+															<p class="mb-0">Email</p>
+														</div>
+														<div class="col-sm-9">
+															<p class="text-muted mb-0">geyams16@gmail.com</p>
+														</div>
+														</div>
+														<hr>
+														<div class="row">
+														<div class="col-sm-3">
+															<p class="mb-0">Phone</p>
+														</div>
+														<div class="col-sm-9">
+															<p class="text-muted mb-0"><?=$row["phone"]?></p>
+														</div>
+														</div>
+														<hr>
+														<div class="row">
+														<div class="col-sm-3">
+															<p class="mb-0">DOB</p>
+														</div>
+														<div class="col-sm-9">
+															<p class="text-muted mb-0"><?=$row["dob"]?></p>
+														</div>
+														</div>
+														<hr>
+														<div class="row">
+														<div class="col-sm-3">
+															<p class="mb-0">Address</p>
+														</div>
+														<div class="col-sm-9">
+															<p class="text-muted mb-0">ABC XYZ PQR</p>
+														</div>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="col-lg-4">
+												<div class="card mb-4">
+													<div class="card-body text-center">
+														<img src="../images/<?php echo $image;?>" alt="avatar" class="rounded-circle" style="width:120px; height:130px;">
+														<!-- <h5 class="my-3">John Smith</h5> -->
+														<br><br><p class="text-muted mb-1">Hospital ID :MS200</p>
+														<!-- <p class="text-muted mb-4">Bay Area, San Francisco, CA</p> -->
+														<!-- <div class="d-flex justify-content-center mb-2">
+															<button type="button" class="btn btn-primary">Follow</button>
+															<button type="button" class="btn btn-outline-primary ms-1">Message</button>
+														</div> -->
+													</div>
+												</div>
+											</div>
+											<p class="col ml-5" style="font-size:20px;">Last Consulted:</p>
+										</div>
+										<?php }}?>
+									</div>
 									
-								</div>
+								</section>
 							</div>
-						</div>
-					</div> -->
-					<!-- <div class="row">
-						<div class="col-md-6">
-							<div class="card">
-								<div class="card-header">
-									<div class="card-title">Feed Activity</div>
-								</div>
-								<div class="card-body">
-									<ol class="activity-feed">
-										<li class="feed-item feed-item-secondary">
-											<time class="date" datetime="9-25">Sep 25</time>
-											<span class="text">Responded to need <a href="#">"Volunteer opportunity"</a></span>
-										</li>
-										<li class="feed-item feed-item-success">
-											<time class="date" datetime="9-24">Sep 24</time>
-											<span class="text">Added an interest <a href="#">"Volunteer Activities"</a></span>
-										</li>
-										<li class="feed-item feed-item-warning">
-											<time class="date" datetime="9-21">Sep 21</time>
-											<span class="text">Responded to need <a href="#">"In-Kind Opportunity"</a></span>
-										</li>
-										<li class="feed-item feed-item-danger">
-											<time class="date" datetime="9-18">Sep 18</time>
-											<span class="text">Created need <a href="#">"Volunteer Opportunity"</a></span>
-										</li>
-										<li class="feed-item">
-											<time class="date" datetime="9-17">Sep 17</time>
-											<span class="text">Attending the event <a href="single-event.php">"Some New Event"</a></span>
-										</li>
-									</ol>
-								</div>
-							</div>
-						</div>
-						<div class="col-md-6">
-							<div class="card">
-								<div class="card-header">
-									<div class="card-head-row">
-										<div class="card-title">Support Tickets</div>
-										<div class="card-tools">
-											<ul class="nav nav-pills nav-secondary nav-pills-no-bd nav-sm" id="pills-tab" role="tablist">
-												<li class="nav-item">
-													<a class="nav-link" id="pills-today" data-toggle="pill" href="#pills-today" role="tab" aria-selected="true">Today</a>
-												</li>
-												<li class="nav-item">
-													<a class="nav-link active" id="pills-week" data-toggle="pill" href="#pills-week" role="tab" aria-selected="false">Week</a>
-												</li>
-												<li class="nav-item">
-													<a class="nav-link" id="pills-month" data-toggle="pill" href="#pills-month" role="tab" aria-selected="false">Month</a>
-												</li>
-											</ul>
-										</div>
-									</div>
-								</div>
-								<div class="card-body">
-									<div class="d-flex">
-										<div class="avatar avatar-online">
-											<span class="avatar-title rounded-circle border border-white bg-info">J</span>
-										</div>
-										<div class="flex-1 ml-3 pt-1">
-											<h5 class="text-uppercase fw-bold mb-1">Joko Subianto <span class="text-warning pl-3">pending</span></h5>
-											<span class="text-muted">I am facing some trouble with my viewport. When i start my</span>
-										</div>
-										<div class="float-right pt-1">
-											<small class="text-muted">8:40 PM</small>
-										</div>
-									</div>
-									<div class="separator-dashed"></div>
-									<div class="d-flex">
-										<div class="avatar avatar-offline">
-											<span class="avatar-title rounded-circle border border-white bg-secondary">P</span>
-										</div>
-										<div class="flex-1 ml-3 pt-1">
-											<h5 class="text-uppercase fw-bold mb-1">Prabowo Widodo <span class="text-success pl-3">open</span></h5>
-											<span class="text-muted">I have some query regarding the license issue.</span>
-										</div>
-										<div class="float-right pt-1">
-											<small class="text-muted">1 Day Ago</small>
-										</div>
-									</div>
-									<div class="separator-dashed"></div>
-									<div class="d-flex">
-										<div class="avatar avatar-away">
-											<span class="avatar-title rounded-circle border border-white bg-danger">L</span>
-										</div>
-										<div class="flex-1 ml-3 pt-1">
-											<h5 class="text-uppercase fw-bold mb-1">Lee Chong Wei <span class="text-muted pl-3">closed</span></h5>
-											<span class="text-muted">Is there any update plan for RTL version near future?</span>
-										</div>
-										<div class="float-right pt-1">
-											<small class="text-muted">2 Days Ago</small>
-										</div>
-									</div>
-									<div class="separator-dashed"></div>
-									<div class="d-flex">
-										<div class="avatar avatar-offline">
-											<span class="avatar-title rounded-circle border border-white bg-secondary">P</span>
-										</div>
-										<div class="flex-1 ml-3 pt-1">
-											<h5 class="text-uppercase fw-bold mb-1">Peter Parker <span class="text-success pl-3">open</span></h5>
-											<span class="text-muted">I have some query regarding the license issue.</span>
-										</div>
-										<div class="float-right pt-1">
-											<small class="text-muted">2 Day Ago</small>
-										</div>
-									</div>
-									<div class="separator-dashed"></div>
-									<div class="d-flex">
-										<div class="avatar avatar-away">
-											<span class="avatar-title rounded-circle border border-white bg-danger">L</span>
-										</div>
-										<div class="flex-1 ml-3 pt-1">
-											<h5 class="text-uppercase fw-bold mb-1">Logan Paul <span class="text-muted pl-3">closed</span></h5>
-											<span class="text-muted">Is there any update plan for RTL version near future?</span>
-										</div>
-										<div class="float-right pt-1">
-											<small class="text-muted">2 Days Ago</small>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div> -->
-
-                    <div class="row">
-                        <form action="" method="POST" enctype="multipart/form-data">	
-                            <div class="form-group">
-                                <label>Patient Name</label>
-                                <input type="text" id="name" name="dept_name" class="form-control" placeholder="Patient Name" value="Geya Merin Shibu" required>
-                            </div>
-                            <h6 class="error-message" id="name_err" style="color:red;"></h6>
-                            <div class="form-group">
-                                <input type="text" id="name_d" name="dept_detail" class="form-control" placeholder="Symptoms" rows="4" cols="76">
-                            <!-- <input type="text" rows="4" cols="4" id="name_d" name="dept_detail" class="form-control" onkeyup="validateNameErr()" placeholder="Enter Department Details" required> -->
-                            </div>
-                            <div class="form-group">
-                                <textarea id="name_md" name="dept_more_detail" class="form-control" placeholder="Diseases" rows="7" cols="76"></textarea>
-                            </div>
-
-                            <div class="form-group">
-                                <textarea id="name_md" name="dept_more_detail" class="form-control" placeholder="Medicine" rows="7" cols="76"></textarea>
-                            </div>
-                            <div class="form-group">
-                                <input type="file" id="image" name="image" class="form-control" required>
-                            </div>
-                            <h6 class="error-message" id="name_err"></h6>
-            
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="submit" name="add_dept" class="btn btn-primary">Update</button>
-                            </div>
-						</form>
-                    </div>
+  						</div>
+					</div>
 				</div>
 			</div>
 		</div>
-		
-		<!-- Custom template | don't include it in your project! -->
-		<!-- <div class="custom-template">
-			<div class="title">Settings</div>
-			<div class="custom-content">
-				<div class="switcher">
-					<div class="switch-block">
-						<h4>Topbar</h4>
-						<div class="btnSwitch">
-							<button type="button" class="changeMainHeaderColor" data-color="blue"></button>
-							<button type="button" class="selected changeMainHeaderColor" data-color="purple"></button>
-							<button type="button" class="changeMainHeaderColor" data-color="light-blue"></button>
-							<button type="button" class="changeMainHeaderColor" data-color="green"></button>
-							<button type="button" class="changeMainHeaderColor" data-color="orange"></button>
-							<button type="button" class="changeMainHeaderColor" data-color="red"></button>
-						</div>
-					</div>
-					<div class="switch-block">
-						<h4>Background</h4>
-						<div class="btnSwitch">
-							<button type="button" class="changeBackgroundColor" data-color="bg2"></button>
-							<button type="button" class="changeBackgroundColor selected" data-color="bg1"></button>
-							<button type="button" class="changeBackgroundColor" data-color="bg3"></button>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="custom-toggle">
-				<i class="flaticon-settings"></i>
-			</div>
-		</div> -->
-		<!-- End Custom template -->
 	</div>
-</div>
-<!--   Core JS Files   -->
-<script src="assets/js/core/jquery.3.2.1.min.js"></script>
-<script src="assets/js/core/popper.min.js"></script>
-<script src="assets/js/core/bootstrap.min.js"></script>
 
-<!-- jQuery UI -->
-<script src="assets/js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
-<script src="assets/js/plugin/jquery-ui-touch-punch/jquery.ui.touch-punch.min.js"></script>
-
-<!-- jQuery Scrollbar -->
-<script src="assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
-
-<!-- Moment JS -->
-<script src="assets/js/plugin/moment/moment.min.js"></script>
-
-<!-- Chart JS -->
-<script src="assets/js/plugin/chart.js/chart.min.js"></script>
-
-<!-- jQuery Sparkline -->
-<script src="assets/js/plugin/jquery.sparkline/jquery.sparkline.min.js"></script>
-
-<!-- Chart Circle -->
-<script src="assets/js/plugin/chart-circle/circles.min.js"></script>
-
-<!-- Datatables -->
-<script src="assets/js/plugin/datatables/datatables.min.js"></script>
-
-<!-- Bootstrap Notify -->
-<script src="assets/js/plugin/bootstrap-notify/bootstrap-notify.min.js"></script>
-
-<!-- Bootstrap Toggle -->
-<script src="assets/js/plugin/bootstrap-toggle/bootstrap-toggle.min.js"></script>
-
-<!-- jQuery Vector Maps -->
-<script src="assets/js/plugin/jqvmap/jquery.vmap.min.js"></script>
-<script src="assets/js/plugin/jqvmap/maps/jquery.vmap.world.js"></script>
-
-<!-- Google Maps Plugin -->
-<script src="assets/js/plugin/gmaps/gmaps.js"></script>
-
-<!-- Sweet Alert -->
-<script src="assets/js/plugin/sweetalert/sweetalert.min.js"></script>
-
-<!-- Azzara JS -->
-<script src="assets/js/ready.min.js"></script>
-
-<!-- Azzara DEMO methods, don't include it in your project! -->
-<script src="assets/js/setting-demo.js"></script>
-<script src="assets/js/demo.js"></script>
-</body>
+		<script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+		<script src="assets/js/core/jquery.3.2.1.min.js"></script>
+		<script src="assets/js/core/popper.min.js"></script>
+		<script src="assets/js/core/bootstrap.min.js"></script>
+		<script src="assets/js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
+		<script src="assets/js/plugin/jquery-ui-touch-punch/jquery.ui.touch-punch.min.js"></script>
+		<script src="assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
+		<script src="assets/js/plugin/moment/moment.min.js"></script>
+		<script src="assets/js/plugin/chart.js/chart.min.js"></script>
+		<script src="assets/js/plugin/jquery.sparkline/jquery.sparkline.min.js"></script>
+		<script src="assets/js/plugin/chart-circle/circles.min.js"></script>
+		<script src="assets/js/plugin/datatables/datatables.min.js"></script>
+		<script src="assets/js/plugin/bootstrap-notify/bootstrap-notify.min.js"></script>
+		<script src="assets/js/plugin/bootstrap-toggle/bootstrap-toggle.min.js"></script>
+		<script src="assets/js/plugin/jqvmap/jquery.vmap.min.js"></script>
+		<script src="assets/js/plugin/jqvmap/maps/jquery.vmap.world.js"></script>
+		<script src="assets/js/plugin/gmaps/gmaps.js"></script>
+		<script src="assets/js/plugin/sweetalert/sweetalert.min.js"></script>
+		<script src="assets/js/ready.min.js"></script>
+		<script src="assets/js/setting-demo.js"></script>
+		<script src="assets/js/demo.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+		<script>
+		$(document).ready(function() {
+			$('.js-example-basic-multiple').select2();
+		});
+		</script>
+	</body>
 </html>

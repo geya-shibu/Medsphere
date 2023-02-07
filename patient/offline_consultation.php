@@ -14,7 +14,7 @@
     $date=$_POST['date'];
     $time=$_POST['time'];
     $qid=$_SESSION['id'];
-    $duplicate=mysqli_query($con, "SELECT * from tbl_appointment WHERE dept_id='$specilization'");
+    $duplicate=mysqli_query($con, "SELECT * from tbl_appointment WHERE time='$time'");
     
     if(mysqli_num_rows($duplicate)>0)
     {
@@ -38,14 +38,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>Portal</title>
-    <!-- Favicon icon -->
     <link rel="shortcut icon" href="../assets/images/logo1.png"/>
-    <!-- Pignose Calender -->
     <link href="./plugins/pg-calendar/css/pignose.calendar.min.css" rel="stylesheet">
-    <!-- Chartist -->
     <link rel="stylesheet" href="./plugins/chartist/css/chartist.min.css">
     <link rel="stylesheet" href="./plugins/chartist-plugin-tooltips/css/chartist-plugin-tooltip.css">
-    <!-- Custom Stylesheet -->
     <link href="css/style.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
 
@@ -66,25 +62,34 @@
             $.ajax({
             type: "POST",
             url: "get_doctor.php",
-            data:'doctor='+val,
+            data:'doctor='+val, 
             success: function(data){
                 $("#fees").html(data);
             }
             });
-        }
-    </script>
-    <!-- <script>
-        function getdate(val) {
+
             $.ajax({
             type: "POST",
-            url: "get_doctor.php",
-            data:'dateval='+val,
+            url: "get_day.php",
+            data:'doctor='+val,
             success: function(data){
                 $("#date").html(data);
             }
             });
         }
-    </script>	 -->
+    </script>
+    <script>
+        function getdate(val) {
+            $.ajax({
+            type: "POST",
+            url: "get_doctor.php",
+            data:'date='+val,
+            success: function(data){
+                $("#time").html(data);
+            }
+            }); 
+        }
+    </script>	
 </head>
 
 <body>
@@ -504,7 +509,6 @@
                         <option value="<?php echo htmlentities($row['dept_id']);?>">
                             <?php echo htmlentities($row['dept_name']);?>
                         </option>
-                        
                         <?php 
                     } ?>
 													
@@ -517,42 +521,18 @@
                 </div>
                 <div class="form-group">
                     <label for="consultancyfees">Consultancy Fees</label>
-		            <select name="fees" class="form-control" id="fees"  readonly>
+		                <select name="fees" class="form-control" id="fees"  readonly>
 		            </select>
                 </div>
                 <!-- Day  -->
                 <div class="form-group">
                 <select name="date" class="form-control" id="date" onChange="getdate(this.value);" required="required">
                         <option value="">Select Day</option>
-                        <?php 
-                        $did=$_SESSION['d'];
-                        $ret=mysqli_query($con,"select * from tbl_schedule where doc_id='$did'");
-                        while($row=mysqli_fetch_array($ret))
-                        {
-                        ?>
-                        <option value="<?php echo htmlentities($row['s_day']);?>">
-                            <?php echo htmlentities($row['s_day']);?>
-                        </option>
-                        
-                        <?php 
-                    } ?>
                     </select>
                 </div>
                 <div class="form-group">
-                <select name="time" class="form-control" id="date" onChange="getdate(this.value);" required="required">
+                    <select name="time" class="form-control" id="time" required="required">
                         <option value="">Select Time Slot</option>
-                        <?php 
-                        $did=$_SESSION['d'];
-                        $ret=mysqli_query($con,"select * from tbl_schedule where doc_id='$did'");
-                        while($row=mysqli_fetch_array($ret))
-                        {
-                        ?>
-                        <option value="<?php echo htmlentities($row['start_time']);?>">
-                            <?php echo htmlentities($row['start_time']);?>
-                        </option>
-                        
-                        <?php 
-                    } ?>
                     </select>
                 </div>
                 
@@ -580,27 +560,17 @@
     <script src="js/settings.js"></script>
     <script src="js/gleek.js"></script>
     <script src="js/styleSwitcher.js"></script>
-
-    <!-- Chartjs -->
     <script src="./plugins/chart.js/Chart.bundle.min.js"></script>
-    <!-- Circle progress -->
     <script src="./plugins/circle-progress/circle-progress.min.js"></script>
-    <!-- Datamap -->
     <script src="./plugins/d3v3/index.js"></script>
     <script src="./plugins/topojson/topojson.min.js"></script>
     <script src="./plugins/datamaps/datamaps.world.min.js"></script>
-    <!-- Morrisjs -->
     <script src="./plugins/raphael/raphael.min.js"></script>
     <script src="./plugins/morris/morris.min.js"></script>
-    <!-- Pignose Calender -->
     <script src="./plugins/moment/moment.min.js"></script>
     <script src="./plugins/pg-calendar/js/pignose.calendar.min.js"></script>
-    <!-- ChartistJS -->
     <script src="./plugins/chartist/js/chartist.min.js"></script>
     <script src="./plugins/chartist-plugin-tooltips/js/chartist-plugin-tooltip.min.js"></script>
-
-
-
     <script src="./js/dashboard/dashboard-1.js"></script>
 
 </body>

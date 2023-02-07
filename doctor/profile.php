@@ -1,74 +1,48 @@
 <?php
-  include('../connection.php');
-  session_start();
+	include('../connection.php');
+	session_start();
 
+	if(isset($_POST['add_schedule']))
+	{
+		$s_date=$_POST['s_date'];
+		$s_stime=$_POST['s_stime'];
+		$s_etime=$_POST['s_etime'];
+		$s_nop=$_POST['s_nop'];
+		$s_session=$_POST['session'];
+		$duplicate=mysqli_query($con, "SELECT * from tbl_schedule WHERE session='$s_session' AND date='$s_date' AND
+										start_time='$s_stime' AND end_time='$s_etime'");
+		if(mysqli_num_rows($duplicate)>0)
+		{
+			echo "<script> alert('Already Added');</script>";
+			// header('location:department.php');
+		}
+		else
+		{
+			$ins="INSERT INTO tbl_schedule (session, date, start_time, end_time, nop) VALUES ('$s_session', '$s_date', '$s_stime', '$s_etime', '$s_nop')";
+			if($con->query($ins)=== TRUE)
+			{
+				echo "<script> alert('Record Added Successfully'); </script>";
+				// header('location:schedule.php');
 
-  if(isset($_POST['add_schedule']))
-{
-	$s_date=$_POST['s_date'];
-	$s_stime=$_POST['s_stime'];
-    $s_etime=$_POST['s_etime'];
-    $s_nop=$_POST['s_nop'];
-    $s_session=$_POST['session'];
-	$duplicate=mysqli_query($con, "SELECT * from tbl_schedule WHERE session='$s_session' AND date='$s_date' AND
-                                    start_time='$s_stime' AND end_time='$s_etime'");
-    
-      if(mysqli_num_rows($duplicate)>0)
-      {
-        echo "<script> alert('Already Added');</script>";
-        // header('location:department.php');
-      }
-    else
-    {
-		$ins="INSERT INTO tbl_schedule (session, date, start_time, end_time, nop) VALUES ('$s_session', '$s_date', '$s_stime', '$s_etime', '$s_nop')";
-		if($con->query($ins)=== TRUE)
-          {
-            echo "<script> alert('Record Added Successfully'); </script>";
-			// header('location:schedule.php');
-
-          }
+			}
+		}
 	}
-}
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<title>MedSphere</title>
 	<meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport' />
 	<link rel="shortcut icon" href="../assets/images/logo1.png" />
-	<!-- Fonts and icons -->
-	<script src="assets/js/plugin/webfont/webfont.min.js"></script>
-	<script>
-		WebFont.load({
-			google: {"families":["Open+Sans:300,400,600,700"]},
-			custom: {"families":["Flaticon", "Font Awesome 5 Solid", "Font Awesome 5 Regular", "Font Awesome 5 Brands"], urls: ['../assets/css/fonts.css']},
-			active: function() {
-				sessionStorage.fonts = true;
-			}
-		});
-	</script>
-	<!-- CSS Files -->
 	<link rel="stylesheet" href="assets/css/bootstrap.min.css">
 	<link rel="stylesheet" href="assets/css/azzara.min.css">
-        
-    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous"> -->
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
-	<!-- CSS Just for demo purpose, don't include it in your project -->
 	<link rel="stylesheet" href="assets/css/demo.css">
-    <link href="https://code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css" rel="Stylesheet"
-    type="text/css" />
-    <script type="text/javascript" src="https://code.jquery.com/jquery-1.7.2.min.js"></script>
-    <script type="text/javascript" src="https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
-	<link rel="stylesheet" href="assets/css/bootstrap.min.css">
-	<link rel="stylesheet" href="assets/css/azzara.min.css">
-</head>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+	
 </head>
 <body>
 	<div class="wrapper">
-		<!--
-			Tip 1: You can change the background color of the main header using: data-background-color="blue | purple | light-blue | green | orange | red"
-		-->
 		<div class="main-header" data-background-color="purple">
 			<!-- Logo Header -->
 			<div class="logo-header">
@@ -89,154 +63,8 @@
 
 			<!-- Navbar Header -->
 			<nav class="navbar navbar-header navbar-expand-lg">
-				
 				<div class="container-fluid">
-					<div class="collapse" id="search-nav">
-						<form class="navbar-left navbar-form nav-search mr-md-3">
-							<div class="input-group">
-								<div class="input-group-prepend">
-									<button type="submit" class="btn btn-search pr-1">
-										<i class="fa fa-search search-icon"></i>
-									</button>
-								</div>
-								<input type="text" placeholder="Search ..." class="form-control">
-							</div>
-						</form>
-					</div>
 					<ul class="navbar-nav topbar-nav ml-md-auto align-items-center">
-						<li class="nav-item toggle-nav-search hidden-caret">
-							<a class="nav-link" data-toggle="collapse" href="#search-nav" role="button" aria-expanded="false" aria-controls="search-nav">
-								<i class="fa fa-search"></i>
-							</a>
-						</li>
-						<li class="nav-item dropdown hidden-caret">
-							<a class="nav-link dropdown-toggle" href="#" id="messageDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-								<i class="fa fa-envelope"></i>
-							</a>
-							<ul class="dropdown-menu messages-notif-box animated fadeIn" aria-labelledby="messageDropdown">
-								<li>
-									<div class="dropdown-title d-flex justify-content-between align-items-center">
-										Messages 									
-										<a href="#" class="small">Mark all as read</a>
-									</div>
-								</li>
-								<!-- <li>
-									<div class="message-notif-scroll scrollbar-outer">
-										<div class="notif-center">
-											<a href="#">
-												<div class="notif-img"> 
-													<img src="assets/img/jm_denis.jpg" alt="Img Profile">
-												</div>
-												<div class="notif-content">
-													<span class="subject">Jimmy Denis</span>
-													<span class="block">
-														How are you ?
-													</span>
-													<span class="time">5 minutes ago</span> 
-												</div>
-											</a>
-											<a href="#">
-												<div class="notif-img"> 
-													<img src="assets/img/chadengle.jpg" alt="Img Profile">
-												</div>
-												<div class="notif-content">
-													<span class="subject">Chad</span>
-													<span class="block">
-														Ok, Thanks !
-													</span>
-													<span class="time">12 minutes ago</span> 
-												</div>
-											</a>
-											<a href="#">
-												<div class="notif-img"> 
-													<img src="assets/img/mlane.jpg" alt="Img Profile">
-												</div>
-												<div class="notif-content">
-													<span class="subject">Jhon Doe</span>
-													<span class="block">
-														Ready for the meeting today...
-													</span>
-													<span class="time">12 minutes ago</span> 
-												</div>
-											</a>
-											<a href="#">
-												<div class="notif-img"> 
-													<img src="assets/img/talha.jpg" alt="Img Profile">
-												</div>
-												<div class="notif-content">
-													<span class="subject">Talha</span>
-													<span class="block">
-														Hi, Apa Kabar ?
-													</span>
-													<span class="time">17 minutes ago</span> 
-												</div>
-											</a>
-										</div>
-									</div>
-								</li> -->
-								<li>
-									<a class="see-all" href="javascript:void(0);">See all messages<i class="fa fa-angle-right"></i> </a>
-								</li>
-							</ul>
-						</li>
-						<li class="nav-item dropdown hidden-caret">
-							<!-- <a class="nav-link dropdown-toggle" href="#" id="notifDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-								<i class="fa fa-bell"></i>
-								<span class="notification">4</span>
-							</a> -->
-							<ul class="dropdown-menu notif-box animated fadeIn" aria-labelledby="notifDropdown">
-								<!-- <li>
-									<div class="dropdown-title">You have 4 new notification</div>
-								</li> -->
-								<li>
-									<!-- <div class="notif-scroll scrollbar-outer">
-										<div class="notif-center">
-											<a href="#">
-												<div class="notif-icon notif-primary"> <i class="fa fa-user-plus"></i> </div>
-												<div class="notif-content">
-													<span class="block">
-														New user registered
-													</span>
-													<span class="time">5 minutes ago</span> 
-												</div>
-											</a>
-											<a href="#">
-												<div class="notif-icon notif-success"> <i class="fa fa-comment"></i> </div>
-												<div class="notif-content">
-													<span class="block">
-														Rahmad commented on Admin
-													</span>
-													<span class="time">12 minutes ago</span> 
-												</div>
-											</a>
-											<a href="#">
-												<div class="notif-img"> 
-													<img src="assets/img/profile2.jpg" alt="Img Profile">
-												</div>
-												<div class="notif-content">
-													<span class="block">
-														Reza send messages to you
-													</span>
-													<span class="time">12 minutes ago</span> 
-												</div>
-											</a>
-											<a href="#">
-												<div class="notif-icon notif-danger"> <i class="fa fa-heart"></i> </div>
-												<div class="notif-content">
-													<span class="block">
-														Farrah liked Admin
-													</span>
-													<span class="time">17 minutes ago</span> 
-												</div>
-											</a>
-										</div>
-									</div> -->
-								</li>
-								<li>
-									<a class="see-all" href="javascript:void(0);">See all notifications<i class="fa fa-angle-right"></i> </a>
-								</li>
-							</ul>
-						</li>
 						<li class="nav-item dropdown hidden-caret">
 							<a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#" aria-expanded="false">
 								<div class="avatar-sm">
@@ -265,7 +93,6 @@
 								</li>
 							</ul>
 						</li>
-						
 					</ul>
 				</div>
 			</nav>
@@ -274,43 +101,52 @@
 
 		<!-- Sidebar -->
 		<div class="sidebar">
-			
 			<div class="sidebar-background"></div>
-			<div class="sidebar-wrapper scrollbar-inner">
-				<div class="sidebar-content">
-				<div class="user">
-						<div class="avatar-sm ml-4" style="height:120px; width:120px;">
-							<img src="../patient/images/no_image.jpg" alt="..." class="avatar-img rounded-circle">
+				<div class="sidebar-wrapper scrollbar-inner">
+					<div class="sidebar-content">
+						<div class="user">
+							<div class="avatar-sm ml-4" style="height:120px; width:120px;">
+								<img src="../patient/images/no_image.jpg" alt="..." class="avatar-img rounded-circle">
+							</div>
+							<div class="info">
+								<a data-toggle="collapse" href="#collapseExample" aria-expanded="true">
+									<span class="text-center mt-2">
+									<?php
+										$doc_id=$_SESSION['id'];
+										$sql="SELECT * from tbl_doctor where login_id='$doc_id'";
+										$result=$con->query($sql);
+										if ($result-> num_rows > 0){
+										while ($row=$result-> fetch_assoc()) {?>
+										<h4><?=$row["doc_name"]?></h4>
+										<?php }
+											}?>
+									</span>
+										<span class="text-center">Doctor</span>
+										<!-- <span class="caret"></span> -->
+								</a>
+							</div>
 						</div>
-						<div class="info">
-							<a data-toggle="collapse" href="#collapseExample" aria-expanded="true">
-								<span class="ml-5 mt-2">
-								<?php
-									$doc_id=$_SESSION['id'];
-									$sql="SELECT * from tbl_doctor where login_id='$doc_id'";
-									$result=$con->query($sql);
-									if ($result-> num_rows > 0){
-									while ($row=$result-> fetch_assoc()) {?>
-									<h4><?=$row["doc_name"]?></h4>
-									<?php }
-										}?>
-									<span class="ml-2">Doctor</span>
-									<!-- <span class="caret"></span> -->
-								</span>
-							</a>
-					</div>
-				</div>
-					<ul class="nav">
+				
+						<ul class="nav">
 						<li class="nav-item">
-							<a href="doctor.php">
-								<i class="fas fa-home"></i>
+							<a href="index.html">
+							<i class="fa-solid fa-bars"></i>
 								<p>Dashboard</p>
+								<!-- <span class="badge badge-count">5</span> -->
 							</a>
 						</li>
-						<li class="nav-item active">
+						<li class="nav-item">
 							<a href="schedule.php">
-								<i class="fas fa-home"></i>
+							<i class="fa-regular fa-calendar"></i>
 								<p>Schedule</p>
+								<!-- <span class="badge badge-count">5</span> -->
+							</a>
+						</li>
+						<li class="nav-item">
+							<a href="appointment.php">
+							<i class="fa-solid fa-user"></i>
+								<p>Appointment</p>
+								<!-- <span class="caret"></span> -->
 							</a>
 						</li>
 						<li class="nav-item">
@@ -321,18 +157,17 @@
 							</a>
 						</li>
 						<li class="nav-item">
-							<a data-toggle="collapse" href="#forms">
+							<a href="patient_page.php">
 								<i class="fas fa-pen-square"></i>
-								<p>Reports</p>
+								<p>Details</p>
 								<!-- <span class="caret"></span> -->
 							</a>
 						</li>
 						
-						<li class="nav-item">
-							<a data-toggle="collapse" href="#maps">
-								<i class="fas fa-map-marker-alt"></i>
+						<li class="nav-item active">
+							<a href="profile.php">
+							<i class="fa-solid fa-circle-user"></i>
 								<p>Profile</p>
-								<!-- <span class="caret"></span> -->
 							</a>
 						</li>
 					</ul>
@@ -343,111 +178,145 @@
 
 		<div class="main-panel">
 			<div class="content">
-			<div class="container-fluid mt-5">
-            <div class="container">
-			<div class="container rounded bg-white mt-5 mb-5">
-    <div class="row profilepat">
-        <!-- <div class="col-md-3 border-right">
-            <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5" width="150px" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"><span class="font-weight-bold">Edogaru</span><span class="text-black-50">edogaru@mail.com.my</span><span> </span></div>
-        </div> -->
-        <div class="col-md-6 border-right">
-            <div class="p-3 py-5">
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h2 class="text-center">Personal Profile</h2>
-                </div>
-                <!-- <div class="row mt-1">
-                </div> -->
-                <div class="row mt-3">
-					<div class="col-md-12"><label class="labels">Full Name</label><input type="text" class="form-control" placeholder="Full name" value=""></div>
-                    <div class="col-md-12"><label class="labels">Mobile Number</label><input type="text" class="form-control" placeholder="enter phone number" value=""></div>
-					<div class="col-md-12"><label class="labels">Email ID</label><input type="text" class="form-control" placeholder="enter email id" value=""></div>
-					<div class="col-md-12"><label class="labels">Address Line 1</label><input type="text" class="form-control" placeholder="enter address" value=""></div>
-                    <div class="col-md-12"><label class="labels">Pin code</label><input type="text" class="form-control" placeholder="Pincode" value=""></div>
-                    <div class="col-md-12"><label class="labels">State</label><input type="text" class="form-control" placeholder="State" value=""></div>
-                    <div class="col-md-12"><label class="labels">Area</label><input type="text" class="form-control" placeholder="Area" value=""></div>
-                    <div class="col-md-12"><label class="labels">Education</label><input type="text" class="form-control" placeholder="education" value=""></div>
-                </div>
-                <div class="row mt-3">
-                    <div class="col-md-6"><label class="labels">Country</label><input type="text" class="form-control" placeholder="country" value=""></div>
-                    <div class="col-md-6"><label class="labels">State/Region</label><input type="text" class="form-control" value="" placeholder="state"></div>
-                </div>
-                <div class="mt-5 text-center"><button class="btn btn-primary profile-button" type="button">Save Profile</button></div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="p-3 py-5">
-			<div class="d-flex justify-content-between align-items-center mb-3">
-                    <h2 class="text-center">Work Profile</h2>
-                </div>
-                <div class="d-flex justify-content-between align-items-center experience"><span>Experience</span></div><br>
-                <div class="col-md-12"><label class="labels">Organisation</label><input type="text" class="form-control" placeholder="additional details" value=""></div>
-				<div class="col-md-12"><label class="labels">Experience</label><input type="text" class="form-control" placeholder="experience" value=""></div> <br>
-				<div class="col-md-12"><label class="labels">Duration</label><input type="text" class="form-control" placeholder="experience" value=""></div> <br>
-				<div class="col-md-12"><label class="labels">Additional Details</label><input type="text" class="form-control" placeholder="additional details" value=""></div>
+				<div class="container-fluid mt-5">
+					<div class="row">
+						<div class="col-xl-3">
+							<div class="card mb-l-2">
+								<form class="form" id = "form" action="" enctype="multipart/form-data" method="post">
+									<div class="col mt-5 mb-5">
+									<?php
+										$p_id=$_SESSION['id'];
+										$sql="SELECT * from tbl_doctor where login_id='$p_id'";
+										$result=$con->query($sql);
+										if ($result-> num_rows > 0){
+										while ($row=$result-> fetch_assoc()) {
+											$image=$row['image'];?>
+											<img src="../images/<?php echo $image; ?>" width = 140 height = 150 title="<?php echo $image; ?>">
+											<?php }}?>
+										<div class="round">
+											<input type="file" name="image" id = "image" accept=".jpg, .jpeg, .png">
+											<i class = "fa fa-camera" style = "color: #fff;"></i>
+										</div>
+									</div>
+								</form>
+
+								<script type="text/javascript">
+								document.getElementById("image").onchange = function(){
+									document.getElementById("form").submit();
+								};
+								</script>
+
+								<!-- Image Upload -->
+								<?php
+								if(isset($_FILES["image"]["name"])){
+									$p_id=$_SESSION['id'];
+								$imageName = $_FILES["image"]["name"];
+								$imageSize = $_FILES["image"]["size"];
+								$tmpName = $_FILES["image"]["tmp_name"];
+
+								// Image validation
+								$validImageExtension = ['jpg', 'jpeg', 'png'];
+								$imageExtension = explode('.', $imageName);
+								$imageExtension = strtolower(end($imageExtension));
+								if (!in_array($imageExtension, $validImageExtension)){
+									echo
+									"
+									<script>
+									alert('Invalid Image Extension');
+									document.location.href = 'profile.php';
+									</script>
+									";
+								}
+								elseif ($imageSize > 1200000){
+									echo
+									"
+									<script>
+									alert('Image Size Is Too Large');
+									document.location.href = 'profile.php';
+									</script>
+									";
+								}
+								else{
+									$newImageName =" - " . date("Y.m.d") . " - " . date("h.i.sa"); // Generate new image name
+									$newImageName .= '.' . $imageExtension;
+									$query = "UPDATE tbl_patient SET image = '$newImageName' WHERE login_id = $p_id";
+									mysqli_query($con, $query);
+									move_uploaded_file($tmpName, '../images/' . $newImageName);
+									echo
+									"
+									<script>
+									alert('Image Uploaded Successfully');
+									document.location.href = 'profile.php';
+									</script>
+									";
+								}
+								}
+								?>      
+								
+								</div>
+							</div>
+						</div>
+
+						<div class="col-xl-9">
+							<div class="col-md-6 border-right">
+								<div class="p-3 py-5">
+									<div class="d-flex justify-content-between align-items-center mb-3">
+										<h2 class="text-center">Personal Profile</h2>
+									</div>
+									<div class="row mt-3">
+										<div class="col-md-12"><label class="labels">Full Name</label><input type="text" class="form-control" placeholder="Full name" value=""></div>
+										<div class="col-md-12"><label class="labels">Mobile Number</label><input type="text" class="form-control" placeholder="enter phone number" value=""></div>
+										<div class="col-md-12"><label class="labels">Email ID</label><input type="text" class="form-control" placeholder="enter email id" value=""></div>
+										<div class="col-md-12"><label class="labels">Address Line 1</label><input type="text" class="form-control" placeholder="enter address" value=""></div>
+										<div class="col-md-12"><label class="labels">Pin code</label><input type="text" class="form-control" placeholder="Pincode" value=""></div>
+										<div class="col-md-12"><label class="labels">State</label><input type="text" class="form-control" placeholder="State" value=""></div>
+										<div class="col-md-12"><label class="labels">Area</label><input type="text" class="form-control" placeholder="Area" value=""></div>
+										<div class="col-md-12"><label class="labels">Education</label><input type="text" class="form-control" placeholder="education" value=""></div>
+									</div>
+									<div class="row mt-3">
+										<div class="col-md-6"><label class="labels">Country</label><input type="text" class="form-control" placeholder="country" value=""></div>
+										<div class="col-md-6"><label class="labels">State/Region</label><input type="text" class="form-control" value="" placeholder="state"></div>
+									</div>
+									<div class="mt-5 text-center"><button class="btn btn-primary profile-button" type="button">Save Profile</button></div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
-        </div>
-    </div>
-</div>
-</div>
-</div>
 		</div>
-		</div>
-		</div>
-
-		
-				
-		
-		<!-- End Custom template -->
 	</div>
-</div>
-<!--   Core JS Files   -->
-<script src="assets/js/core/jquery.3.2.1.min.js"></script>
-<script src="assets/js/core/popper.min.js"></script>
-<script src="assets/js/core/bootstrap.min.js"></script>
-
-<!-- jQuery UI -->
-<script src="assets/js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
-<script src="assets/js/plugin/jquery-ui-touch-punch/jquery.ui.touch-punch.min.js"></script>
-
-<!-- jQuery Scrollbar -->
-<script src="assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
-
-<!-- Moment JS -->
-<script src="assets/js/plugin/moment/moment.min.js"></script>
-
-<!-- Chart JS -->
-<script src="assets/js/plugin/chart.js/chart.min.js"></script>
-
-<!-- jQuery Sparkline -->
-<script src="assets/js/plugin/jquery.sparkline/jquery.sparkline.min.js"></script>
-
-<!-- Chart Circle -->
-<script src="assets/js/plugin/chart-circle/circles.min.js"></script>
-
-<!-- Datatables -->
-<script src="assets/js/plugin/datatables/datatables.min.js"></script>
-
-<!-- Bootstrap Notify -->
-<script src="assets/js/plugin/bootstrap-notify/bootstrap-notify.min.js"></script>
-
-<!-- Bootstrap Toggle -->
-<script src="assets/js/plugin/bootstrap-toggle/bootstrap-toggle.min.js"></script>
-
-<!-- jQuery Vector Maps -->
-<script src="assets/js/plugin/jqvmap/jquery.vmap.min.js"></script>
-<script src="assets/js/plugin/jqvmap/maps/jquery.vmap.world.js"></script>
-
-<!-- Google Maps Plugin -->
-<script src="assets/js/plugin/gmaps/gmaps.js"></script>
-
-<!-- Sweet Alert -->
-<script src="assets/js/plugin/sweetalert/sweetalert.min.js"></script>
-
-<!-- Azzara JS -->
-<script src="assets/js/ready.min.js"></script>
-
-<!-- Azzara DEMO methods, don't include it in your project! -->
-<script src="assets/js/setting-demo.js"></script>
-<script src="assets/js/demo.js"></script>
+	
+	<script>
+		WebFont.load({
+			google: {"families":["Open+Sans:300,400,600,700"]},
+			custom: {"families":["Flaticon", "Font Awesome 5 Solid", "Font Awesome 5 Regular", "Font Awesome 5 Brands"], urls: ['../assets/css/fonts.css']},
+			active: function() {
+				sessionStorage.fonts = true;
+			}
+		});
+	</script>
+	<script src="assets/js/core/jquery.3.2.1.min.js"></script>
+	<script src="assets/js/core/popper.min.js"></script>
+	<script src="assets/js/core/bootstrap.min.js"></script>
+	<script src="assets/js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
+	<script src="assets/js/plugin/jquery-ui-touch-punch/jquery.ui.touch-punch.min.js"></script>>
+	<script src="assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
+	<script src="assets/js/plugin/moment/moment.min.js"></script>
+	<script src="assets/js/plugin/chart.js/chart.min.js"></script>
+	<script src="assets/js/plugin/jquery.sparkline/jquery.sparkline.min.js"></script>
+	<script src="assets/js/plugin/chart-circle/circles.min.js"></script>
+	<script src="assets/js/plugin/datatables/datatables.min.js"></script>
+	<script src="assets/js/plugin/bootstrap-notify/bootstrap-notify.min.js"></script>
+	<script src="assets/js/plugin/bootstrap-toggle/bootstrap-toggle.min.js"></script>
+	<script src="assets/js/plugin/jqvmap/jquery.vmap.min.js"></script>
+	<script src="assets/js/plugin/jqvmap/maps/jquery.vmap.world.js"></script>
+	<script src="assets/js/plugin/gmaps/gmaps.js"></script>
+	<script src="assets/js/plugin/sweetalert/sweetalert.min.js"></script>
+	<script src="assets/js/ready.min.js"></script>
+	<script src="assets/js/setting-demo.js"></script>
+	<script src="assets/js/demo.js"></script>
+	<script src="./plugins/validation/jquery.validate.min.js"></script>
+    <script src="./plugins/validation/jquery.validate-init.js"></script>
 </body>
 </html>
