@@ -21,8 +21,10 @@
 	<link rel="stylesheet" href="assets/css/bootstrap.min.css">
 	<link rel="stylesheet" href="assets/css/azzara.min.css">
 	<link rel="stylesheet" href="assets/css/demo.css">
+	
 	<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+
 
 	<script>
         function getdisease(val) {
@@ -381,11 +383,18 @@
 														</select>
 													</div>
 													<div class="form-group">
-														<input type="text" id="medicine" name="medicine" class="form-control" placeholder="Medicine" required>
+														<div class="row">
+															<div class="col-sm-8">
+																<input type="text" id="medicine" name="medicine" class="form-control" placeholder="Medicine Name" required>
+															</div>
+															<div class="col-sm-4">
+																<input type="text" id="medicine" name="medicine" class="form-control" placeholder="Dose" required>
+															</div>
+														</div>
 													</div>
 													
 													<div class="form-group">
-														<input type="text" id="dosage" name="dosage" class="form-control" placeholder="Dose" required>
+														<input type="text" id="dosage" name="dosage" class="form-control" placeholder="Count" required>
 													</div>
 												
 													<div class="modal-footer">
@@ -443,10 +452,9 @@
     						</div>
 							<div class="col-6">
 								<section style="background-color: #eee;">
-									
 									<div class="container-fluid py-5">
-									<h2 class="text-center" style="font-size:30px;">Patient Data</h2>
-									<?php
+										<h2 class="text-center" style="font-size:30px;">Patient Data</h2>
+										<?php
 											$cpid=$_SESSION['cur_pid'];
 											$sql="SELECT * from tbl_patient where p_id='$cpid'";
 											$result=$con->query($sql);
@@ -523,10 +531,22 @@
 										</div>
 										<?php }}?>
 									</div>
-									
 								</section>
 							</div>
   						</div>
+						<div class="row">
+						<div class="col text-left mt-5">
+								<div class="back-button">
+									<a href="appointment.php" class="btn btn-info">Back</a>
+								</div>
+							</div>
+							<div class="col text-right mt-5">
+								<form action="disease_update.php" method="POST">			
+									<button class="btn btn-primary" name="consult" value="">Save</button>
+								</form>
+							</div>
+							
+						</div>
 					</div>
 				</div>
 			</div>

@@ -35,4 +35,10 @@
 		echo "Updated";
 		header('location:patient_page.php');
 	}
+
+	// Consultation Status
+	if(isset($_POST['consult']))
+	{
+		
+	}
 ?>
