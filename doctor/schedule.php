@@ -83,6 +83,7 @@ if(isset($_POST['suspend']))
     type="text/css" />
     <script type="text/javascript" src="https://code.jquery.com/jquery-1.7.2.min.js"></script>
     <script type="text/javascript" src="https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
 </head>
 </head>
 <body>
@@ -297,37 +298,48 @@ if(isset($_POST['suspend']))
 				<div class="sidebar-content">
 				<div class="user">
 						<div class="avatar-sm ml-4" style="height:120px; width:120px;">
-							<img src="assets/img/profile.jpg" alt="..." class="avatar-img rounded-circle">
+							<img src="../patient/images/no_image.jpg" alt="..." class="avatar-img rounded-circle">
 						</div>
 						<div class="info">
 							<a data-toggle="collapse" href="#collapseExample" aria-expanded="true">
 								<span class="ml-5 mt-2">
 								<?php
+									
 									$doc_id=$_SESSION['id'];
 									$sql="SELECT * from tbl_doctor where login_id='$doc_id'";
 									$result=$con->query($sql);
 									if ($result-> num_rows > 0){
 									while ($row=$result-> fetch_assoc()) {?>
 									<h4><?=$row["doc_name"]?></h4>
+									<?php $docid=$row["doc_id"];
+									$_SESSION['docid']=$docid;?>
 									<?php }
 										}?>
-									<span class="ml-2">Doctor</span>
-									<!-- <span class="caret"></span> -->
 								</span>
+								<span class="text-center">Doctor</span>
 							</a>
 					</div>
 				</div>
-					<ul class="nav">
-						<li class="nav-item">
-							<a href="doctor.php">
-								<i class="fas fa-home"></i>
+				<ul class="nav">
+						<li class="nav-item active">
+							<a href="index.html">
+							<i class="fa-solid fa-bars"></i>
 								<p>Dashboard</p>
+								<!-- <span class="badge badge-count">5</span> -->
 							</a>
 						</li>
-						<li class="nav-item active">
+						<li class="nav-item">
 							<a href="schedule.php">
-								<i class="fas fa-home"></i>
+							<i class="fa-regular fa-calendar"></i>
 								<p>Schedule</p>
+								<!-- <span class="badge badge-count">5</span> -->
+							</a>
+						</li>
+						<li class="nav-item">
+							<a href="appointment.php">
+							<i class="fa-solid fa-user"></i>
+								<p>Appointment</p>
+								<!-- <span class="caret"></span> -->
 							</a>
 						</li>
 						<li class="nav-item">
@@ -338,16 +350,16 @@ if(isset($_POST['suspend']))
 							</a>
 						</li>
 						<li class="nav-item">
-							<a data-toggle="collapse" href="">
+							<a href="patient_page.php">
 								<i class="fas fa-pen-square"></i>
-								<p>Reports</p>
+								<p>Details</p>
 								<!-- <span class="caret"></span> -->
 							</a>
 						</li>
 						
 						<li class="nav-item">
 							<a href="profile.php">
-								<i class="fas fa-home"></i>
+							<i class="fa-solid fa-circle-user"></i>
 								<p>Profile</p>
 							</a>
 						</li>

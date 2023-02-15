@@ -18,7 +18,7 @@
     
     if(mysqli_num_rows($duplicate)>0)
     {
-    echo "<script> alert('Already Booked');
+    echo "<script> alert('This slot is not available.');
                     windows.location.href='department.php';
     </script>";
     }
@@ -44,7 +44,39 @@
     <link rel="stylesheet" href="./plugins/chartist-plugin-tooltips/css/chartist-plugin-tooltip.css">
     <link href="css/style.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
-
+    <style>
+        .content-body
+        {
+            background-image:url('../assets/images/booking.png'); 
+            background-size:cover; 
+            position: relative;
+        }
+        .content-body::before {
+            content: "";
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #fff; /* Set the color you want for the overlay */
+            opacity: 0.7; /* Set the opacity value */
+        }
+        h2
+        {
+            margin-left:150px;
+        }
+        .my-select
+        {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="0" height="0"><symbol id="chevron-down" viewBox="0 0 10 6"><path d="M1.42.607a.997.997 0 0 1 1.414 0L5 3.086 7.146.936a.997.997 0 1 1 1.414 1.414l-2.5 2.5a.997.997 0 0 1-1.414 0L3.5 3.914 1.354 6.061a.997.997 0 1 1-1.414-1.414l2.5-2.5z" fill="%23808080" fill-rule="evenodd"/></symbol></svg>#chevron-down');
+            background-repeat: no-repeat;
+            background-position: right 0.5em top 50%;
+            background-size: 1em auto;
+        }
+    </style>    
     <script>
         function getdoctor(val) {
             $.ajax({
@@ -91,7 +123,6 @@
         }
     </script>	
 </head>
-
 <body>
 
     <!--*******************
@@ -147,7 +178,7 @@
 
                 <div class="header-right">
                     <ul class="clearfix">
-                        <li class="icons dropdown"><a href="javascript:void(0)" data-toggle="dropdown">
+                        <!-- <li class="icons dropdown"><a href="javascript:void(0)" data-toggle="dropdown">
                                 <i class="mdi mdi-email-outline"></i>
                                 <span class="badge badge-pill gradient-1">3</span>
                             </a>
@@ -204,8 +235,8 @@
                                     
                                 </div>
                             </div>
-                        </li>
-                        <li class="icons dropdown"><a href="javascript:void(0)" data-toggle="dropdown">
+                        </li> -->
+                        <!-- <li class="icons dropdown"><a href="javascript:void(0)" data-toggle="dropdown">
                                 <i class="mdi mdi-bell-outline"></i>
                                 <span class="badge badge-pill gradient-2">3</span>
                             </a>
@@ -258,7 +289,7 @@
                                     
                                 </div>
                             </div>
-                        </li>
+                        </li> -->
                         <!-- <li class="icons dropdown d-none d-md-flex">
                             <a href="javascript:void(0)" class="log-user"  data-toggle="dropdown">
                                 <span>English</span>  <i class="fa fa-angle-down f-s-14" aria-hidden="true"></i>
@@ -275,24 +306,34 @@
                         <li class="icons dropdown">
                             <div class="user-img c-pointer position-relative"   data-toggle="dropdown">
                                 <span class="activity active"></span>
-                                <img src="images/user/1.png" height="40" width="40" alt="">
+                                <!-- <img src="images/user/1.png" height="40" width="40" alt=""> -->
+                                <?php
+									$p_id=$_SESSION['id'];
+									$sql="SELECT * from tbl_patient where login_id='$p_id'";
+									$result=$con->query($sql);
+									if ($result-> num_rows > 0){
+									while ($row=$result-> fetch_assoc()) {
+                                        $image=$row['image'];?>
+                                    <img src="../images/<?php echo $image; ?>" width = 140 height = 150 title="<?php echo $image; ?>">
+									<?php }
+									}?>
                             </div>
                             <div class="drop-down dropdown-profile animated fadeIn dropdown-menu">
                                 <div class="dropdown-content-body">
                                     <ul>
                                         <li>
-                                            <a href="app-profile.html"><i class="icon-user"></i> <span>Profile</span></a>
+                                            <a href="profile.php"><i class="icon-user"></i> <span>Profile</span></a>
                                         </li>
-                                        <li>
+                                        <!-- <li>
                                             <a href="javascript:void()">
                                                 <i class="icon-envelope-open"></i> <span>Inbox</span> <div class="badge gradient-3 badge-pill gradient-1">3</div>
                                             </a>
-                                        </li>
+                                        </li> -->
                                         
                                         <hr class="my-2">
-                                        <li>
+                                        <!-- <li>
                                             <a href="page-lock.html"><i class="icon-lock"></i> <span>Lock Screen</span></a>
-                                        </li>
+                                        </li> -->
                                         <li><a href="../logout.php"><i class="icon-key"></i> <span>Logout</span></a></li>
                                     </ul>
                                 </div>
@@ -307,16 +348,21 @@
         <!--******************************** Sidebar start ***********************************-->
         <div class="nk-sidebar">           
             <div class="nk-nav-scroll" style="margin-top:18px;">
-            <ul class="metismenu" id="menu">
+                <ul class="metismenu" id="menu">
                     <!-- <li class="nav-label">Dashboard</li> -->
                     <li>
-                        <a href="homepage.php." aria-expanded="false">
+                        <a href="homepage.php" aria-expanded="false">
                         <i class="bi bi-ui-checks-grid"></i><span class="nav-text">Dashboard</span>
                         </a>
                     </li>
                     <li>
-                        <a href="javascript:void()" aria-expanded="false">
+                        <a href="patient_department.php" aria-expanded="false">
                         <i class="bi bi-building"></i><span class="nav-text">Department</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="view_doctor.php" aria-expanded="false">
+                        <i class="bi bi-person-bounding-box"></i><span class="nav-text">Doctors</span>
                         </a>
                     </li>
 
@@ -326,7 +372,7 @@
                         </a>
                         <ul aria-expanded="false">
                             <li><a href="offline_consultation.php">Offline Consultation</a></li>
-                            <!-- <li><a href="./layout-one-column.html">Online Consultation</a></li> -->
+                            <li><a href="./layout-one-column.html">Online Consultation</a></li>
                             <!-- <li><a href="./layout-two-column.html">Two column</a></li>
                             <li><a href="./layout-compact-nav.html">Compact Nav</a></li>
                             <li><a href="./layout-vertical.html">Vertical</a></li>
@@ -338,17 +384,18 @@
                         </ul>
                     </li>
                     <li>
-                        <a href="javascript:void()" aria-expanded="false">
-                            <i class="icon-speedometer menu-icon"></i><span class="nav-text">Schedule</span>
+                        <a href="view_appointment.php" aria-expanded="false">
+                            <i class="icon-speedometer menu-icon"></i><span class="nav-text">View Appointment</span>
                         </a>
                     </li>
+
                     <li>
-                        <a href="javascript:void()" aria-expanded="false">
+                        <a href="medication.php" aria-expanded="false">
                         <i class="bi bi-capsule-pill"></i></i><span class="nav-text">Medications</span>
                         </a>
                     </li>
                     <li>
-                        <a href="javascript:void()" aria-expanded="false">
+                        <a href="reports.php" aria-expanded="false">
                         <i class="bi bi-card-checklist"></i></i><span class="nav-text">Reports</span>
                         </a>
                     </li>
@@ -362,7 +409,7 @@
                         <i class="bi bi-credit-card-2-front-fill"></i></i><span class="nav-text">Payment</span>
                         </a>
                     </li>
-                    <li>
+                    <!-- <li>
                         <a href="javascript:void()" aria-expanded="false">
                         <i class="bi bi-gear-wide-connected"></i><span class="nav-text">Settings</span>
                         </a>
@@ -371,178 +418,67 @@
                         <a href="javascript:void()" aria-expanded="false">
                         <i class="bi bi-info-circle-fill"></i></i><span class="nav-text">Help</span>
                         </a>
-                    </li>
-                    <!-- <li class="nav-label">Apps</li> -->
-                    <!-- <li>
-                        <a class="has-arrow" href="javascript:void()" aria-expanded="false">
-                            <i class="icon-envelope menu-icon"></i> <span class="nav-text">Email</span>
-                        </a>
-                        <ul aria-expanded="false">
-                            <li><a href="./email-inbox.html">Inbox</a></li>
-                            <li><a href="./email-read.html">Read</a></li>
-                            <li><a href="./email-compose.html">Compose</a></li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a class="has-arrow" href="javascript:void()" aria-expanded="false">
-                            <i class="icon-screen-tablet menu-icon"></i><span class="nav-text">Apps</span>
-                        </a>
-                        <ul aria-expanded="false">
-                            <li><a href="./app-profile.html">Profile</a></li>
-                            <li><a href="./app-calender.html">Calender</a></li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a class="has-arrow" href="javascript:void()" aria-expanded="false">
-                            <i class="icon-graph menu-icon"></i> <span class="nav-text">Charts</span>
-                        </a>
-                        <ul aria-expanded="false">
-                            <li><a href="./chart-flot.html">Flot</a></li>
-                            <li><a href="./chart-morris.html">Morris</a></li>
-                            <li><a href="./chart-chartjs.html">Chartjs</a></li>
-                            <li><a href="./chart-chartist.html">Chartist</a></li>
-                            <li><a href="./chart-sparkline.html">Sparkline</a></li>
-                            <li><a href="./chart-peity.html">Peity</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-label">UI Components</li>
-                    <li> -->
-                        <!-- <a class="has-arrow" href="javascript:void()" aria-expanded="false">
-                            <i class="icon-grid menu-icon"></i><span class="nav-text">UI Components</span>
-                        </a>
-                        <ul aria-expanded="false">
-                            <li><a href="./ui-accordion.html">Accordion</a></li>
-                            <li><a href="./ui-alert.html">Alert</a></li>
-                            <li><a href="./ui-badge.html">Badge</a></li>
-                            <li><a href="./ui-button.html">Button</a></li>
-                            <li><a href="./ui-button-group.html">Button Group</a></li>
-                            <li><a href="./ui-cards.html">Cards</a></li>
-                            <li><a href="./ui-carousel.html">Carousel</a></li>
-                            <li><a href="./ui-dropdown.html">Dropdown</a></li>
-                            <li><a href="./ui-list-group.html">List Group</a></li>
-                            <li><a href="./ui-media-object.html">Media Object</a></li>
-                            <li><a href="./ui-modal.html">Modal</a></li>
-                            <li><a href="./ui-pagination.html">Pagination</a></li>
-                            <li><a href="./ui-popover.html">Popover</a></li>
-                            <li><a href="./ui-progressbar.html">Progressbar</a></li>
-                            <li><a href="./ui-tab.html">Tab</a></li>
-                            <li><a href="./ui-typography.html">Typography</a></li> -->
-                        <!-- </ul>
-                    </li>
-                    <li>
-                        <a class="has-arrow" href="javascript:void()" aria-expanded="false">
-                            <i class="icon-layers menu-icon"></i><span class="nav-text">Components</span>
-                        </a>
-                        <ul aria-expanded="false"> -->
-                            <!-- <li><a href="./uc-nestedable.html">Nestedable</a></li>
-                            <li><a href="./uc-noui-slider.html">Noui Slider</a></li>
-                            <li><a href="./uc-sweetalert.html">Sweet Alert</a></li>
-                            <li><a href="./uc-toastr.html">Toastr</a></li>
-                        </ul> -->
-                    <!-- </li>
-                    <li>
-                        <a href="widgets.html" aria-expanded="false">
-                            <i class="icon-badge menu-icon"></i><span class="nav-text">Widget</span>
-                        </a>
                     </li> -->
-                    <!-- <li class="nav-label">Forms</li>
-                    <li>
-                        <a class="has-arrow" href="javascript:void()" aria-expanded="false">
-                            <i class="icon-note menu-icon"></i><span class="nav-text">Forms</span>
-                        </a>
-                        <ul aria-expanded="false">
-                            <li><a href="./form-basic.html">Basic Form</a></li>
-                            <li><a href="./form-validation.html">Form Validation</a></li>
-                            <li><a href="./form-step.html">Step Form</a></li>
-                            <li><a href="./form-editor.html">Editor</a></li>
-                            <li><a href="./form-picker.html">Picker</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-label">Table</li>
-                    <li>
-                        <a class="has-arrow" href="javascript:void()" aria-expanded="false">
-                            <i class="icon-menu menu-icon"></i><span class="nav-text">Table</span>
-                        </a>
-                        <ul aria-expanded="false">
-                            <li><a href="./table-basic.html" aria-expanded="false">Basic Table</a></li>
-                            <li><a href="./table-datatable.html" aria-expanded="false">Data Table</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-label">Pages</li>
-                    <li>
-                        <a class="has-arrow" href="javascript:void()" aria-expanded="false">
-                            <i class="icon-notebook menu-icon"></i><span class="nav-text">Pages</span>
-                        </a>
-                        <ul aria-expanded="false">
-                            <li><a href="./page-login.html">Login</a></li>
-                            <li><a href="./page-register.html">Register</a></li>
-                            <li><a href="./page-lock.html">Lock Screen</a></li>
-                            <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">Error</a>
-                                <ul aria-expanded="false">
-                                    <li><a href="./page-error-404.html">Error 404</a></li>
-                                    <li><a href="./page-error-403.html">Error 403</a></li>
-                                    <li><a href="./page-error-400.html">Error 400</a></li>
-                                    <li><a href="./page-error-500.html">Error 500</a></li>
-                                    <li><a href="./page-error-503.html">Error 503</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li> -->
-                <!-- </ul> -->
+                </ul>
             </div>
         </div>
         <!--********************************** Sidebar end ***********************************-->
 
         <!--********************************** Content body start ***********************************-->
         <div class="content-body">
-            <div class="container-fluid mt-3">
             <div class="container">
-            <form action="" method="POST">
-                <h2>Book Appointment</h2>
-                <div class="form-group">
-                <select name="Doctorspecialization" class="form-control" onChange="getdoctor(this.value);" required="required">
-					<option value="">Select Specialization</option>
-                        <?php $ret=mysqli_query($con,"select * from tbl_dept");
-                        while($row=mysqli_fetch_array($ret))
-                        {
-                        ?>
-                        <option value="<?php echo htmlentities($row['dept_id']);?>">
-                            <?php echo htmlentities($row['dept_name']);?>
-                        </option>
-                        <?php 
-                    } ?>
-													
-				</select>
-                </div>
-                <div class="form-group">
-                    <select name="doctor" class="form-control" id="doctor" onChange="getfee(this.value);" required="required">
-                        <option value="">Select Doctor</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="consultancyfees">Consultancy Fees</label>
-		                <select name="fees" class="form-control" id="fees"  readonly>
-		            </select>
-                </div>
-                <!-- Day  -->
-                <div class="form-group">
-                <select name="date" class="form-control" id="date" onChange="getdate(this.value);" required="required">
-                        <option value="">Select Day</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <select name="time" class="form-control" id="time" required="required">
-                        <option value="">Select Time Slot</option>
-                    </select>
-                </div>
-                
-                <button type="submit" name="submit"  class="btn btn-primary">Book Appointment</button>
-                </form>
+                <div class="row">
+                    <div class="col-md-6 mt-5">
+                        <form action="" method="POST">
+                            <h2>Book Appointment</h2>
+                            <div class="form-group">
+                                <select name="Doctorspecialization" class="form-control" onChange="getdoctor(this.value);" required="required">
+                                    <option value="">Select Specialization</option>
+                                        <?php $ret=mysqli_query($con,"select * from tbl_dept");
+                                        while($row=mysqli_fetch_array($ret))
+                                        {
+                                        ?>
+                                        <option value="<?php echo htmlentities($row['dept_id']);?>">
+                                            <?php echo htmlentities($row['dept_name']);?>
+                                        </option>
+                                        <?php 
+                                    } ?>                               
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <select name="doctor" class="form-control" id="doctor" onChange="getfee(this.value);" required="required">
+                                    <option value="">Select Doctor</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <!-- <label for="consultancyfees">Consultancy Fees</label> -->
+                                    <select name="fees" class="form-control my-select" id="fees" placeholder="Consultancy Fees" readonly style="background-color: white;">
+                                </select>
+                            </div>
+                            <!-- Day  -->
+                            <div class="form-group">
+                            <select name="date" class="form-control" id="date" onChange="getdate(this.value);" required="required" style="height:50px;">
+                                    <option value="">Select Day</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <select name="time" class="form-control" id="time" required="required">
+                                    <option value="">Select Time Slot</option>
+                                </select>
+                            </div>
+                            <div class="text-center">
+                                <button type="submit" name="submit" id="mybutton" class="btn btn-primary ml-5">Book Appointment</button>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- <div class="col-md-6">
+                        <img src="../assets/images/booking.png" width = 1300 height = 450 alt="abc" class="img-fluid">
+                    </div> -->
+                </div>          
             </div>  
-            <!-- #/ container -->
-        </div>
+                </div>  
         <!--********************************** Content body end ***********************************-->
-        
+                        
         
         <!--********************************** Footer start ***********************************-->
         <!-- <div class="footer">

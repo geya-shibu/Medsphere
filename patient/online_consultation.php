@@ -1,13 +1,38 @@
 <?php
-include('../connection.php');
+    include('../connection.php');
 	session_start();
 	if(!isset($_SESSION["email"])) 
 	{
 		header("Location:../login.php");
 	}
+
+    if(isset($_POST['submit']))
+    {
+    $specilization=$_POST['Doctorspecialization'];
+    $doctorid=$_POST['doctor'];
+    $fees=$_POST['fees'];
+    $date=$_POST['date'];
+    $time=$_POST['time'];
+    $qid=$_SESSION['id'];
+    $duplicate=mysqli_query($con, "SELECT * from tbl_appointment WHERE time='$time'");
+    
+    if(mysqli_num_rows($duplicate)>0)
+    {
+    echo "<script> alert('Already Booked');
+                    windows.location.href='department.php';
+    </script>";
+    }
+    else{
+    $query=mysqli_query($con,"insert into tbl_appointment(dept_id, doc_id, fees, day, time, login_id) values('$specilization','$doctorid','$fees', '$date', '$time', '$qid')");
+        if($query)
+        {
+            header("location:payment.php");
+        }
+    }}
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -19,28 +44,90 @@ include('../connection.php');
     <link rel="stylesheet" href="./plugins/chartist-plugin-tooltips/css/chartist-plugin-tooltip.css">
     <link href="css/style.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-        $(document).ready(function() {
-        $('#searchBox, #searchButton').on('keyup click', function() {
-        var query = $('#searchBox').val();
-        if (query != '') {
-            $.ajax({
-                url: 'php/search.php',
-                method: 'POST',
-                data: {query:query},
-                success: function(data) {
-                    $('#searchResults').html(data);
-                }
-            });
-        } else {
-            $('#searchResults').html('');
+    <style>
+        .content-body
+        {
+            background-image:url('../assets/images/booking.png'); 
+            background-size:cover; 
+            position: relative;
         }
-    });
-});
+        .content-body::before {
+            content: "";
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #fff; /* Set the color you want for the overlay */
+            opacity: 0.7; /* Set the opacity value */
+        }
+        h2
+        {
+            margin-left:150px;
+        }
+        .my-select
+        {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="0" height="0"><symbol id="chevron-down" viewBox="0 0 10 6"><path d="M1.42.607a.997.997 0 0 1 1.414 0L5 3.086 7.146.936a.997.997 0 1 1 1.414 1.414l-2.5 2.5a.997.997 0 0 1-1.414 0L3.5 3.914 1.354 6.061a.997.997 0 1 1-1.414-1.414l2.5-2.5z" fill="%23808080" fill-rule="evenodd"/></symbol></svg>#chevron-down');
+            background-repeat: no-repeat;
+            background-position: right 0.5em top 50%;
+            background-size: 1em auto;
+        }
+    </style>    
+    <script>
+        function getdoctor(val) {
+            $.ajax({
+            type: "POST",
+            url: "get_doctor.php",
+            data:'specilizationid='+val,
+            success: function(data){
+                $("#doctor").html(data);
+            }
+            });
+        }
+    </script>	
+    <script>
+        function getfee(val) {
+            $.ajax({
+            type: "POST",
+            url: "get_doctor.php",
+            data:'doctor='+val, 
+            success: function(data){
+                $("#fees").html(data);
+            }
+            });
+
+            $.ajax({
+            type: "POST",
+            url: "get_day.php",
+            data:'doctor='+val,
+            success: function(data){
+                $("#date").html(data);
+            }
+            });
+        }
     </script>
+    <script>
+        function getdate(val) {
+            $.ajax({
+            type: "POST",
+            url: "get_doctor.php",
+            data:'date='+val,
+            success: function(data){
+                $("#time").html(data);
+            }
+            }); 
+        }
+    </script>	
+</head>
 <body>
-    <!--***************************** Preloader start ***********************-->
+
+    <!--*******************
+        Preloader start
+    ********************-->
     <div id="preloader">
         <div class="loader">
             <svg class="circular" viewBox="25 25 50 50">
@@ -48,29 +135,34 @@ include('../connection.php');
             </svg>
         </div>
     </div>
-    <!--*****************************  Preloader end ************************-->
+    <!--*********************************** Preloader end ************************-->
 
-    <!--***************************** Main wrapper start **********************-->
+    
+    <!--********************************** Main wrapper start **********************-->
     <div id="main-wrapper">
 
-    <!--****************************** Nav header start ***********************-->
+    <!--****************************** Nav header start *****************************-->
         <div class="nav-header">
-            <a href="index.html">
-                <p class="cls-logo">MedSphere</p>
-            </a>
+                <a href="index.html">
+                    <p class="cls-logo">MedSphere</p>
+                    <!-- <span class="logo-compact"><img src="./images/logo-compact.png" alt=""></span> -->
+                    <!-- <span class="brand-title">  -->
+                    </span>
+                </a>
         </div>
-    <!--****************************** Nav header end *******************************-->
+    <!--******************************** Nav header end *******************************-->
 
-    <!--****************************** Header start *********************************-->
+    <!--******************************** Header start *********************************-->
         <div class="header">    
             <div class="header-content clearfix">
+                
                 <div class="nav-control">
                     <div class="hamburger">
                         <span class="toggle-icon"><i class="icon-menu"></i></span>
                     </div>
                 </div>
-                <div class="header-left">
-                    <!-- <div class="input-group icons">
+                <!-- <div class="header-left">
+                    <div class="input-group icons">
                         <div class="input-group-prepend">
                             <span class="input-group-text bg-transparent border-0 pr-2 pr-sm-3" id="basic-addon1"><i class="mdi mdi-magnify"></i></span>
                         </div>
@@ -80,11 +172,13 @@ include('../connection.php');
                                 <input type="text" class="form-control" placeholder="Search">
                             </form>
                         </div>
-                    </div> -->
-                </div>
+                    </div>
+                </div> -->
+
+
                 <div class="header-right">
-                    <!-- <ul class="clearfix">
-                        <li class="icons dropdown"><a href="javascript:void(0)" data-toggle="dropdown">
+                    <ul class="clearfix">
+                        <!-- <li class="icons dropdown"><a href="javascript:void(0)" data-toggle="dropdown">
                                 <i class="mdi mdi-email-outline"></i>
                                 <span class="badge badge-pill gradient-1">3</span>
                             </a>
@@ -141,8 +235,8 @@ include('../connection.php');
                                     
                                 </div>
                             </div>
-                        </li>
-                        <li class="icons dropdown"><a href="javascript:void(0)" data-toggle="dropdown">
+                        </li> -->
+                        <!-- <li class="icons dropdown"><a href="javascript:void(0)" data-toggle="dropdown">
                                 <i class="mdi mdi-bell-outline"></i>
                                 <span class="badge badge-pill gradient-2">3</span>
                             </a>
@@ -195,8 +289,8 @@ include('../connection.php');
                                     
                                 </div>
                             </div>
-                        </li>
-                        <li class="icons dropdown d-none d-md-flex">
+                        </li> -->
+                        <!-- <li class="icons dropdown d-none d-md-flex">
                             <a href="javascript:void(0)" class="log-user"  data-toggle="dropdown">
                                 <span>English</span>  <i class="fa fa-angle-down f-s-14" aria-hidden="true"></i>
                             </a>
@@ -212,6 +306,7 @@ include('../connection.php');
                         <li class="icons dropdown">
                             <div class="user-img c-pointer position-relative"   data-toggle="dropdown">
                                 <span class="activity active"></span>
+                                <!-- <img src="images/user/1.png" height="40" width="40" alt=""> -->
                                 <?php
 									$p_id=$_SESSION['id'];
 									$sql="SELECT * from tbl_patient where login_id='$p_id'";
@@ -227,18 +322,18 @@ include('../connection.php');
                                 <div class="dropdown-content-body">
                                     <ul>
                                         <li>
-                                            <a href="app-profile.html"><i class="icon-user"></i> <span>Profile</span></a>
+                                            <a href="profile.php"><i class="icon-user"></i> <span>Profile</span></a>
                                         </li>
-                                        <li>
+                                        <!-- <li>
                                             <a href="javascript:void()">
                                                 <i class="icon-envelope-open"></i> <span>Inbox</span> <div class="badge gradient-3 badge-pill gradient-1">3</div>
                                             </a>
-                                        </li>
+                                        </li> -->
                                         
                                         <hr class="my-2">
-                                        <li>
+                                        <!-- <li>
                                             <a href="page-lock.html"><i class="icon-lock"></i> <span>Lock Screen</span></a>
-                                        </li>
+                                        </li> -->
                                         <li><a href="../logout.php"><i class="icon-key"></i> <span>Logout</span></a></li>
                                     </ul>
                                 </div>
@@ -248,15 +343,15 @@ include('../connection.php');
                 </div>
             </div>
         </div>
-    <!--******************************** Header end ti-comment-alt ***********************-->
+        <!--******************************** Header end ti-comment-alt ***********************-->
 
-    <!--******************************** Sidebar start ***********************************-->
-    <div class="nk-sidebar">           
+        <!--******************************** Sidebar start ***********************************-->
+        <div class="nk-sidebar">           
             <div class="nk-nav-scroll" style="margin-top:18px;">
                 <ul class="metismenu" id="menu">
                     <!-- <li class="nav-label">Dashboard</li> -->
                     <li>
-                        <a href="homepage.php" aria-expanded="false">
+                        <a href="javascript:void()" aria-expanded="false">
                         <i class="bi bi-ui-checks-grid"></i><span class="nav-text">Dashboard</span>
                         </a>
                     </li>
@@ -327,73 +422,70 @@ include('../connection.php');
                 </ul>
             </div>
         </div>
-    <!--******************************** Sidebar end ***********************************-->
+        <!--********************************** Sidebar end ***********************************-->
 
-    <!--********************************** Content body start ***********************************-->
+        <!--********************************** Content body start ***********************************-->
         <div class="content-body">
-            <div class="row">
-                <img src="../images/dept1.jpg" width = 1300 height = 450 alt="abc">
-            </div>
-
-            <div class="row mt-3">
-                <div class="col-6">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col ml-5">
-                            <h1>Our Departments</h1>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 mt-5">
+                        <form action="" method="POST">
+                            <h2>Book Appointment</h2>
+                            <div class="form-group">
+                                <select name="Doctorspecialization" class="form-control" onChange="getdoctor(this.value);" required="required">
+                                    <option value="">Select Specialization</option>
+                                        <?php $ret=mysqli_query($con,"select * from tbl_dept");
+                                        while($row=mysqli_fetch_array($ret))
+                                        {
+                                        ?>
+                                        <option value="<?php echo htmlentities($row['dept_id']);?>">
+                                            <?php echo htmlentities($row['dept_name']);?>
+                                        </option>
+                                        <?php 
+                                    } ?>                               
+                                </select>
                             </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-6">
-                    <div class="input-group">
-                        <input type="text" id="searchBox" name="search" class="form-control" placeholder="Search...">
-                        <div class="input-group-append">
-                            <button class="btn btn-outline-secondary" id="searchButton" type="button">
-                            <i class="fa fa-search"></i>
-                            </button>
-                        </div>
-                    </div>
-                    <ul id="searchResults"style="background-color:white; "></ul>
-                </div>
-            </div>
-            <div class="row ml-3">
-                <?php
-                $sql="SELECT * from tbl_dept";
-                $result=$con->query($sql);
-				if ($result-> num_rows > 0){
-					while ($row=$result-> fetch_assoc()) {
-                ?>
-                <div class="col-md-3" >
-                    <div class="card mt-4 mr-3 text-center">
-                        <a href="view_doctor.php">
-                            <div class="card-body">
-                                <div class="text-center">
-                                    <img src="../images/<?php echo $row['image1']; ?>" width=190 height=160>
-                                </div>
-                                <div class="col mt-3">
-                                    <h5 class="card-title"><?=$row["dept_name"]?></h5>
-                                </div>   
-                                <form action="details.php" method="POST">
-                                    <button class="btn" name="details" value="<?=$row['dept_id']?>">More..</button>
-                                </form>
+                            <div class="form-group">
+                                <select name="doctor" class="form-control" id="doctor" onChange="getfee(this.value);" required="required">
+                                    <option value="">Select Doctor</option>
+                                </select>
                             </div>
-                        </a>
+                            <div class="form-group">
+                                <!-- <label for="consultancyfees">Consultancy Fees</label> -->
+                                    <select name="fees" class="form-control my-select" id="fees" placeholder="Consultancy Fees" readonly style="background-color: white;">
+                                </select>
+                            </div>
+                            <!-- Day  -->
+                            <div class="form-group">
+                            <select name="date" class="form-control" id="date" onChange="getdate(this.value);" required="required" style="height:50px;">
+                                    <option value="">Select Day</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <select name="time" class="form-control" id="time" required="required">
+                                    <option value="">Select Time Slot</option>
+                                </select>
+                            </div>
+                            <div class="text-center">
+                                <button type="submit" name="submit" id="mybutton" class="btn btn-primary ml-5">Book Appointment</button>
+                            </div>
+                        </form>
                     </div>
-                </div>
-                <?php }}?>
-            </div>
-        </div>
+                    <!-- <div class="col-md-6">
+                        <img src="../assets/images/booking.png" width = 1300 height = 450 alt="abc" class="img-fluid">
+                    </div> -->
+                </div>          
+            </div>  
+                </div>  
         <!--********************************** Content body end ***********************************-->
-        
+                        
         
         <!--********************************** Footer start ***********************************-->
-        <div class="footer">
+        <!-- <div class="footer">
             <div class="copyright">
-                <p>Copyright &copy; Designed & Developed by <a href="#">MedSphere</a> 2018</p>
+                <p>Copyright &copy; Designed & Developed by <a href="https://themeforest.net/user/quixlab">MedSphere</a> 2018</p>
             </div>
-        </div>
+        </div> -->
         <!--********************************** Footer end ***********************************-->
     </div>
     <!--********************************** Main wrapper end ***********************************-->
@@ -416,6 +508,7 @@ include('../connection.php');
     <script src="./plugins/chartist/js/chartist.min.js"></script>
     <script src="./plugins/chartist-plugin-tooltips/js/chartist-plugin-tooltip.min.js"></script>
     <script src="./js/dashboard/dashboard-1.js"></script>
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
 </body>
+
 </html>

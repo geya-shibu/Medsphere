@@ -146,55 +146,57 @@
 			<div class="main-panel">
 				<div class="content">
 					<div class="card-body">
-					<h4 class="page-title">Appointments</h4>
+						<h4 class="page-title">Appointments</h4>
 						<div class="table-responsive">
 							<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-							<thead>
-								<tr>
-									<th> Sl No</th>
-									<th> Patient Name</th>
-									<th> Date</th>
-									<th> Time</th>
-									<th> Add Details</th>
-								</tr>
-							</thead>
-						<?php
-						$l_id=$_SESSION['id'];
-						$sql="SELECT * from tbl_doctor where login_id='$l_id'";
-						$result=$con->query($sql);
-						$count=1;
-						if ($result-> num_rows > 0){
-						while ($row=$result-> fetch_assoc()) {
-							$d_id=$row["doc_id"];
-							$sql1="SELECT * from tbl_appointment where doc_id='$d_id'";
-							$result1=$con->query($sql1);
-							if ($result1-> num_rows > 0){
-							while ($row1=$result1-> fetch_assoc()) {
-							$pid=$row1["login_id"];
-							$sql2="SELECT * from tbl_patient where login_id='$pid'";
-							$result2=$con->query($sql2);
-							if ($result2-> num_rows > 0){
-							while ($row2=$result2->fetch_assoc()) {
-							?>
-							<tbody>
-							<tr>
-								<td> <?=$count?> </td>
-								<td> <?=$row2["name"]?></td>
-								<td> <?=$row1["day"]?></td>
-								<td> <?=$row1["time"]?></td>
-								<td>
-									<form action="patient_page.php" method="POST">
-									<!-- <input type="hidden" name="delete_id" value="">
-									<button type="submit" name="delete_btn" class="btn btn-danger"> DELETE</button> -->
-									<button class="btn btn-primary" name="a_btn" value="<?=$row2['p_id']?>" style="height:40px">Add More</button>
-									</form>
-								</td>
-							</tr>
-							</tbody>
-						</table>
-						</div>
-							<?php
+								<thead>
+									<tr>
+										<th> Sl No</th>
+										<th> Patient Name</th>
+										<th> Date</th>
+										<th> Time</th>
+										<th> Status</th>
+									</tr>
+								</thead>
+								<?php
+								$l_id=$_SESSION['id'];
+								$sql="SELECT * from tbl_doctor where login_id='$l_id'";
+								$result=$con->query($sql);
+								$count=1;
+								if ($result-> num_rows > 0){
+									while ($row=$result-> fetch_assoc()) {
+										$d_id=$row["doc_id"];
+										$sql1="SELECT * from tbl_appointment where doc_id='$d_id'";
+										$result1=$con->query($sql1);
+										if ($result1-> num_rows > 0){
+										while ($row1=$result1-> fetch_assoc()) {
+											$pid=$row1["login_id"];
+											$sql2="SELECT * from tbl_patient where login_id='$pid'";
+											$result2=$con->query($sql2);
+											if ($result2-> num_rows > 0){
+											while ($row2=$result2->fetch_assoc()) {
+											?>
+								<tbody>
+									<tr>
+										<td> <?=$count?> </td>
+										<td> <a href="patient_page.php?<?=$row2['p_id']?>"><?=$row2["name"]?></a></td>
+										<td> <?=$row1["day"]?></td>
+										<td> <?=$row1["time"]?></td>
+										<td> <?=$row1["status"]?></td>
+										<td>
+											<!-- <form action="patient_page.php" method="POST">
+											<input type="hidden" name="delete_id" value="">
+											<button type="submit" name="delete_btn" class="btn btn-danger"> DELETE</button>
+											<button class="btn btn-primary" name="a_btn" value="<?=$row2['p_id']?>" style="height:40px">Add More</button>
+											</form> -->
+										</td>
+									</tr>
+								</tbody>
+								<?php
 							}}}}}}?>
+							</table>
+						</div>
+							
 				</div>
 			</div>
 		</div>

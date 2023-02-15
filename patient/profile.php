@@ -72,7 +72,7 @@ include('../connection.php');
                 </div>
                 <div class="header-right">
                     <ul class="clearfix">
-                        <li class="icons dropdown"><a href="javascript:void(0)" data-toggle="dropdown">
+                        <!-- <li class="icons dropdown"><a href="javascript:void(0)" data-toggle="dropdown">
                                 <i class="mdi mdi-email-outline"></i>
                                 <span class="badge gradient-1 badge-pill badge-primary">3</span>
                             </a>
@@ -127,8 +127,8 @@ include('../connection.php');
                                     
                                 </div>
                             </div>
-                        </li>
-                        <li class="icons dropdown"><a href="javascript:void(0)" data-toggle="dropdown">
+                        </li> -->
+                        <!-- <li class="icons dropdown"><a href="javascript:void(0)" data-toggle="dropdown">
                                 <i class="mdi mdi-bell-outline"></i>
                                 <span class="badge badge-pill gradient-2 badge-primary">3</span>
                             </a>
@@ -179,40 +179,49 @@ include('../connection.php');
                                     
                                 </div>
                             </div>
-                        </li>
-                        <li class="icons dropdown d-none d-md-flex">
-                            <!-- <a href="javascript:void(0)" class="log-user"  data-toggle="dropdown">
+                        </li> -->
+                        <!-- <li class="icons dropdown d-none d-md-flex">
+                            <a href="javascript:void(0)" class="log-user"  data-toggle="dropdown">
                                 <span>English</span>  <i class="fa fa-angle-down f-s-14" aria-hidden="true"></i>
-                            </a> -->
-                            <!-- <div class="drop-down dropdown-language animated fadeIn  dropdown-menu">
+                            </a>
+                            <div class="drop-down dropdown-language animated fadeIn  dropdown-menu">
                                 <div class="dropdown-content-body">
                                     <ul>
                                         <li><a href="javascript:void()">English</a></li>
                                         <li><a href="javascript:void()">Dutch</a></li>
                                     </ul>
                                 </div>
-                            </div> -->
-                        </li>
+                            </div>
+                        </li> -->
                         <li class="icons dropdown">
                             <div class="user-img c-pointer position-relative"   data-toggle="dropdown">
                                 <span class="activity active"></span>
-                                <img src="images/user/1.png" height="40" width="40" alt="">
+                                <?php
+									$p_id=$_SESSION['id'];
+									$sql="SELECT * from tbl_patient where login_id='$p_id'";
+									$result=$con->query($sql);
+									if ($result-> num_rows > 0){
+									while ($row=$result-> fetch_assoc()) {
+                                        $image=$row['image'];?>
+                                    <img src="../images/<?php echo $image; ?>" width = 140 height = 150 title="<?php echo $image; ?>">
+									<?php }
+									}?>
                             </div>
                             <div class="drop-down dropdown-profile   dropdown-menu">
                                 <div class="dropdown-content-body">
                                     <ul>
                                         <li>
-                                            <a href="app-profile.html"><i class="icon-user"></i> <span>Profile</span></a>
+                                            <a href="profile.php"><i class="icon-user"></i> <span>Profile</span></a>
                                         </li>
-                                        <li>
+                                        <!-- <li>
                                             <a href="email-inbox.html"><i class="icon-envelope-open"></i> <span>Inbox</span> <div class="badge gradient-3 badge-pill badge-primary">3</div></a>
-                                        </li>
+                                        </li> -->
                                         
                                         <hr class="my-2">
-                                        <li>
+                                        <!-- <li>
                                             <a href="page-lock.html"><i class="icon-lock"></i> <span>Lock Screen</span></a>
-                                        </li>
-                                        <li><a href="page-login.html"><i class="icon-key"></i> <span>Logout</span></a></li>
+                                        </li> -->
+                                        <li><a href="../logout.php"><i class="icon-key"></i> <span>Logout</span></a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -238,8 +247,14 @@ include('../connection.php');
                     </li>
                     
                     <li>
-                        <a href="#" aria-expanded="false">
+                        <a href="patient_department.php" aria-expanded="false">
                         <i class="bi bi-building"></i><span class="nav-text">Department</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="view_doctor.php" aria-expanded="false">
+                            <i class="icon-speedometer menu-icon"></i><span class="nav-text">Doctor</span>
                         </a>
                     </li>
 
@@ -285,11 +300,11 @@ include('../connection.php');
                         <i class="bi bi-credit-card-2-front-fill"></i></i><span class="nav-text">Payment</span>
                         </a>
                     </li>
-                    <li>
+                    <!-- <li>
                         <a href="javascript:void()" aria-expanded="false">
                         <i class="bi bi-gear-wide-connected"></i><span class="nav-text">Settings</span>
                         </a>
-                    </li>
+                    </li> -->
                     <li>
                         <a href="javascript:void()" aria-expanded="false">
                         <i class="bi bi-info-circle-fill"></i></i><span class="nav-text">Help</span>
@@ -427,7 +442,7 @@ include('../connection.php');
                                                     <div class="form-group row">
                                                         <label for="id" class="col-sm-3 col-form-label">Name</label>
                                                         <div class="col-sm-9">
-                                                            <input type="text" class="form-control" id="name_id" name="name" placeholder="Update your Name"/>
+                                                            <input type="text" class="form-control" id="name_id" name="name" placeholder="Update your Name" value="<?php echo $row['name']; ?>"/>
                                                                 <!-- <div class="invalid-feedback">
                                                                     Please choose a Name.
                                                                 </div> -->
@@ -451,77 +466,103 @@ include('../connection.php');
                                                     <div class="form-group row">
                                                         <label for="id" class="col-sm-3 col-form-label">Date of Birth</label>
                                                         <div class="col-sm-9">
-                                                            <input type="date" class="form-control" id="name_id" name="dob" placeholder="Update your Date of Birth"/>
+                                                            <input type="date" class="form-control" id="name_id" name="dob" placeholder="Update your Date of Birth" value="<?php echo $row['dob'];?>"/>
                                                         </div>
+                                                    </div>
+
+                                                    <div class="form-group row">
+                                                        <label for="id" class="col-sm-3 col-form-label">Gender</label>
+                                                        <div class="col-sm-9">
+                                                            <select name="gender" class="form-control">
+                                                                <option value=""><?php echo $row['gender'];?></option>
+                                                                <option value="Male">Male</option>
+                                                                <option value="Female">Female</option>
+                                                                <option value="Other">Other</option>
+                                                            </select>
+                                                        </div>    
+                                                    </div>
+
+                                                    <div class="form-group row">
+                                                        <label for="id" class="col-sm-3 col-form-label">Blood Group</label>
+                                                        <div class="col-sm-9">
+                                                            <select name="blood" class="form-control">
+                                                                <option value=""><?php echo $row['blood_group'];?></option>
+                                                                <option value="A+">A+</option>
+                                                                <option value="O+">O+</option>
+                                                                <option value="B+">B+</option>
+                                                                <option value="O-">O-</option>
+                                                                <option value="AB+">AB+</option>
+                                                            </select>
+                                                        </div>    
                                                     </div>
 
                                                     <div class="form-group row">
                                                         <label for="id" class="col-sm-3 col-form-label">Address Line 1</label>
                                                         <div class="col-sm-9">
-                                                            <input type="text" class="form-control" id="name_id" name="address1" placeholder="Update your Address"/>
+                                                            <input type="text" class="form-control" id="name_id" name="address1" placeholder="Update your Address" value="<?php echo $row['address_line_1'];?>"/>
                                                         </div>
                                                     </div>
 
                                                     <div class="form-group row">
                                                         <label for="id" class="col-sm-3 col-form-label">Address Line 2</label>
                                                         <div class="col-sm-9">
-                                                            <input type="text" class="form-control" id="name_id" name="address2" placeholder="Update your Address"/>
+                                                            <input type="text" class="form-control" id="name_id" name="address2" placeholder="Update your Address" value="<?php echo $row['address_line_2'];?>"/>
                                                         </div>
                                                     </div>
 
                                                     <div class="form-group row">
                                                         <label for="id" class="col-sm-3 col-form-label">Address Line 3</label>
                                                         <div class="col-sm-9">
-                                                            <input type="text" class="form-control" id="name_id" name="address3" placeholder="Update your Address"/>
+                                                            <input type="text" class="form-control" id="name_id" name="address3" placeholder="Update your Address" value="<?php echo $row['address_line_3'];?>"/>
                                                         </div>
                                                     </div>
 
                                                     <div class="form-group row">
                                                         <label for="id" class="col-sm-3 col-form-label">Nationality</label>
                                                         <div class="col-sm-9">
-                                                            <input type="text" class="form-control" id="name_id" name="nation" placeholder="Update your Nationality"/>
+                                                            <input type="text" class="form-control" id="name_id" name="nation" placeholder="Update your Nationality" value="<?php echo $row['nationality'];?>"/>
                                                         </div>
                                                     </div>
 
                                                     <div class="form-group row">
                                                         <label for="id" class="col-sm-3 col-form-label">State</label>
                                                         <div class="col-sm-9">
-                                                            <input type="text" class="form-control" id="name_id" name="state" placeholder="Update your State"/>
+                                                            <input type="text" class="form-control" id="name_id" name="state" placeholder="Update your State" value="<?php echo $row['state'];?>"/>
                                                         </div>
                                                     </div>
 
                                                     <div class="form-group row">
                                                         <label for="id" class="col-sm-3 col-form-label">District</label>
                                                         <div class="col-sm-9">
-                                                            <input type="text" class="form-control" id="name_id" name="district" placeholder="Update your District"/>
+                                                            <input type="text" class="form-control" id="name_id" name="district" placeholder="Update your District" value="<?php echo $row['district'];?>"/>
                                                         </div>
                                                     </div>
 
                                                     <div class="form-group row">
                                                         <label for="id" class="col-sm-3 col-form-label">Occupation</label>
                                                         <div class="col-sm-9">
-                                                            <input type="text" class="form-control" id="name_id" name="occp" placeholder="Update your Occupation"/>
+                                                            <input type="text" class="form-control" id="name_id" name="occp" placeholder="Update your Occupation" value="<?php echo $row['occupation'];?>"/>
                                                         </div>
                                                     </div>
 
                                                     <div class="form-group row">
                                                         <label for="id" class="col-sm-3 col-form-label">Religion</label>
                                                         <div class="col-sm-9">
-                                                            <input type="text" class="form-control" id="name_id" name="religion" placeholder="Update your Religion"/>
+                                                            <input type="text" class="form-control" id="name_id" name="religion" placeholder="Update your Religion" value="<?php echo $row['religion'];?>"/>
                                                         </div>
                                                     </div>
 
                                                     <div class="form-group row">
                                                         <label for="id" class="col-sm-3 col-form-label">Caste</label>
                                                         <div class="col-sm-9">
-                                                            <input type="text" class="form-control" id="name_id" name="caste" placeholder="Update your Caste"/>
+                                                            <input type="text" class="form-control" id="name_id" name="caste" placeholder="Update your Caste" value="<?php echo $row['caste'];?>"/>
                                                         </div>
                                                     </div>
 
                                                     <div class="form-group row">
                                                         <label for="id" class="col-sm-3 col-form-label">Marital Status</label>
                                                         <div class="col-sm-9">
-                                                            <input type="text" class="form-control" id="name_id" name="maritalsts" placeholder="Update your Marital Status"/>
+                                                            <input type="text" class="form-control" id="name_id" name="maritalstatus" placeholder="Update your Marital Status" value="<?php echo $row['marital_status'];?>"/>
                                                         </div>
                                                     </div>
                                                     <div class="text-center">
@@ -574,52 +615,52 @@ include('../connection.php');
                                 </tr>
                                 <tr>
                                     <td>Gender</td>
-                                    <td></td>
+                                    <td><?php echo $row['gender'];?></td>
                                 </tr>
                                 <tr>
                                     <td>Blood Group</td>
-                                    <td></td>
+                                    <td><?php echo $row['blood_group'];?></td>
                                 </tr>
                                 <tr>
                                     <td>Address</td>
-                                    <td>kkk</td>
+                                    <td><?php echo $row['address_line_1'];?></td>
                                 <tr>
                                     <td></td>
-                                    <td>ddd</td>
+                                    <td><?php echo $row['address_line_2'];?></td>
                                 </tr>
                                 <tr>
                                     <td></td>
-                                    <td>ddd</td>
+                                    <td><?php echo $row['address_line_3'];?></td>
                                 </tr>
                                 
                                 <tr>
                                     <td>Nationality</td>
-                                    <td></td>
+                                    <td><?php echo $row['nationality'];?></td>
                                 </tr>
 
                                 <tr>
                                     <td>State</td>
-                                    <td></td>
+                                    <td><?php echo $row['state'];?></td>
                                 </tr>
                                 <tr>
                                     <td>District</td>
-                                    <td></td>
+                                    <td><?php echo $row['district'];?></td>
                                 </tr>
                                 <tr>
                                     <td>Occupation</td>
-                                    <td></td>
+                                    <td><?php echo $row['occupation'];?></td>
                                 </tr>
                                 <tr>
                                     <td>Religion</td>
-                                    <td></td>
+                                    <td><?php echo $row['religion'];?></td>
                                 </tr>
                                 <tr>
                                     <td>Caste</td>
-                                    <td></td>
+                                    <td><?php echo $row['caste'];?></td>
                                 </tr>
                                 <tr>
                                     <td>Marital Status</td>
-                                    <td></td>
+                                    <td><?php echo $row['marital_status'];?></td>
                                 </tr>
 
                             </tbody>

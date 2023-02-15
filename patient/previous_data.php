@@ -8,6 +8,7 @@ include('../connection.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -19,26 +20,10 @@ include('../connection.php');
     <link rel="stylesheet" href="./plugins/chartist-plugin-tooltips/css/chartist-plugin-tooltip.css">
     <link href="css/style.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-        $(document).ready(function() {
-        $('#searchBox, #searchButton').on('keyup click', function() {
-        var query = $('#searchBox').val();
-        if (query != '') {
-            $.ajax({
-                url: 'php/search.php',
-                method: 'POST',
-                data: {query:query},
-                success: function(data) {
-                    $('#searchResults').html(data);
-                }
-            });
-        } else {
-            $('#searchResults').html('');
-        }
-    });
-});
-    </script>
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous"> -->
+	<!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script> -->
+</head>
+
 <body>
     <!--***************************** Preloader start ***********************-->
     <div id="preloader">
@@ -227,18 +212,18 @@ include('../connection.php');
                                 <div class="dropdown-content-body">
                                     <ul>
                                         <li>
-                                            <a href="app-profile.html"><i class="icon-user"></i> <span>Profile</span></a>
+                                            <a href="profile.php"><i class="icon-user"></i> <span>Profile</span></a>
                                         </li>
-                                        <li>
+                                        <!-- <li>
                                             <a href="javascript:void()">
                                                 <i class="icon-envelope-open"></i> <span>Inbox</span> <div class="badge gradient-3 badge-pill gradient-1">3</div>
                                             </a>
-                                        </li>
+                                        </li> -->
                                         
                                         <hr class="my-2">
-                                        <li>
+                                        <!-- <li>
                                             <a href="page-lock.html"><i class="icon-lock"></i> <span>Lock Screen</span></a>
-                                        </li>
+                                        </li> -->
                                         <li><a href="../logout.php"><i class="icon-key"></i> <span>Logout</span></a></li>
                                     </ul>
                                 </div>
@@ -251,12 +236,12 @@ include('../connection.php');
     <!--******************************** Header end ti-comment-alt ***********************-->
 
     <!--******************************** Sidebar start ***********************************-->
-    <div class="nk-sidebar">           
+        <div class="nk-sidebar">           
             <div class="nk-nav-scroll" style="margin-top:18px;">
                 <ul class="metismenu" id="menu">
                     <!-- <li class="nav-label">Dashboard</li> -->
                     <li>
-                        <a href="homepage.php" aria-expanded="false">
+                        <a href="javascript:void()" aria-expanded="false">
                         <i class="bi bi-ui-checks-grid"></i><span class="nav-text">Dashboard</span>
                         </a>
                     </li>
@@ -300,7 +285,7 @@ include('../connection.php');
                         </a>
                     </li>
                     <li>
-                        <a href="reports.php" aria-expanded="false">
+                        <a href="javascript:void()" aria-expanded="false">
                         <i class="bi bi-card-checklist"></i></i><span class="nav-text">Reports</span>
                         </a>
                     </li>
@@ -330,72 +315,59 @@ include('../connection.php');
     <!--******************************** Sidebar end ***********************************-->
 
     <!--********************************** Content body start ***********************************-->
-        <div class="content-body">
+    <div class="content-body">
+        <div class="container-fluid">   
             <div class="row">
-                <img src="../images/dept1.jpg" width = 1300 height = 450 alt="abc">
-            </div>
-
-            <div class="row mt-3">
-                <div class="col-6">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col ml-5">
-                            <h1>Our Departments</h1>
-                            </div>
-                        </div>
-                    </div>
+                <div class="col">
+                    <h2 class="text-center">Previous Medical Data</h2>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th scope="col">Sl No</th>
+                                <th scope="col">Blood Pressure</th>
+                                <th scope="col">Glucose (mg/dL)</th>
+                                <th scope="col">Haemoglobin (g/dL)</th>
+                                <th scope="col">Cholestrol Level (dL)</th>
+                                <th scope="col">Heart Rate (bpm)</th>
+                                <th scope="col">Blood oxygen levels</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">1</th>
+                                <td>150</td>
+                                <td>100</td>
+                                <td>120</td>
+                                <td>150</td>
+                                <td>100</td>
+                                <td>120</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">2</th>
+                                <td>90</td>
+                                <td>120</td>
+                                <td>135</td>
+                                <td>100</td>
+                                <td>110</td>
+                                <td>122</td>
+                            </tr>
+                        </tbody>
+                        </table>
+                   
                 </div>
-
-                <div class="col-6">
-                    <div class="input-group">
-                        <input type="text" id="searchBox" name="search" class="form-control" placeholder="Search...">
-                        <div class="input-group-append">
-                            <button class="btn btn-outline-secondary" id="searchButton" type="button">
-                            <i class="fa fa-search"></i>
-                            </button>
-                        </div>
-                    </div>
-                    <ul id="searchResults"style="background-color:white; "></ul>
-                </div>
-            </div>
-            <div class="row ml-3">
-                <?php
-                $sql="SELECT * from tbl_dept";
-                $result=$con->query($sql);
-				if ($result-> num_rows > 0){
-					while ($row=$result-> fetch_assoc()) {
-                ?>
-                <div class="col-md-3" >
-                    <div class="card mt-4 mr-3 text-center">
-                        <a href="view_doctor.php">
-                            <div class="card-body">
-                                <div class="text-center">
-                                    <img src="../images/<?php echo $row['image1']; ?>" width=190 height=160>
-                                </div>
-                                <div class="col mt-3">
-                                    <h5 class="card-title"><?=$row["dept_name"]?></h5>
-                                </div>   
-                                <form action="details.php" method="POST">
-                                    <button class="btn" name="details" value="<?=$row['dept_id']?>">More..</button>
-                                </form>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-                <?php }}?>
             </div>
         </div>
         <!--********************************** Content body end ***********************************-->
-        
+    </div>
         
         <!--********************************** Footer start ***********************************-->
         <div class="footer">
             <div class="copyright">
-                <p>Copyright &copy; Designed & Developed by <a href="#">MedSphere</a> 2018</p>
+                <p>Copyright &copy; Designed & Developed by <a href="https://themeforest.net/user/quixlab">MedSphere</a> 2018</p>
             </div>
         </div>
         <!--********************************** Footer end ***********************************-->
-    </div>
+    
     <!--********************************** Main wrapper end ***********************************-->
 
     <!--********************************** Scripts ***********************************-->
@@ -416,6 +388,5 @@ include('../connection.php');
     <script src="./plugins/chartist/js/chartist.min.js"></script>
     <script src="./plugins/chartist-plugin-tooltips/js/chartist-plugin-tooltip.min.js"></script>
     <script src="./js/dashboard/dashboard-1.js"></script>
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 </body>
 </html>

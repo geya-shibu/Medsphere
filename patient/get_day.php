@@ -9,14 +9,17 @@
     if(!empty($_POST["doctor"])) 
     {
         $did=$_POST["doctor"];
-        $sql=mysqli_query($con,"select * from tbl_schedule where doc_id='".$did."'");
+        $sql=mysqli_query($con,"select * from tbl_schedule where doc_id='".$did."' AND status='0'");
         ?>
         <option selected="selected">Select Day </option>
         <?php
+        
         while($row=mysqli_fetch_array($sql))
-            {?>
-        <option value="<?php echo htmlentities($row['s_day']); ?>"><?php echo htmlentities($row['s_day']); ?></option>
-        <?php
-    }
+        {
+            $day=$row['s_day'];
+            $date = date('l', strtotime($day));?>
+            <option value="<?php echo htmlentities($row['s_day']);?>">Date : <?php echo $day;?>, Day : <?php echo $date;?></option>
+            <?php
+        }
     }
     ?>

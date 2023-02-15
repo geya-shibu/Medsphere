@@ -8,6 +8,7 @@ include('../connection.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -19,26 +20,12 @@ include('../connection.php');
     <link rel="stylesheet" href="./plugins/chartist-plugin-tooltips/css/chartist-plugin-tooltip.css">
     <link href="css/style.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-        $(document).ready(function() {
-        $('#searchBox, #searchButton').on('keyup click', function() {
-        var query = $('#searchBox').val();
-        if (query != '') {
-            $.ajax({
-                url: 'php/search.php',
-                method: 'POST',
-                data: {query:query},
-                success: function(data) {
-                    $('#searchResults').html(data);
-                }
-            });
-        } else {
-            $('#searchResults').html('');
-        }
-    });
-});
-    </script>
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous"> -->
+	<!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script> -->
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous"> -->
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
+</head>
+
 <body>
     <!--***************************** Preloader start ***********************-->
     <div id="preloader">
@@ -212,16 +199,7 @@ include('../connection.php');
                         <li class="icons dropdown">
                             <div class="user-img c-pointer position-relative"   data-toggle="dropdown">
                                 <span class="activity active"></span>
-                                <?php
-									$p_id=$_SESSION['id'];
-									$sql="SELECT * from tbl_patient where login_id='$p_id'";
-									$result=$con->query($sql);
-									if ($result-> num_rows > 0){
-									while ($row=$result-> fetch_assoc()) {
-                                        $image=$row['image'];?>
-                                    <img src="../images/<?php echo $image; ?>" width = 140 height = 150 title="<?php echo $image; ?>">
-									<?php }
-									}?>
+                                <img src="images/user/1.png" height="40" width="40" alt="">
                             </div>
                             <div class="drop-down dropdown-profile animated fadeIn dropdown-menu">
                                 <div class="dropdown-content-body">
@@ -251,12 +229,12 @@ include('../connection.php');
     <!--******************************** Header end ti-comment-alt ***********************-->
 
     <!--******************************** Sidebar start ***********************************-->
-    <div class="nk-sidebar">           
+        <div class="nk-sidebar">           
             <div class="nk-nav-scroll" style="margin-top:18px;">
                 <ul class="metismenu" id="menu">
                     <!-- <li class="nav-label">Dashboard</li> -->
                     <li>
-                        <a href="homepage.php" aria-expanded="false">
+                        <a href="javascript:void()" aria-expanded="false">
                         <i class="bi bi-ui-checks-grid"></i><span class="nav-text">Dashboard</span>
                         </a>
                     </li>
@@ -267,7 +245,7 @@ include('../connection.php');
                     </li>
                     <li>
                         <a href="view_doctor.php" aria-expanded="false">
-                        <i class="bi bi-person-bounding-box"></i><span class="nav-text">Doctors</span>
+                        <i class="bi bi-building"></i><span class="nav-text">Doctors</span>
                         </a>
                     </li>
 
@@ -289,18 +267,18 @@ include('../connection.php');
                         </ul>
                     </li>
                     <li>
-                        <a href="view_appointment.php" aria-expanded="false">
+                        <a href="javascript:void()" aria-expanded="false">
                             <i class="icon-speedometer menu-icon"></i><span class="nav-text">View Appointment</span>
                         </a>
                     </li>
 
                     <li>
-                        <a href="medication.php" aria-expanded="false">
+                        <a href="javascript:void()" aria-expanded="false">
                         <i class="bi bi-capsule-pill"></i></i><span class="nav-text">Medications</span>
                         </a>
                     </li>
                     <li>
-                        <a href="reports.php" aria-expanded="false">
+                        <a href="javascript:void()" aria-expanded="false">
                         <i class="bi bi-card-checklist"></i></i><span class="nav-text">Reports</span>
                         </a>
                     </li>
@@ -331,58 +309,65 @@ include('../connection.php');
 
     <!--********************************** Content body start ***********************************-->
         <div class="content-body">
-            <div class="row">
-                <img src="../images/dept1.jpg" width = 1300 height = 450 alt="abc">
-            </div>
-
-            <div class="row mt-3">
-                <div class="col-6">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col ml-5">
-                            <h1>Our Departments</h1>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-6">
-                    <div class="input-group">
-                        <input type="text" id="searchBox" name="search" class="form-control" placeholder="Search...">
-                        <div class="input-group-append">
-                            <button class="btn btn-outline-secondary" id="searchButton" type="button">
-                            <i class="fa fa-search"></i>
-                            </button>
-                        </div>
-                    </div>
-                    <ul id="searchResults"style="background-color:white; "></ul>
-                </div>
-            </div>
-            <div class="row ml-3">
-                <?php
-                $sql="SELECT * from tbl_dept";
-                $result=$con->query($sql);
-				if ($result-> num_rows > 0){
-					while ($row=$result-> fetch_assoc()) {
-                ?>
-                <div class="col-md-3" >
-                    <div class="card mt-4 mr-3 text-center">
-                        <a href="view_doctor.php">
-                            <div class="card-body">
-                                <div class="text-center">
-                                    <img src="../images/<?php echo $row['image1']; ?>" width=190 height=160>
+            <div class="container-fluid">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-5">
+                            <section style="background-color: #eee;">
+                                <div class="container-fluid py-5">
+                                    <table class="table table-borderless" width="100%">
+                                        <tbody>
+                                            <tr>
+                                                <th scope="row">Prescribed By:</th>
+                                                <th scope="row">Geya Merin Shibu</th>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">Prescribed On:</th>
+                                                <td>09-02-2023</td>
+                                                <td></td>
+                                            </tr>
+                                        </tbody>
+                                    </table> 
                                 </div>
-                                <div class="col mt-3">
-                                    <h5 class="card-title"><?=$row["dept_name"]?></h5>
-                                </div>   
-                                <form action="details.php" method="POST">
-                                    <button class="btn" name="details" value="<?=$row['dept_id']?>">More..</button>
-                                </form>
-                            </div>
-                        </a>
-                    </div>
+                            </section>
+                        </div>
+
+    					<div class="col-7">
+							<h2 class="text-center" style="font-size:27px;">Medications Details</h2>
+                            <table class="table table-bordered" width="100%">
+                                <thead>
+                                    <tr>
+                                    <th scope="col">Sl No</th>
+                                    <th scope="col">Medicine</th>
+                                    <th scope="col">Dosage</th>
+                                    </tr>
+                                </thead>
+                                <?php
+                                $lid=$_SESSION['id'];
+                                // $sqll="SELECT * from tbl_patient where login_id='$lid'";
+                                // $result=$con->query($sqll);
+                                // $row=$result-> fetch_assoc();
+                                // $cpid=$row['p_id'];
+                                $sql="SELECT * from tbl_record where p_id='$cpid'";
+                                $result=$con->query($sql);
+                                $count=1;
+                                if($result-> num_rows > 0){
+                                while ($row=$result-> fetch_assoc()) {?>
+                                <tbody>
+                                    <tr>
+                                        <th scope="row"><?php echo $count;?></th>
+                                        <td><?=$row["med_name"]?></td>
+                                        <td><?=$row["dosage"]?></td>
+                                    </tr>
+                                </tbody>
+                                    <?php $count=$count+1;}}?>
+                            </table>
+    					</div>
+
+                        
+  					</div>
                 </div>
-                <?php }}?>
             </div>
         </div>
         <!--********************************** Content body end ***********************************-->
@@ -391,7 +376,7 @@ include('../connection.php');
         <!--********************************** Footer start ***********************************-->
         <div class="footer">
             <div class="copyright">
-                <p>Copyright &copy; Designed & Developed by <a href="#">MedSphere</a> 2018</p>
+                <p>Copyright &copy; Designed & Developed by <a href="https://themeforest.net/user/quixlab">MedSphere</a> 2018</p>
             </div>
         </div>
         <!--********************************** Footer end ***********************************-->
@@ -416,6 +401,5 @@ include('../connection.php');
     <script src="./plugins/chartist/js/chartist.min.js"></script>
     <script src="./plugins/chartist-plugin-tooltips/js/chartist-plugin-tooltip.min.js"></script>
     <script src="./js/dashboard/dashboard-1.js"></script>
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 </body>
 </html>

@@ -542,7 +542,7 @@
 							</div>
 							<div class="col text-right mt-5">
 								<form action="disease_update.php" method="POST">			
-									<button class="btn btn-primary" name="consult" value="">Save</button>
+									<button class="btn btn-primary" name="consut" value="">Save</button>
 								</form>
 							</div>
 							

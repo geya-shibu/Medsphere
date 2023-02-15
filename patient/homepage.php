@@ -197,24 +197,33 @@ include('../connection.php');
                         <li class="icons dropdown">
                             <div class="user-img c-pointer position-relative"   data-toggle="dropdown">
                                 <span class="activity active"></span>
-                                <img src="images/user/1.png" height="40" width="40" alt="">
+                                <?php
+									$p_id=$_SESSION['id'];
+									$sql="SELECT * from tbl_patient where login_id='$p_id'";
+									$result=$con->query($sql);
+									if ($result-> num_rows > 0){
+									while ($row=$result-> fetch_assoc()) {
+                                        $image=$row['image'];?>
+                                    <img src="../images/<?php echo $image; ?>" width = 140 height = 150 title="<?php echo $image; ?>">
+									<?php }
+									}?>
                             </div>
                             <div class="drop-down dropdown-profile animated fadeIn dropdown-menu">
                                 <div class="dropdown-content-body">
                                     <ul>
                                         <li>
-                                            <a href="app-profile.html"><i class="icon-user"></i> <span>Profile</span></a>
+                                            <a href="profile.php"><i class="icon-user"></i> <span>Profile</span></a>
                                         </li>
-                                        <li>
+                                        <!-- <li>
                                             <a href="javascript:void()">
                                                 <i class="icon-envelope-open"></i> <span>Inbox</span> <div class="badge gradient-3 badge-pill gradient-1">3</div>
                                             </a>
-                                        </li>
+                                        </li> -->
                                         
                                         <hr class="my-2">
-                                        <li>
+                                        <!-- <li>
                                             <a href="page-lock.html"><i class="icon-lock"></i> <span>Lock Screen</span></a>
-                                        </li>
+                                        </li> -->
                                         <li><a href="../logout.php"><i class="icon-key"></i> <span>Logout</span></a></li>
                                     </ul>
                                 </div>
@@ -243,7 +252,7 @@ include('../connection.php');
                     </li>
                     <li>
                         <a href="view_doctor.php" aria-expanded="false">
-                        <i class="bi bi-building"></i><span class="nav-text">Doctors</span>
+                        <i class="bi bi-person-bounding-box"></i><span class="nav-text">Doctors</span>
                         </a>
                     </li>
 
@@ -271,12 +280,12 @@ include('../connection.php');
                     </li>
 
                     <li>
-                        <a href="javascript:void()" aria-expanded="false">
+                        <a href="medication.php" aria-expanded="false">
                         <i class="bi bi-capsule-pill"></i></i><span class="nav-text">Medications</span>
                         </a>
                     </li>
                     <li>
-                        <a href="javascript:void()" aria-expanded="false">
+                        <a href="reports.php" aria-expanded="false">
                         <i class="bi bi-card-checklist"></i></i><span class="nav-text">Reports</span>
                         </a>
                     </li>
@@ -332,8 +341,8 @@ include('../connection.php');
 									if ($result-> num_rows > 0){
 									while ($row=$result-> fetch_assoc()) {
                                         $image=$row['image'];?>
-                                    <img src="../images/<?php echo $image; ?>" width = 140 height = 150 title="<?php echo $image; ?>">
-                                <h5 class="mt-3 mb-1"><?=$row["name"]?></h5>
+                                    <img src="../images/<?php echo $image; ?>" width = 140 height = 150 title="<?php echo $image; ?>" alt="No image">
+                                    <h5 class="mt-3 mb-1"><?=$row["name"]?></h5>
                                     <p class="m-0"><?=$_SESSION['email']?></p>
 									<?php }
 									}?>
@@ -346,23 +355,29 @@ include('../connection.php');
                         <div class="card bcard">
                             <h5 class="cheader rounded-top">Basic Details</h5>
                             <div class="card-body">
+                                <?php
+                                $p_id=$_SESSION['id'];
+                                $sql="SELECT * from tbl_patient where login_id='$p_id'";
+                                $result=$con->query($sql);
+                                if ($result-> num_rows > 0){
+                                while ($row=$result-> fetch_assoc()) {?>
                                 <div class="ccontainer">
                                     <div class="row details">
                                         <div class="col">
-                                        Date Of Birth : 19/10/2000
+                                        Date Of Birth : <?php echo $row['dob'];?>
                                         </div>
                                         <div class="col">
-                                        Gender : Female
+                                        Gender : <?php echo $row['gender'];?>
                                         </div>
                                         <div class="col">
-                                        Phone Number : 9947856322
+                                        Phone Number : <?php echo $row['phone'];?>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="ccontainer">
                                     <div class="row mt-5">
                                         <div class="col">
-                                        Blood Group : B+
+                                        Blood Group : <?php echo $row['blood_group'];?>
                                         </div>
                                         <div class="col">
                                         Height : 170 CM
@@ -389,6 +404,7 @@ include('../connection.php');
                                         
                                     </div>
                                 </div>
+                                <?php }}?>
                             </div>
                         </div>
                     </div>

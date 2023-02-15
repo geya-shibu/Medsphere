@@ -74,7 +74,16 @@ include('../connection.php');
                         <li class="icons dropdown">
                             <div class="user-img c-pointer position-relative"   data-toggle="dropdown">
                                 <span class="activity active"></span>
-                                <img src="images/user/1.png" height="40" width="40" alt="">
+                                <?php
+									$p_id=$_SESSION['id'];
+									$sql="SELECT * from tbl_patient where login_id='$p_id'";
+									$result=$con->query($sql);
+									if ($result-> num_rows > 0){
+									while ($row=$result-> fetch_assoc()) {
+                                        $image=$row['image'];?>
+                                    <img src="../images/<?php echo $image; ?>" width = 140 height = 150 title="<?php echo $image; ?>">
+									<?php }
+									}?>
                             </div>
                             <div class="drop-down dropdown-profile   dropdown-menu">
                                 <div class="dropdown-content-body">
@@ -82,14 +91,14 @@ include('../connection.php');
                                         <li>
                                             <a href="app-profile.html"><i class="icon-user"></i> <span>Profile</span></a>
                                         </li>
-                                        <li>
+                                        <!-- <li>
                                             <a href="email-inbox.html"><i class="icon-envelope-open"></i> <span>Inbox</span> <div class="badge gradient-3 badge-pill badge-primary">3</div></a>
-                                        </li>
+                                        </li> -->
                                         
                                         <hr class="my-2">
-                                        <li>
+                                        <!-- <li>
                                             <a href="page-lock.html"><i class="icon-lock"></i> <span>Lock Screen</span></a>
-                                        </li>
+                                        </li> -->
                                         <li><a href="../logout.php"><i class="icon-key"></i> <span>Logout</span></a></li>
                                     </ul>
                                 </div>
@@ -111,18 +120,18 @@ include('../connection.php');
                 <ul class="metismenu" id="menu">
                     <!-- <li class="nav-label">Dashboard</li> -->
                     <li>
-                        <a href="javascript:void()" aria-expanded="false">
+                        <a href="homepage.php" aria-expanded="false">
                         <i class="bi bi-ui-checks-grid"></i><span class="nav-text">Dashboard</span>
                         </a>
                     </li>
                     <li>
-                        <a href="javascript:void()" aria-expanded="false">
+                        <a href="patient_department.php" aria-expanded="false">
                         <i class="bi bi-building"></i><span class="nav-text">Department</span>
                         </a>
                     </li>
                     <li>
                         <a href="view_doctor.php" aria-expanded="false">
-                        <i class="bi bi-building"></i><span class="nav-text">Doctors</span>
+                        <i class="bi bi-person-bounding-box"></i><span class="nav-text">Doctors</span>
                         </a>
                     </li>
 
@@ -132,7 +141,7 @@ include('../connection.php');
                         </a>
                         <ul aria-expanded="false">
                             <li><a href="offline_consultation.php">Offline Consultation</a></li>
-                            <!-- <li><a href="./layout-one-column.html">Online Consultation</a></li> -->
+                            <li><a href="./layout-one-column.html">Online Consultation</a></li>
                             <!-- <li><a href="./layout-two-column.html">Two column</a></li>
                             <li><a href="./layout-compact-nav.html">Compact Nav</a></li>
                             <li><a href="./layout-vertical.html">Vertical</a></li>
@@ -144,18 +153,18 @@ include('../connection.php');
                         </ul>
                     </li>
                     <li>
-                        <a href="javascript:void()" aria-expanded="false">
-                            <i class="icon-speedometer menu-icon"></i><span class="nav-text">Schedule</span>
+                        <a href="view_appointment.php" aria-expanded="false">
+                            <i class="icon-speedometer menu-icon"></i><span class="nav-text">View Appointment</span>
                         </a>
                     </li>
 
                     <li>
-                        <a href="javascript:void()" aria-expanded="false">
+                        <a href="medication.php" aria-expanded="false">
                         <i class="bi bi-capsule-pill"></i></i><span class="nav-text">Medications</span>
                         </a>
                     </li>
                     <li>
-                        <a href="javascript:void()" aria-expanded="false">
+                        <a href="reports.php" aria-expanded="false">
                         <i class="bi bi-card-checklist"></i></i><span class="nav-text">Reports</span>
                         </a>
                     </li>
@@ -169,7 +178,7 @@ include('../connection.php');
                         <i class="bi bi-credit-card-2-front-fill"></i></i><span class="nav-text">Payment</span>
                         </a>
                     </li>
-                    <li>
+                    <!-- <li>
                         <a href="javascript:void()" aria-expanded="false">
                         <i class="bi bi-gear-wide-connected"></i><span class="nav-text">Settings</span>
                         </a>
@@ -178,124 +187,8 @@ include('../connection.php');
                         <a href="javascript:void()" aria-expanded="false">
                         <i class="bi bi-info-circle-fill"></i></i><span class="nav-text">Help</span>
                         </a>
-                    </li>
-                    <!-- <li class="nav-label">Apps</li> -->
-                    <!-- <li>
-                        <a class="has-arrow" href="javascript:void()" aria-expanded="false">
-                            <i class="icon-envelope menu-icon"></i> <span class="nav-text">Email</span>
-                        </a>
-                        <ul aria-expanded="false">
-                            <li><a href="./email-inbox.html">Inbox</a></li>
-                            <li><a href="./email-read.html">Read</a></li>
-                            <li><a href="./email-compose.html">Compose</a></li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a class="has-arrow" href="javascript:void()" aria-expanded="false">
-                            <i class="icon-screen-tablet menu-icon"></i><span class="nav-text">Apps</span>
-                        </a>
-                        <ul aria-expanded="false">
-                            <li><a href="./app-profile.html">Profile</a></li>
-                            <li><a href="./app-calender.html">Calender</a></li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a class="has-arrow" href="javascript:void()" aria-expanded="false">
-                            <i class="icon-graph menu-icon"></i> <span class="nav-text">Charts</span>
-                        </a>
-                        <ul aria-expanded="false">
-                            <li><a href="./chart-flot.html">Flot</a></li>
-                            <li><a href="./chart-morris.html">Morris</a></li>
-                            <li><a href="./chart-chartjs.html">Chartjs</a></li>
-                            <li><a href="./chart-chartist.html">Chartist</a></li>
-                            <li><a href="./chart-sparkline.html">Sparkline</a></li>
-                            <li><a href="./chart-peity.html">Peity</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-label">UI Components</li>
-                    <li> -->
-                        <!-- <a class="has-arrow" href="javascript:void()" aria-expanded="false">
-                            <i class="icon-grid menu-icon"></i><span class="nav-text">UI Components</span>
-                        </a>
-                        <ul aria-expanded="false">
-                            <li><a href="./ui-accordion.html">Accordion</a></li>
-                            <li><a href="./ui-alert.html">Alert</a></li>
-                            <li><a href="./ui-badge.html">Badge</a></li>
-                            <li><a href="./ui-button.html">Button</a></li>
-                            <li><a href="./ui-button-group.html">Button Group</a></li>
-                            <li><a href="./ui-cards.html">Cards</a></li>
-                            <li><a href="./ui-carousel.html">Carousel</a></li>
-                            <li><a href="./ui-dropdown.html">Dropdown</a></li>
-                            <li><a href="./ui-list-group.html">List Group</a></li>
-                            <li><a href="./ui-media-object.html">Media Object</a></li>
-                            <li><a href="./ui-modal.html">Modal</a></li>
-                            <li><a href="./ui-pagination.html">Pagination</a></li>
-                            <li><a href="./ui-popover.html">Popover</a></li>
-                            <li><a href="./ui-progressbar.html">Progressbar</a></li>
-                            <li><a href="./ui-tab.html">Tab</a></li>
-                            <li><a href="./ui-typography.html">Typography</a></li> -->
-                        <!-- </ul>
-                    </li>
-                    <li>
-                        <a class="has-arrow" href="javascript:void()" aria-expanded="false">
-                            <i class="icon-layers menu-icon"></i><span class="nav-text">Components</span>
-                        </a>
-                        <ul aria-expanded="false"> -->
-                            <!-- <li><a href="./uc-nestedable.html">Nestedable</a></li>
-                            <li><a href="./uc-noui-slider.html">Noui Slider</a></li>
-                            <li><a href="./uc-sweetalert.html">Sweet Alert</a></li>
-                            <li><a href="./uc-toastr.html">Toastr</a></li>
-                        </ul> -->
-                    <!-- </li>
-                    <li>
-                        <a href="widgets.html" aria-expanded="false">
-                            <i class="icon-badge menu-icon"></i><span class="nav-text">Widget</span>
-                        </a>
                     </li> -->
-                    <!-- <li class="nav-label">Forms</li>
-                    <li>
-                        <a class="has-arrow" href="javascript:void()" aria-expanded="false">
-                            <i class="icon-note menu-icon"></i><span class="nav-text">Forms</span>
-                        </a>
-                        <ul aria-expanded="false">
-                            <li><a href="./form-basic.html">Basic Form</a></li>
-                            <li><a href="./form-validation.html">Form Validation</a></li>
-                            <li><a href="./form-step.html">Step Form</a></li>
-                            <li><a href="./form-editor.html">Editor</a></li>
-                            <li><a href="./form-picker.html">Picker</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-label">Table</li>
-                    <li>
-                        <a class="has-arrow" href="javascript:void()" aria-expanded="false">
-                            <i class="icon-menu menu-icon"></i><span class="nav-text">Table</span>
-                        </a>
-                        <ul aria-expanded="false">
-                            <li><a href="./table-basic.html" aria-expanded="false">Basic Table</a></li>
-                            <li><a href="./table-datatable.html" aria-expanded="false">Data Table</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-label">Pages</li>
-                    <li>
-                        <a class="has-arrow" href="javascript:void()" aria-expanded="false">
-                            <i class="icon-notebook menu-icon"></i><span class="nav-text">Pages</span>
-                        </a>
-                        <ul aria-expanded="false">
-                            <li><a href="./page-login.html">Login</a></li>
-                            <li><a href="./page-register.html">Register</a></li>
-                            <li><a href="./page-lock.html">Lock Screen</a></li>
-                            <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">Error</a>
-                                <ul aria-expanded="false">
-                                    <li><a href="./page-error-404.html">Error 404</a></li>
-                                    <li><a href="./page-error-403.html">Error 403</a></li>
-                                    <li><a href="./page-error-400.html">Error 400</a></li>
-                                    <li><a href="./page-error-500.html">Error 500</a></li>
-                                    <li><a href="./page-error-503.html">Error 503</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li> -->
-                <!-- </ul> -->
+                </ul>
             </div>
         </div>
         <!--**********************************
@@ -307,15 +200,41 @@ include('../connection.php');
         ***********************************-->
         <div class="content-body">
 
-            <div class="row page-titles mx-0">
+            <!-- <div class="row page-titles mx-0">
                 <div class="col p-md-0">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="javascript:void(0)">Dashboard</a></li>
                         <li class="breadcrumb-item active"><a href="javascript:void(0)">Doctors</a></li>
                     </ol>
                 </div>
+            </div> -->
+            <div class="row">
+                <img src="../assets/images/doctors.png" width = 1300 height = 450 alt="abc">
             </div>
 
+            <div class="row mt-3">
+                <div class="col-6">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col ml-5">
+                            <h1>Meet Our Doctors</h1>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-6">
+                    <div class="input-group">
+                        <input type="text" id="searchBox" name="search" class="form-control" placeholder="Search...">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-secondary" id="searchButton" type="button">
+                            <i class="fa fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <ul id="searchResults"style="background-color:white; "></ul>
+                </div>
+            </div>
             <div class="container-fluid">
                 <div class="row">
                 <?php
@@ -335,13 +254,13 @@ include('../connection.php');
                                         $sql1="SELECT * from tbl_dept where dept_id='$dpt_id'";
                                         $result1=$con->query($sql1);
                                         if ($result1-> num_rows > 0){
-                                            while ($row=$result1-> fetch_assoc()) {
-                                                echo "Department of ", $row["dept_name"];
+                                            while ($row1=$result1-> fetch_assoc()) {
+                                                echo "Department of ", $row1["dept_name"];
                                             }}
                                     ?>
                                 </p>
                                 <form action="offline_consultation.php" method="POST">
-                                    <button type="submit" class="btn btn-primary">Book an Appointment</button>
+                                    <button type="submit" class="btn btn-primary" value="<?=$row['doc_id']?>">Book an Appointment</button>
                                 </form> 
                             </div>
                         </div>
