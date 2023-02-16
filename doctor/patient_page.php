@@ -6,9 +6,9 @@
 		header("Location:../login.php");
 	}
 
-	if(isset($_POST['a_btn']))
+	if(isset($_GET['cur_id']))
 	{
-		$_SESSION['cur_pid']=$_POST['a_btn'];
+		$_SESSION['cur_pid']=$_GET['cur_id'];
 	}
 ?>
 <!DOCTYPE html>
@@ -388,13 +388,13 @@
 																<input type="text" id="medicine" name="medicine" class="form-control" placeholder="Medicine Name" required>
 															</div>
 															<div class="col-sm-4">
-																<input type="text" id="medicine" name="medicine" class="form-control" placeholder="Dose" required>
+																<input type="text" id="dose" name="dose" class="form-control" placeholder="Dose" required>
 															</div>
 														</div>
 													</div>
 													
 													<div class="form-group">
-														<input type="text" id="dosage" name="dosage" class="form-control" placeholder="Count" required>
+														<input type="text" id="cnt" name="cnt" class="form-control" placeholder="Count" required>
 													</div>
 												
 													<div class="modal-footer">
@@ -415,6 +415,7 @@
 										<th scope="col">Disease</th>
 										<th scope="col">Medicine</th>
 										<th scope="col">Dosage</th>
+										<th scope="col">Count</th>
 										</tr>
 									</thead>
 									<?php
@@ -445,6 +446,7 @@
 												</td>
 												<td><?=$row["med_name"]?></td>
 												<td><?=$row["dosage"]?></td>
+												<td><?=$row["med_count"]?></td>
 											</tr>
 										</tbody>
 										<?php $count=$count+1;}}?>
@@ -541,8 +543,8 @@
 								</div>
 							</div>
 							<div class="col text-right mt-5">
-								<form action="disease_update.php" method="POST">			
-									<button class="btn btn-primary" name="consut" value="">Save</button>
+								<form action="save_update.php" method="POST">			
+									<button class="btn btn-primary" name="consult">Save</button>
 								</form>
 							</div>
 							

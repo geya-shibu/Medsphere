@@ -1452,3 +1452,21 @@ doctor profile
 													if ($result2-> num_rows > 0){
 													while ($row2=$result2->fetch_assoc()) {
 														echo $row2["dis_name"];}}?>
+
+
+
+
+
+
+
+
+
+
+
+
+														// $duplicate=mysqli_query($con, "SELECT * from tbl_appointment WHERE nop>='$nop'");
+                // if(mysqli_num_rows($duplicate))
+                // {
+                //     echo "<script> alert('This slot is not available.');
+                //                     windows.location.href='department.php';
+                //     </script>";

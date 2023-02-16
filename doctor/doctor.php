@@ -256,7 +256,7 @@
 						</div>
 					<ul class="nav">
 						<li class="nav-item active">
-							<a href="index.html">
+							<a href="doctor.php">
 							<i class="fa-solid fa-bars"></i>
 								<p>Dashboard</p>
 								<!-- <span class="badge badge-count">5</span> -->
@@ -277,7 +277,7 @@
 							</a>
 						</li>
 						<li class="nav-item">
-							<a data-toggle="collapse" href="#base">
+							<a href="all_patients.php">
 								<i class="fas fa-layer-group"></i>
 								<p>Patients</p>
 								<!-- <span class="caret"></span> -->

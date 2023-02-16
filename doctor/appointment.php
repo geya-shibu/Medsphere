@@ -179,7 +179,7 @@
 								<tbody>
 									<tr>
 										<td> <?=$count?> </td>
-										<td> <a href="patient_page.php?<?=$row2['p_id']?>"><?=$row2["name"]?></a></td>
+										<td> <a href="patient_page.php?cur_id=<?=$row2['p_id']?>"><?=$row2["name"]?></a></td>
 										<td> <?=$row1["day"]?></td>
 										<td> <?=$row1["time"]?></td>
 										<td> <?=$row1["status"]?></td>

@@ -32,8 +32,14 @@
 <body>
     <h1>Thank you</h1>
     <h2>Your slot has confirmed </h2>
-    <form action="paymentpage.php" method="GET">
-    <button type="submit" name="payment" class="btn btn-primary">Proceed to Pay</button>
-    </form>
+    <?php
+    $pid=base64_encode('pat'.rand(1000,1000));
+    $amount=base64_encode(300);
+
+    ?>
+    <a href="paymentpage.php?pid=<?php echo $pid;?>&amt=<?php echo $amount;?>">Proceed to Pay</a>
+    <!-- <form action="paymentpage.php" method="GET">
+        <button type="submit" name="payment" class="btn btn-primary">Proceed to Pay</button>
+    </form> -->
 </body>
 </html>

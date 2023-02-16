@@ -321,14 +321,14 @@ if(isset($_POST['suspend']))
 					</div>
 				</div>
 				<ul class="nav">
-						<li class="nav-item active">
+						<li class="nav-item">
 							<a href="index.html">
 							<i class="fa-solid fa-bars"></i>
 								<p>Dashboard</p>
 								<!-- <span class="badge badge-count">5</span> -->
 							</a>
 						</li>
-						<li class="nav-item">
+						<li class="nav-item active">
 							<a href="schedule.php">
 							<i class="fa-regular fa-calendar"></i>
 								<p>Schedule</p>

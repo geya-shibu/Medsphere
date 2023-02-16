@@ -341,14 +341,15 @@ include('../connection.php');
                                     <th scope="col">Sl No</th>
                                     <th scope="col">Medicine</th>
                                     <th scope="col">Dosage</th>
+                                    <th scope="col">Count</th>
                                     </tr>
                                 </thead>
                                 <?php
                                 $lid=$_SESSION['id'];
-                                // $sqll="SELECT * from tbl_patient where login_id='$lid'";
-                                // $result=$con->query($sqll);
-                                // $row=$result-> fetch_assoc();
-                                // $cpid=$row['p_id'];
+                                $sqll="SELECT * from tbl_patient where login_id='$lid'";
+                                $result=$con->query($sqll);
+                                $row=$result-> fetch_assoc();
+                                $cpid=$row['p_id'];
                                 $sql="SELECT * from tbl_record where p_id='$cpid'";
                                 $result=$con->query($sql);
                                 $count=1;
@@ -359,6 +360,7 @@ include('../connection.php');
                                         <th scope="row"><?php echo $count;?></th>
                                         <td><?=$row["med_name"]?></td>
                                         <td><?=$row["dosage"]?></td>
+                                        <td><?=$row["med_count"]?></td>
                                     </tr>
                                 </tbody>
                                     <?php $count=$count+1;}}?>

@@ -1,5 +1,5 @@
 <?php
-
+include "config.php";
 /*
 *|======================================================================|
 *|	PayTM Payment Gateway Integration Kit (Stack Version : 1.0.0.0)		|
@@ -28,7 +28,7 @@
 //	For PayTM Settings::
 //=================================================
 
-$PAYTM_ENVIRONMENT = "PROD";	// For Production /LIVE
+// $PAYTM_ENVIRONMENT = "PROD";	// For Production /LIVE
 $PAYTM_ENVIRONMENT = "TEST";	// For Staging / TEST
 
 if(!defined("PAYTM_ENVIRONMENT") ){
@@ -67,14 +67,14 @@ if (PAYTM_ENVIRONMENT == 'PROD') {
 	$PAYTM_INDUSTRY_TYPE_ID = "Retail";
 	$PAYTM_MERCHANT_WEBSITE = "WEBSTAGING";
 
-	$PAYTM_CALLBACK_URL 	= "http://127.0.0.1/devchandan/payment-using-paytm/response.php";
+	$PAYTM_CALLBACK_URL 	= "http://localhost/portal/patient/PaytmKit/pgResponse.php";
 	
 }
+// define('PAYTM_ENVIRONMENT', ENV);
+define('PAYTM_MERCHANT_KEY', MERCHANT_KEY); 
+define('PAYTM_MERCHANT_MID', MERCHANT_MID);
 
-define('PAYTM_MERCHANT_KEY', $PAYTM_MERCHANT_KEY); 
-define('PAYTM_MERCHANT_MID', $PAYTM_MERCHANT_MID);
-
-define("PAYTM_MERCHANT_WEBSITE", $PAYTM_MERCHANT_WEBSITE);
+define("PAYTM_MERCHANT_WEBSITE", 'WEBSTAGING');
 define("PAYTM_CHANNEL_ID", $PAYTM_CHANNEL_ID);
 define("PAYTM_INDUSTRY_TYPE_ID", $PAYTM_INDUSTRY_TYPE_ID);
 define("PAYTM_CALLBACK_URL", $PAYTM_CALLBACK_URL);

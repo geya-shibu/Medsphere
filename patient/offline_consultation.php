@@ -8,27 +8,36 @@
 
     if(isset($_POST['submit']))
     {
-    $specilization=$_POST['Doctorspecialization'];
-    $doctorid=$_POST['doctor'];
-    $fees=$_POST['fees'];
-    $date=$_POST['date'];
-    $time=$_POST['time'];
-    $qid=$_SESSION['id'];
-    $duplicate=mysqli_query($con, "SELECT * from tbl_appointment WHERE time='$time'");
-    
-    if(mysqli_num_rows($duplicate)>0)
-    {
-    echo "<script> alert('This slot is not available.');
-                    windows.location.href='department.php';
-    </script>";
+        $specilization=$_POST['Doctorspecialization'];
+        $doctorid=$_POST['doctor'];
+        $fees=$_POST['fees'];
+        $date=$_POST['date'];
+        $time=$_POST['time'];
+        $qid=$_SESSION['p_id'];
+        $sql="SELECT * from tbl_schedule where doc_id='$doctorid'";
+        $result=$con->query($sql);
+        if ($result-> num_rows > 0){
+            $count=0;
+            while ($row=$result-> fetch_assoc()){
+                $nop=$row['nop'];
+                while($count<=$nop)
+                {
+                        $query=mysqli_query($con,"insert into tbl_appointment(dept_id, doc_id, fees, day, time, p_id) values('$specilization','$doctorid','$fees', '$date', '$time', '$qid')");
+                        if($query)
+                        {
+                            header("location:payment.php");
+                            $count++;
+                        }
+                else
+                {
+                    echo "<script> alert('This slot is not available.');
+                                 windows.location.href='online_consultation.php';
+                       </script>";
+                }
+            }
+            }
+        }         
     }
-    else{
-    $query=mysqli_query($con,"insert into tbl_appointment(dept_id, doc_id, fees, day, time, login_id) values('$specilization','$doctorid','$fees', '$date', '$time', '$qid')");
-        if($query)
-        {
-            header("location:payment.php");
-        }
-    }}
 ?>
 <!DOCTYPE html>
 <html lang="en">

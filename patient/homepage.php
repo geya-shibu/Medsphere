@@ -360,7 +360,9 @@ include('../connection.php');
                                 $sql="SELECT * from tbl_patient where login_id='$p_id'";
                                 $result=$con->query($sql);
                                 if ($result-> num_rows > 0){
-                                while ($row=$result-> fetch_assoc()) {?>
+                                while ($row=$result-> fetch_assoc()) {
+                                    
+                                    ?>
                                 <div class="ccontainer">
                                     <div class="row details">
                                         <div class="col">
@@ -397,7 +399,7 @@ include('../connection.php');
                                             $result=$con->query($sql);
                                             if ($result-> num_rows > 0){
                                             while ($row=$result-> fetch_assoc()) {
-                                                $row["p_id"];
+                                                $_SESSION['p_id']=$row["p_id"];
                                         ?>
                                         <?php }}?>
                                         </div>
@@ -486,8 +488,8 @@ include('../connection.php');
                             <div class="card card-widget" style="width:350px">
                             <h5 class="cheader rounded-top">Appointment Details</h5>
                                 <div class="card-body">
-                                    <span class="token">Token Number</span>
-                                    <h2 class="tnum">5</h2>
+                                    <!-- <span class="token">Token Number</span> -->
+                                    <!-- <h2 class="tnum">5</h2> -->
                                     <div class="container">
                                         <div class="row">
                                             <div class="col dt ml-5">
@@ -504,12 +506,17 @@ include('../connection.php');
                                                 Doctor: 
                                             </div>
                                         </div>
+                                        <div class="row">
+                                            <div class="col dt ml-5">
+                                                Department: 
+                                            </div>
+                                        </div>
                                         <div class="row pb-3">
                                             <div class="col dtd">
-                                            <button type="button" class="btn btn-warning">Cancel</button>
+                                            <button type="submit" class="btn btn-warning">Cancel</button>
                                             </div>
                                             <div class="col dtd">
-                                            <button type="button" class="btn btn-success">Reschedule</button>
+                                                <button type="submit" class="btn btn-success">Rebook</button>
                                             </div>
                                         </div>
                                     </div>
@@ -637,7 +644,7 @@ include('../connection.php');
 
                 </div> -->
 
-                <div class="row">
+                <!-- <div class="row">
                     <div class="col-lg-12">
                         <div class="card ">
                         <h5 class="cheader rounded-top">All Activity</h5>
@@ -716,7 +723,7 @@ include('../connection.php');
                             </div>
                         </div>                        
                     </div>
-                </div>
+                </div> -->
 
                 <div class="row">
                     <div class="col-xl-3 col-lg-6 col-sm-6 col-xxl-6">
