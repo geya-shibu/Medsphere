@@ -313,10 +313,12 @@
 									$result=$con->query($sql);
 									if ($result-> num_rows > 0){
 									while ($row=$result-> fetch_assoc()) {
-                                        $image=$row['image'];?>
+                                        $image=$row['image'];
+                                ?>
+
                                     <img src="../images/<?php echo $image; ?>" width = 140 height = 150 title="<?php echo $image; ?>">
-									<?php }
-									}?>
+									<?php}}
+									?>
                             </div>
                             <div class="drop-down dropdown-profile animated fadeIn dropdown-menu">
                                 <div class="dropdown-content-body">

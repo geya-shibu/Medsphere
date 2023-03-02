@@ -203,9 +203,9 @@ include('../connection.php');
 									$result=$con->query($sql);
 									if ($result-> num_rows > 0){
 									while ($row=$result-> fetch_assoc()) {
-                                        $image=$row['image'];?>
-                                    <img src="../images/<?php echo $image; ?>" width = 140 height = 150 title="<?php echo $image; ?>">
-									<?php }}?>
+                                        $image=$row['image'];
+                                    echo '<img src="../images/'.$image.'" width = 140 height = 150 title="'. $image.'">';
+								 }}?>
                             </div>
                             <div class="drop-down dropdown-profile animated fadeIn dropdown-menu">
                                 <div class="dropdown-content-body">
@@ -354,38 +354,39 @@ include('../connection.php');
                         $p_id=$_SESSION['p_id'];
                         $sqll="SELECT * from tbl_reports where p_id='$p_id' ORDER BY report_date DESC LIMIT 1";
                         $result=$con->query($sqll);
+                        
                         if($result-> num_rows > 0){
                             while ($row=$result-> fetch_assoc()) {?>
-                    <table class="table mt-5">
-                        <tbody>
-                            <tr>
-                                <td>Blood Pressure:</td>
-                                <td><?=$row['blood_pressure']?>25</td>
-                            </tr>
-                            <tr>
-                                <td>Glucose (mg/dL):</td>
-                                <td><?=$row["glucose"]?></td>
-                            </tr>
-                            <tr>
-                                <td>Haemoglobin (g/dL):</td>
-                                <td><?=$row["hb"]?></td>
-                            </tr>
-                            <tr>
-                                <td>Cholestrol Level (dL):</td>
-                                <td><?=$row["cholestrol"]?></td>
-                            </tr>
-                            <tr>
-                                <td>Heart Rate (bpm):</td>
-                                <td><?=$row["heart_rate"]?></td>
-                            </tr>
-                            <tr>
-                                <td>Blood oxygen levels :</td>
-                                <td><?=$row["oxygen"]?></td>
-                            </tr>
-                        </tbody> 
-                        
-                    </table>
-                    <?php }} ?>
+                                    <table class="table mt-5">
+                                        <tbody>
+                                            <tr>
+                                                <td>Blood Pressure:</td>
+                                                <td><?=$row["blood_pressure"]?></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Glucose (mg/dL):</td>
+                                                <td><?=$row["glucose"]?></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Haemoglobin (g/dL):</td>
+                                                <td><?=$row["hb"]?></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Cholestrol Level (dL):</td>
+                                                <td><?=$row["cholestrol"]?></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Heart Rate (bpm):</td>
+                                                <td><?=$row["heart_rate"]?></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Blood oxygen levels :</td>
+                                                <td><?=$row["oxygen"]?></td>
+                                            </tr>
+                                        </tbody> 
+                                    </table>
+                               <?php }}?>
+                    
                     <div class="col mt-5">
                         <p><a href="previous_data.php">View Previous Data</a></p>
                     </div>

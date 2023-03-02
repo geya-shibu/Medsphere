@@ -14,6 +14,7 @@
         $cholestrol=$_POST['cholestrol'];
         $heart_rate=$_POST['heart_rate'];
         $oxygen=$_POST['oxygen'];
+        date_default_timezone_set("Asia/Kolkata");
         $current_date = date('H:i:s');
         
         // $duplicate=mysqli_query($con, "SELECT * from tbl_reports WHERE dept_name='$dept_name'");

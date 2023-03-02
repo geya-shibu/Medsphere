@@ -1470,3 +1470,47 @@ doctor profile
                 //     echo "<script> alert('This slot is not available.');
                 //                     windows.location.href='department.php';
                 //     </script>";
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+				while ($row=$result-> fetch_assoc()) {
+					echo '<table class="table mt-5">
+						<tbody>
+							<tr>
+								<td>Blood Pressure:</td>
+								<td>'.$row["blood_pressure"].'</td>
+							</tr>
+							<tr>
+								<td>Glucose (mg/dL):</td>
+								<td>'.$row["glucose"].'</td>
+							</tr>
+							<tr>
+								<td>Haemoglobin (g/dL):</td>
+								<td>'.$row["hb"].'</td>
+							</tr>
+							<tr>
+								<td>Cholestrol Level (dL):</td>
+								<td>'.$row["cholestrol"].'</td>
+							</tr>
+							<tr>
+								<td>Heart Rate (bpm):</td>
+								<td>'.$row["heart_rate"].'</td>
+							</tr>
+							<tr>
+								<td>Blood oxygen levels :</td>
+								<td>'.$row["oxygen"].'</td>
+							</tr>
+						</tbody> 
+					</table>';
+				}}?>
