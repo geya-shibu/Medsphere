@@ -1,6 +1,6 @@
 <?php
 include 'connection.php';
-use PHPMailer\PHPMailer\PHPMailer;
+ use PHPMailer\PHPMailer\PHPMailer;
   use PHPMailer\PHPMailer\SMTP;
   use PHPMailer\PHPMailer\Exception;
   function send_password_mail($email, $token)

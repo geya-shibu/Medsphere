@@ -12,8 +12,9 @@ if(isset($_POST['add_dept']))
 	$duplicate=mysqli_query($con, "SELECT * from tbl_dept WHERE dept_name='$dept_name'");
 	if(mysqli_num_rows($duplicate)>0)
 	{
-		echo "<script> alert('Already Added Department');
-						windows.location.href='department.php';
+		echo "<script> 
+			alert('Already Added Department');
+			windows.location.href='department.php';
 		</script>";
 		exit(0);
 	}
@@ -25,6 +26,7 @@ if(isset($_POST['add_dept']))
 				echo "<script> alert('Department Added Successfully'); 
 				windows.location.href='department.php';</script>";
 			}
+			exit();
 	}
 }
 
@@ -60,6 +62,8 @@ if(isset($_POST['add_dept']))
 	<script src="assets/js/validate.js"></script>
 	<title>Admin</title>
 	<link href="assets/css/app.css" rel="stylesheet">
+	<script src= "https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<script src= "https://cdn.jsdelivr.net/npm/sweetalert2@11.4.8/dist/sweetalert2.all.min.js"></script>
 	<script>
 		function validateNameErr()
 		{ 

@@ -277,7 +277,7 @@ include('../connection.php');
                         </a>
                         <ul aria-expanded="false">
                             <li><a href="offline_consultation.php">Offline Consultation</a></li>
-                            <li><a href="./layout-one-column.html">Online Consultation</a></li>
+                            <!-- <li><a href="./layout-one-column.html">Online Consultation</a></li> -->
                             <!-- <li><a href="./layout-two-column.html">Two column</a></li>
                             <li><a href="./layout-compact-nav.html">Compact Nav</a></li>
                             <li><a href="./layout-vertical.html">Vertical</a></li>
@@ -350,12 +350,12 @@ include('../connection.php');
                     <div class="input-group">
                         <input type="text" id="searchBox" name="search" class="form-control" placeholder="Search...">
                         <div class="input-group-append">
-                            <button class="btn btn-outline-secondary" id="searchButton" type="button">
+                            <button class="btn btn-outline-secondary" id="searchButton" type="submit">
                             <i class="fa fa-search"></i>
                             </button>
                         </div>
                     </div>
-                    <ul id="searchResults"style="background-color:white; "></ul>
+                    <ul class="searchResults"style="background-color:white; "></ul>
                 </div>
             </div>
             <div class="row ml-3">
@@ -367,7 +367,7 @@ include('../connection.php');
                 ?>
                 <div class="col-md-3" >
                     <div class="card mt-4 mr-3 text-center">
-                        <a href="view_doctor.php">
+                        <!-- <a href="view_doctor.php"> -->
                             <div class="card-body">
                                 <div class="text-center">
                                     <img src="../images/<?php echo $row['image1']; ?>" width=190 height=160>
@@ -379,7 +379,7 @@ include('../connection.php');
                                     <button class="btn" name="details" value="<?=$row['dept_id']?>">More..</button>
                                 </form>
                             </div>
-                        </a>
+                        <!-- </a> -->
                     </div>
                 </div>
                 <?php }}?>

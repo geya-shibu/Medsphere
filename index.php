@@ -266,7 +266,7 @@
 <script type="text/javascript">
     (function(d, m){
         var kommunicateSettings = 
-            {"appId":"3fc395b23025f1ec17a59a7d43f871be8","popupWidget":true,"automaticChatOpenOnNavigation":true};
+            {"appId":"ef7b656250da77eea39a01ceddfd3b35","popupWidget":true,"automaticChatOpenOnNavigation":true};
         var s = document.createElement("script"); s.type = "text/javascript"; s.async = true;
         s.src = "https://widget.kommunicate.io/v2/kommunicate.app";
         var h = document.getElementsByTagName("head")[0]; h.appendChild(s);

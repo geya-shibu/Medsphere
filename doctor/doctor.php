@@ -414,12 +414,12 @@
 													</span>
 													Export
 												</a> -->
-												<a href="#" class="btn btn-info btn-border btn-round btn-sm">
+												<!-- <a href="#" class="btn btn-info btn-border btn-round btn-sm">
 													<span class="btn-label">
 														<i class="fa fa-print"></i>
 													</span>
 													Print
-												</a>
+												</a> -->
 											</div>
 										</div>
 									</div>

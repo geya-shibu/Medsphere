@@ -14,7 +14,7 @@
     $date=$_POST['date'];
     $time=$_POST['time'];
     $qid=$_SESSION['id'];
-    $duplicate=mysqli_query($con, "SELECT * from tbl_appointment WHERE time='$time'");
+    $duplicate=mysqli_query($con, "SELECT * from tbl_appointment WHERE dept_id='$specilization'");
     
     if(mysqli_num_rows($duplicate)>0)
     {

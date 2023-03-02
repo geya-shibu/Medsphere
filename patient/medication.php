@@ -334,6 +334,9 @@ include('../connection.php');
                         </div>
 
     					<div class="col-7">
+                        <!-- <form action="medication_report.php" method="POST">
+                            <button type="submit" class="btn btn-primary float-right" name="med_pdf">Print Prescription</button><br>
+                        </form> -->
 							<h2 class="text-center" style="font-size:27px;">Medications Details</h2>
                             <table class="table table-bordered" width="100%">
                                 <thead>

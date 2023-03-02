@@ -27,6 +27,11 @@
         {
             margin-left:690px;
         }
+        body
+        {
+            background-image:url('../images/payment.jpg');
+            background-size:cover; 
+        }
     </style>
 </head>
 <body>
@@ -37,7 +42,7 @@
     $amount=base64_encode(300);
 
     ?>
-    <a href="paymentpage.php?pid=<?php echo $pid;?>&amt=<?php echo $amount;?>">Proceed to Pay</a>
+    <a href="paymentpage.php?pid=<?php echo $pid;?>&amt=<?php echo $amount;?>" style="margin-left:720px;">Proceed to Pay</a>
     <!-- <form action="paymentpage.php" method="GET">
         <button type="submit" name="payment" class="btn btn-primary">Proceed to Pay</button>
     </form> -->

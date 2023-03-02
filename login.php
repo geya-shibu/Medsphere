@@ -59,6 +59,7 @@
 <html lang="en">
 
 <head>
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="shortcut icon" href="assets/images/logo1.png" />
@@ -72,6 +73,16 @@
 </head>
 
 <body class="h-100">
+  <style>
+    .error_form
+{
+top: 12px;
+color: rgb(216, 15, 15);
+    font-size: 15px;
+font-weight:bold;
+    font-family: Helvetica;
+}
+</style>
 <?php
 include_once('includes/header.php');
 ?>
@@ -105,6 +116,9 @@ include_once('includes/header.php');
               </label> -->
               <a href="forgot_password.php"> Forgot password ?
           </span>
+          
+<span class="error_form" id="captcha_message"></span>
+          <div class="g-recaptcha" data-sitekey="6LcOQockAAAAAEpK4j5wNSPxIvFrbqs5B4UDxvjj"></div>
           <button type="submit" name="submit" id="login" class="submit">Login </button>
         </form>
             <p class="no-c">Not a member yet? <a href="signup.php" style="color:#2030F4;font-weight:bold;">Create your Account</a></p>
@@ -116,6 +130,28 @@ include_once('includes/header.php');
 <?php
 include_once('includes/footer.php');
 ?>
+<script src="https://kit.fontawesome.com/af562a2a63.js" crossorigin="anonymous"></script>
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+<script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+<script type="text/javascript">
+ 
+  $(document).on('click','#login',function()
+  {  $("#captcha_message").hide();
+ var response = grecaptcha.getResponse();
+ if(response.length == 0)
+ {
+ $("#captcha_message").html("Verify you are not a robot");
+               $("#captcha_message").show();
+ return false;
+ }
+ else{
+ $("#captcha_message").hide();
+ return true;
+ }
+  });
+ 
+ 
+</script>
 </body>
 
 <script src="assets/js/jquery-3.2.1.min.js"></script>

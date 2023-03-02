@@ -262,7 +262,7 @@ include('../connection.php');
                         </a>
                         <ul aria-expanded="false">
                             <li><a href="offline_consultation.php">Offline Consultation</a></li>
-                            <li><a href="./layout-one-column.html">Online Consultation</a></li>
+                            <!-- <li><a href="./layout-one-column.html">Online Consultation</a></li> -->
                             <!-- <li><a href="./layout-two-column.html">Two column</a></li>
                             <li><a href="./layout-compact-nav.html">Compact Nav</a></li>
                             <li><a href="./layout-vertical.html">Vertical</a></li>
@@ -493,12 +493,12 @@ include('../connection.php');
                                     <div class="container">
                                         <div class="row">
                                             <div class="col dt ml-5">
-                                                Date : 12 December 2022
+                                                Date : 
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col dt ml-5">
-                                                Time : 12:00PM
+                                                Time : 
                                             </div>
                                         </div>
                                         <div class="row">

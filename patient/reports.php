@@ -205,8 +205,7 @@ include('../connection.php');
 									while ($row=$result-> fetch_assoc()) {
                                         $image=$row['image'];?>
                                     <img src="../images/<?php echo $image; ?>" width = 140 height = 150 title="<?php echo $image; ?>">
-									<?php }
-									}?>
+									<?php }}?>
                             </div>
                             <div class="drop-down dropdown-profile animated fadeIn dropdown-menu">
                                 <div class="dropdown-content-body">
@@ -320,7 +319,7 @@ include('../connection.php');
             <div class="row">
                 <div class="col-5">
                     <h2 class="text-center">Add Medical Data</h2>
-                    <form method="post" action="process_form.php">
+                    <form method="post" action="process_report.php">
                         <div class="form-group">
                             <label for="glucose">Glucose (mg/dL):</label>
                             <input type="text" class="form-control" name="glucose" id="glucose" required>
@@ -346,41 +345,49 @@ include('../connection.php');
                             <input type="number" class="form-control" name="oxygen" id="oxygen" required>
                         </div>
                         
-                        <button type="submit" class="btn btn-primary" name="submit">Submit</button>
+                        <button type="submit" class="btn btn-primary" name="submit_report">Submit</button>
                     </form>
                 </div>
                 <div class="col-6 pl-5">
                     <h2 class="text-center">Medical Data</h2>
+                    <?php
+                        $p_id=$_SESSION['p_id'];
+                        $sqll="SELECT * from tbl_reports where p_id='$p_id' ORDER BY report_date DESC LIMIT 1";
+                        $result=$con->query($sqll);
+                        if($result-> num_rows > 0){
+                            while ($row=$result-> fetch_assoc()) {?>
                     <table class="table mt-5">
                         <tbody>
                             <tr>
                                 <td>Blood Pressure:</td>
-                                <td>150</td>
+                                <td><?=$row['blood_pressure']?>25</td>
                             </tr>
                             <tr>
                                 <td>Glucose (mg/dL):</td>
-                                <td>90</td>
+                                <td><?=$row["glucose"]?></td>
                             </tr>
                             <tr>
                                 <td>Haemoglobin (g/dL):</td>
-                                <td>100</td>
+                                <td><?=$row["hb"]?></td>
                             </tr>
                             <tr>
                                 <td>Cholestrol Level (dL):</td>
-                                <td>110</td>
+                                <td><?=$row["cholestrol"]?></td>
                             </tr>
                             <tr>
                                 <td>Heart Rate (bpm):</td>
-                                <td>100</td>
+                                <td><?=$row["heart_rate"]?></td>
                             </tr>
                             <tr>
                                 <td>Blood oxygen levels :</td>
-                                <td>110</td>
+                                <td><?=$row["oxygen"]?></td>
                             </tr>
-                        </tbody>      
+                        </tbody> 
+                        
                     </table>
+                    <?php }} ?>
                     <div class="col mt-5">
-                        <p><a href="previous_data.php">View Previous Data></a></p>
+                        <p><a href="previous_data.php">View Previous Data</a></p>
                     </div>
                 </div>
             </div>

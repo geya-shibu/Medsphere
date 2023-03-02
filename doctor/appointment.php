@@ -96,7 +96,7 @@
 						</div>
 						<ul class="nav">
 							<li class="nav-item">
-								<a href="index.html">
+								<a href="doctor.php">
 								<i class="fa-solid fa-bars"></i>
 									<p>Dashboard</p>
 									<!-- <span class="badge badge-count">5</span> -->

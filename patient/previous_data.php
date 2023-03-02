@@ -324,6 +324,7 @@ include('../connection.php');
                         <thead>
                             <tr>
                                 <th scope="col">Sl No</th>
+                                <th scope="col">Time</th>
                                 <th scope="col">Blood Pressure</th>
                                 <th scope="col">Glucose (mg/dL)</th>
                                 <th scope="col">Haemoglobin (g/dL)</th>
@@ -332,28 +333,27 @@ include('../connection.php');
                                 <th scope="col">Blood oxygen levels</th>
                             </tr>
                         </thead>
+                        <?php
+                            $p_id=$_SESSION['p_id'];
+                            $sqll="SELECT * from tbl_reports where p_id='$p_id'";
+                            $count=1;
+                            $result=$con->query($sqll);
+                            if($result-> num_rows > 0){
+                                while ($row=$result-> fetch_assoc()) {?>
                         <tbody>
                             <tr>
-                                <th scope="row">1</th>
-                                <td>150</td>
-                                <td>100</td>
-                                <td>120</td>
-                                <td>150</td>
-                                <td>100</td>
-                                <td>120</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">2</th>
-                                <td>90</td>
-                                <td>120</td>
-                                <td>135</td>
-                                <td>100</td>
-                                <td>110</td>
-                                <td>122</td>
+                                <th scope="row"><?=$count?></th>
+                                <td><?=$row["report_date"]?></td>
+                                <td><?=$row["blood_pressure"]?></td>
+                                <td><?=$row["glucose"]?></td>
+                                <td><?=$row["hb"]?></td>
+                                <td><?=$row["cholestrol"]?></td>
+                                <td><?=$row["heart_rate"]?></td>
+                                <td><?=$row["oxygen"]?></td>
                             </tr>
                         </tbody>
+                        <?php $count=$count+1;}}?>
                         </table>
-                   
                 </div>
             </div>
         </div>

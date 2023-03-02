@@ -25,4 +25,19 @@ include('../../connection.php');
         echo "<p>No matching records found</p>";
     }
 }
+echo'<script>
+        $(".results-item").hover(
+          function() {
+            $(this).css("background-color", "lightgray");
+          },
+          function() {
+            $(this).css("background-color", "");
+          }
+        );
+        $(".searchResults").click(function() {
+          var value=$(this).text();
+          $("#searchBox").val(value);
+        });
+  </script>';
+
 ?>

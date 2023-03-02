@@ -2,31 +2,6 @@
 	include('../connection.php');
 	session_start();
 
-	if(isset($_POST['add_schedule']))
-	{
-		$s_date=$_POST['s_date'];
-		$s_stime=$_POST['s_stime'];
-		$s_etime=$_POST['s_etime'];
-		$s_nop=$_POST['s_nop'];
-		$s_session=$_POST['session'];
-		$duplicate=mysqli_query($con, "SELECT * from tbl_schedule WHERE session='$s_session' AND date='$s_date' AND
-										start_time='$s_stime' AND end_time='$s_etime'");
-		if(mysqli_num_rows($duplicate)>0)
-		{
-			echo "<script> alert('Already Added');</script>";
-			// header('location:department.php');
-		}
-		else
-		{
-			$ins="INSERT INTO tbl_schedule (session, date, start_time, end_time, nop) VALUES ('$s_session', '$s_date', '$s_stime', '$s_etime', '$s_nop')";
-			if($con->query($ins)=== TRUE)
-			{
-				echo "<script> alert('Record Added Successfully'); </script>";
-				// header('location:schedule.php');
-
-			}
-		}
-	}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -39,7 +14,9 @@
 	<link rel="stylesheet" href="assets/css/azzara.min.css">
 	<link rel="stylesheet" href="assets/css/demo.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
-	
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 </head>
 <body>
 	<div class="wrapper">
@@ -179,108 +156,46 @@
 		<div class="main-panel">
 			<div class="content">
 				<div class="container-fluid mt-5">
-					<div class="row">
-						<div class="col-xl-3">
-							<div class="card mb-l-2">
-								<form class="form" id = "form" action="" enctype="multipart/form-data" method="post">
-									<div class="col mt-5 mb-5">
-									<?php
-										$p_id=$_SESSION['id'];
-										$sql="SELECT * from tbl_doctor where login_id='$p_id'";
-										$result=$con->query($sql);
-										if ($result-> num_rows > 0){
-										while ($row=$result-> fetch_assoc()) {
-											$image=$row['image'];?>
-											<img src="../images/<?php echo $image; ?>" width = 140 height = 150 title="<?php echo $image; ?>">
-											<?php }}?>
-										<div class="round">
-											<input type="file" name="image" id = "image" accept=".jpg, .jpeg, .png">
-											<i class = "fa fa-camera" style = "color: #fff;"></i>
+					<div class="row">					
+						<div class="container">
+							<div class="row">
+								<div class="col-md-4">
+									<!-- <img src="https://via.placeholder.com/150" alt="Doctor's photo" class="img-fluid rounded-circle my-3"> -->
+									<form class="form" id = "form" action="" enctype="multipart/form-data" method="post">
+										<div class="upload mt-5 mb-5">
+										<?php
+											$doc_id=$_SESSION['docid'];
+											$sql="SELECT * from tbl_doctor where doc_id='$doc_id'";
+											$result=$con->query($sql);
+											if ($result-> num_rows > 0){
+											while ($row=$result-> fetch_assoc()) {
+												$image=$row['image'];?>
+												<img src="../images/<?php echo $image; ?>" width = 140 height = 150 title="<?php echo $image; ?>">
+												<?php }}?>
+											<div class="round">
+												<input type="file" name="image" id = "image" accept=".jpg, .jpeg, .png">
+												<i class = "fa fa-camera" style = "color: #fff;"></i>
+											</div>
 										</div>
-									</div>
-								</form>
-
-								<script type="text/javascript">
-								document.getElementById("image").onchange = function(){
-									document.getElementById("form").submit();
-								};
-								</script>
-
-								<!-- Image Upload -->
-								<?php
-								if(isset($_FILES["image"]["name"])){
-									$p_id=$_SESSION['id'];
-								$imageName = $_FILES["image"]["name"];
-								$imageSize = $_FILES["image"]["size"];
-								$tmpName = $_FILES["image"]["tmp_name"];
-
-								// Image validation
-								$validImageExtension = ['jpg', 'jpeg', 'png'];
-								$imageExtension = explode('.', $imageName);
-								$imageExtension = strtolower(end($imageExtension));
-								if (!in_array($imageExtension, $validImageExtension)){
-									echo
-									"
-									<script>
-									alert('Invalid Image Extension');
-									document.location.href = 'profile.php';
-									</script>
-									";
-								}
-								elseif ($imageSize > 1200000){
-									echo
-									"
-									<script>
-									alert('Image Size Is Too Large');
-									document.location.href = 'profile.php';
-									</script>
-									";
-								}
-								else{
-									$newImageName =" - " . date("Y.m.d") . " - " . date("h.i.sa"); // Generate new image name
-									$newImageName .= '.' . $imageExtension;
-									$query = "UPDATE tbl_patient SET image = '$newImageName' WHERE login_id = $p_id";
-									mysqli_query($con, $query);
-									move_uploaded_file($tmpName, '../images/' . $newImageName);
-									echo
-									"
-									<script>
-									alert('Image Uploaded Successfully');
-									document.location.href = 'profile.php';
-									</script>
-									";
-								}
-								}
-								?>      
-								
+                        			</form>
+									<script type="text/javascript">
+										document.getElementById("image").onchange = function(){
+											document.getElementById("form").submit();
+										};
+                        			</script>
+								</div>
+								<div class="col-md-8">
+									<h1 class="my-3">Dr. John Doe</h1>
+									<h4 class="text-muted">Specialty: Cardiology</h4>
+									<p class="my-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam lobortis orci vel metus hendrerit ultricies. Donec pellentesque, est ut efficitur lacinia, ex sapien hendrerit tellus, a finibus risus ex eu nisl. Fusce euismod velit ac tellus auctor, eget commodo purus interdum. Integer ultricies augue id lorem pellentesque faucibus. Vestibulum vestibulum varius tincidunt.</p>
+									<ul class="list-unstyled">
+										<li><strong>Email:</strong> john.doe@example.com</li>
+										<li><strong>Phone:</strong> (123) 456-7890</li>
+										<li><strong>Address:</strong> 123 Main St, Anytown USA 12345</li>
+									</ul>
 								</div>
 							</div>
-						</div>
-
-						<div class="col-xl-9">
-							<div class="col-md-6 border-right">
-								<div class="p-3 py-5">
-									<div class="d-flex justify-content-between align-items-center mb-3">
-										<h2 class="text-center">Personal Profile</h2>
-									</div>
-									<div class="row mt-3">
-										<div class="col-md-12"><label class="labels">Full Name</label><input type="text" class="form-control" placeholder="Full name" value=""></div>
-										<div class="col-md-12"><label class="labels">Mobile Number</label><input type="text" class="form-control" placeholder="enter phone number" value=""></div>
-										<div class="col-md-12"><label class="labels">Email ID</label><input type="text" class="form-control" placeholder="enter email id" value=""></div>
-										<div class="col-md-12"><label class="labels">Address Line 1</label><input type="text" class="form-control" placeholder="enter address" value=""></div>
-										<div class="col-md-12"><label class="labels">Pin code</label><input type="text" class="form-control" placeholder="Pincode" value=""></div>
-										<div class="col-md-12"><label class="labels">State</label><input type="text" class="form-control" placeholder="State" value=""></div>
-										<div class="col-md-12"><label class="labels">Area</label><input type="text" class="form-control" placeholder="Area" value=""></div>
-										<div class="col-md-12"><label class="labels">Education</label><input type="text" class="form-control" placeholder="education" value=""></div>
-									</div>
-									<div class="row mt-3">
-										<div class="col-md-6"><label class="labels">Country</label><input type="text" class="form-control" placeholder="country" value=""></div>
-										<div class="col-md-6"><label class="labels">State/Region</label><input type="text" class="form-control" value="" placeholder="state"></div>
-									</div>
-									<div class="mt-5 text-center"><button class="btn btn-primary profile-button" type="button">Save Profile</button></div>
-								</div>
-							</div>
-						</div>
+    					</div>
 					</div>
 				</div>
 			</div>
