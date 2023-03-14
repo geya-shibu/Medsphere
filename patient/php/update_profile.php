@@ -69,6 +69,32 @@
                 }
             }
         }
+        if(isset($_POST['height']))
+        {
+            $height=$_POST['height'];
+            if(!empty($height))
+            {
+                $query="UPDATE tbl_patient SET height='$height' where login_id='$p_id'";
+                $query_run=mysqli_query($con, $query);
+                if($query_run)
+                {
+                    echo "<script> alert('Height Updated'); window.location.href='../profile.php';</script>";
+                }
+            }
+        }
+        if(isset($_POST['weight']))
+        {
+            $weight=$_POST['weight'];
+            if(!empty($height))
+            {
+                $query="UPDATE tbl_patient SET weight='$weight' where login_id='$p_id'";
+                $query_run=mysqli_query($con, $query);
+                if($query_run)
+                {
+                    echo "<script> alert('Weight Updated'); window.location.href='../profile.php';</script>";
+                }
+            }
+        }
         if(isset($_POST['address1']))
         {
             $adr1=$_POST['address1'];

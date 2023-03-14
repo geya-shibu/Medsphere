@@ -409,7 +409,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="javascript:void()" aria-expanded="false">
+                        <a href="payment_report.php" aria-expanded="false">
                         <i class="bi bi-credit-card-2-front-fill"></i></i><span class="nav-text">Payment</span>
                         </a>
                     </li>
@@ -481,7 +481,7 @@
                     </div> -->
                 </div>          
             </div>  
-                </div>  
+        </div>  
         <!--********************************** Content body end ***********************************-->
                         
         

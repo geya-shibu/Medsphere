@@ -19,6 +19,7 @@ include('connection.php');
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
 	<title>Admin</title>
 	<link href="assets/css/app.css" rel="stylesheet">
+	<script src= "https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
 
 <body>

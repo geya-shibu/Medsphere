@@ -1,11 +1,9 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-import csv
-
+import mysql.connector
 
 from sklearn.model_selection import train_test_split
-
 from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import LogisticRegression
 from sklearn.neighbors import KNeighborsClassifier
@@ -14,29 +12,19 @@ from sklearn.svm import SVC
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.ensemble import GradientBoostingClassifier
-
 from sklearn.pipeline import Pipeline
-
 from flask import Flask, redirect, url_for, render_template, request, jsonify
+mydb = mysql.connector.connect(
+  host="localhost",
+  user="root",
+  password="",
+  database="portal"
+)
+
+mycursor = mydb.cursor()
 
 data = pd.read_csv('diabetes.csv')
-
-data.head()
-
-data.tail()
-
-data.shape
-
-data.info()
-
-data.isnull().sum()
-
-data.describe()
-
 data_copy = data.copy(deep=True)
-
-data.columns
-
 data_copy[['Glucose', 'BloodPressure', 'SkinThickness', 'Insulin',
        'BMI']] = data_copy[['Glucose', 'BloodPressure', 'SkinThickness', 'Insulin',
        'BMI']].replace(0,np.nan)
@@ -49,7 +37,7 @@ data['SkinThickness'] = data['SkinThickness'].replace(0,data['SkinThickness'].me
 data['Insulin'] = data['Insulin'].replace(0,data['Insulin'].mean())
 data['BMI'] = data['BMI'].replace(0,data['BMI'].mean())
 
-X = data.drop('Outcome',axis=1)
+X = data[['Glucose', 'BloodPressure', 'Insulin', 'BMI', 'Age']]
 y = data['Outcome']
 
 X_train,X_test,y_train,y_test=train_test_split(X,y,test_size=0.2,
@@ -78,60 +66,57 @@ pipe_dict = {0:'Logistic Regression',
 
 pipe_dict
 
-for i,model in enumerate(pipelines):
-    print("{} Train Accuracy:{}".format(pipe_dict[i],model.score(X_train,y_train)*100))
+def randomforest(payload1, payload2, payload3, payload4, payload5):
+    
+    from sklearn.ensemble import RandomForestClassifier
 
-for i,model in enumerate(pipelines):
-    print("{} Test Accuracy:{}".format(pipe_dict[i],model.score(X_test,y_test)*100))
+    X = data[['Glucose', 'BloodPressure', 'Insulin', 'BMI', 'Age']]
+    y = data['Outcome']
 
-from sklearn.ensemble import RandomForestClassifier
+    rf =RandomForestClassifier(max_depth=3)
+    rf=rf.fit(X,y)
 
-X = data.drop('Outcome',axis=1)
-y = data['Outcome']
+    new_data = pd.DataFrame({
+        
+        'Glucose':payload1,
+        'BloodPressure':payload2,
+        'Insulin':payload3,
+        'BMI':payload4,
+        'Age':payload5
+            
+    },index=[0])    
 
-# fig = data.Outcome.value_counts().plot(kind='bar', color=['green','blue'])
-# fig.set_xticklabels(['Diabetic', 'Non-Diabetic'])
-# fig.set_ylabel('Count')
-# plt.show()
+    p = rf.predict(new_data)
 
-rf =RandomForestClassifier(max_depth=3)
+    if p[0] == 0:
+        sql = "INSERT INTO diabetic (result) VALUES ('Not diabetic')"
+        mycursor.execute(sql)
+        mydb.commit()
+        # print("Diabetic")
+    else:
+        sql = "INSERT INTO diabetic (result) VALUES ('Diabetic')"
+        mycursor.execute(sql)
+        mydb.commit()
+        # print("Not")
 
-rf.fit(X,y)
-
-new_data = pd.DataFrame({
-    'Pregnancies':6,
-    'Glucose':148.0,
-    'BloodPressure':72.0,
-    'SkinThickness':35.0,
-    'Insulin':79.799479,
-    'BMI':33.6,
-    'DiabetesPedigreeFunction':0.627,
-    'Age':50,    
-},index=[0])
-
-p = rf.predict(new_data)
-
-# if p[0] == 0:
-#     print('Non-diabetic')
-# else:
-#     print('Diabetic')
 
 app = Flask(__name__)
 
 @app.route("/")
 def home():
-    return "<h1>Works</h1>"
+    return "<h1>Workss</h1>"
 
 
-@app.route("/dicease", methods=["POST"])
+@app.route("/predict", methods=["POST"])
 def login():
     if request.method == "POST":
-        payload = [request.args.get("symp1"), request.args.get("symp2"), request.args.get("symp3"), request.args.get("symp4"), request.args.get("symp5")]
-        if(request.args.get("type") == "1"):
-            return DecisionTree(payload)
-        elif(request.args.get("type") == "2"):
-            return randomforest(payload)
-        elif(request.args.get("type") == "3"):
-            return NaiveBayes(payload)
-        else:
-            return "Something wrong"
+        payload1 = request.args.get("symp1")
+        payload2 = request.args.get("symp2")
+        payload3 = request.args.get("symp3")
+        payload4 = request.args.get("symp4")
+        payload5 = request.args.get("symp5")
+        randomforest(payload1, payload2, payload3, payload4, payload5)
+        
+    
+if __name__ == "__main__":
+    app.run()

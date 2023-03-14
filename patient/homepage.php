@@ -295,7 +295,7 @@ include('../connection.php');
                         </a>
                     </li>
                     <li>
-                        <a href="javascript:void()" aria-expanded="false">
+                        <a href="payment_report.php" aria-expanded="false">
                         <i class="bi bi-credit-card-2-front-fill"></i></i><span class="nav-text">Payment</span>
                         </a>
                     </li>
@@ -382,10 +382,10 @@ include('../connection.php');
                                         Blood Group : <?php echo $row['blood_group'];?>
                                         </div>
                                         <div class="col">
-                                        Height : 170 CM
+                                        Height : <?php echo $row['height'];?>cm
                                         </div>
                                         <div class="col">
-                                        Weight : 60 Kg
+                                        Weight : <?php echo $row['weight'];?>kg
                                         </div>
                                     </div>
                                 </div>

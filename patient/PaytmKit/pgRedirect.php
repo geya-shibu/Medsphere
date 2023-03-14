@@ -1,4 +1,5 @@
 <?php
+// $pid=base64_decode($_REQUEST['pid']);
 header("Pragma: no-cache");
 header("Cache-Control: no-cache");
 header("Expires: 0");

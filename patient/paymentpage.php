@@ -1,7 +1,20 @@
 <?php
-    $pid=base64_decode($_REQUEST['pid']);
+    include('../connection.php');
+    session_start();
     $amt=base64_decode($_REQUEST['amt']);
     $orderid="ORDS".rand(1000,999999);
+    $pid=$_SESSION['id'];
+	date_default_timezone_set("Asia/Kolkata");
+	$current_time = date('H:i:s');
+	$today = date("Y-m-d");
+	// $query=mysqli_query($con,"insert into tbl_payment(p_id, order_id, amount, pay_date, pay_time) values('$pid','$orderid','$amt', '$today', '$current_time')");
+    $query=mysqli_query($con, "INSERT INTO tbl_payment(`p_id`, `order_id`, `amount`, `pay_date`, `pay_time`) VALUES ('$pid','$orderid','$amt','$today','$current_time')");
+    // if($query)
+	// {
+		// echo "<script> alert('Done');</script>";
+		// header("location:payment.php");
+	// }
+    
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -31,7 +44,7 @@
     <input type="hidden" id="INDUSTRY_TYPE_ID" name="INDUSTRY_TYPE_ID" tabindex="1" maxlength="20" size="12" autocomplete="off" value="Retail">
     <input type="hidden" id="CHANNEL_ID" name="CHANNEL_ID" tabindex="1" maxlength="20" size="12" autocomplete="off" value="WEB">
     <input type="hidden" id="TXN_AMOUNT" name="TXN_AMOUNT" tabindex="1" maxlength="20" size="12" autocomplete="off" value="<?php echo $amt;?>"><br>
-    <input type="submit" value="Checkout">
+    <input type="submit" name="submit" value="Checkout">
 </form>
 </body>
 </html>

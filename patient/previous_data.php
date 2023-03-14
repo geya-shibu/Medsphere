@@ -285,7 +285,7 @@ include('../connection.php');
                         </a>
                     </li>
                     <li>
-                        <a href="javascript:void()" aria-expanded="false">
+                        <a href="reports.php" aria-expanded="false">
                         <i class="bi bi-card-checklist"></i></i><span class="nav-text">Reports</span>
                         </a>
                     </li>
@@ -319,23 +319,26 @@ include('../connection.php');
         <div class="container-fluid">   
             <div class="row">
                 <div class="col">
+                <i class="fa fa-arrow-left" aria-hidden="true"></i><a href="reports.php">Back</a>
                     <h2 class="text-center">Previous Medical Data</h2>
                     <table class="table table-bordered">
                         <thead>
                             <tr>
                                 <th scope="col">Sl No</th>
+                                <th scope="col">Date</th>
                                 <th scope="col">Time</th>
-                                <th scope="col">Blood Pressure</th>
                                 <th scope="col">Glucose (mg/dL)</th>
+                                <th scope="col">Blood Pressure (mmHg)</th>
+                                <th scope="col">Insulin (IU/mL)</th>
                                 <th scope="col">Haemoglobin (g/dL)</th>
-                                <th scope="col">Cholestrol Level (dL)</th>
+                                <th scope="col">Cholestrol Level (mg/dL)</th>
                                 <th scope="col">Heart Rate (bpm)</th>
-                                <th scope="col">Blood oxygen levels</th>
+                                <!-- <th scope="col">Blood oxygen levels</th> -->
                             </tr>
                         </thead>
                         <?php
                             $p_id=$_SESSION['p_id'];
-                            $sqll="SELECT * from tbl_reports where p_id='$p_id'";
+                            $sqll="SELECT * from tbl_reports where p_id='$p_id' ORDER BY report_date DESC, report_time DESC";
                             $count=1;
                             $result=$con->query($sqll);
                             if($result-> num_rows > 0){
@@ -344,12 +347,14 @@ include('../connection.php');
                             <tr>
                                 <th scope="row"><?=$count?></th>
                                 <td><?=$row["report_date"]?></td>
-                                <td><?=$row["blood_pressure"]?></td>
+                                <td><?=$row["report_time"]?></td>
                                 <td><?=$row["glucose"]?></td>
+                                <td><?=$row["blood_pressure"]?></td>
+                                <td><?=$row["insulin"]?></td>
                                 <td><?=$row["hb"]?></td>
                                 <td><?=$row["cholestrol"]?></td>
                                 <td><?=$row["heart_rate"]?></td>
-                                <td><?=$row["oxygen"]?></td>
+                                
                             </tr>
                         </tbody>
                         <?php $count=$count+1;}}?>

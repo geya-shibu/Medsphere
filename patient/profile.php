@@ -355,59 +355,98 @@ include('../connection.php');
                         </form>
 
                         <script type="text/javascript">
-                        document.getElementById("image").onchange = function(){
-                            document.getElementById("form").submit();
-                        };
+                            document.getElementById("image").onchange = function(){
+                                document.getElementById("form").submit();
+                            };
                         </script>
 
                         <!-- Image Upload -->
                         <?php
-                        if(isset($_FILES["image"]["name"])){
-                            $p_id=$_SESSION['id'];
-                        $imageName = $_FILES["image"]["name"];
-                        $imageSize = $_FILES["image"]["size"];
-                        $tmpName = $_FILES["image"]["tmp_name"];
+                            if(isset($_FILES["image"]["name"])){
+                                $p_id=$_SESSION['id'];
+                            $imageName = $_FILES["image"]["name"];
+                            $imageSize = $_FILES["image"]["size"];
+                            $tmpName = $_FILES["image"]["tmp_name"];
 
-                        // Image validation
-                        $validImageExtension = ['jpg', 'jpeg', 'png'];
-                        $imageExtension = explode('.', $imageName);
-                        $imageExtension = strtolower(end($imageExtension));
-                        if (!in_array($imageExtension, $validImageExtension)){
-                            echo
-                            "
-                            <script>
-                            alert('Invalid Image Extension');
-                            document.location.href = 'profile.php';
-                            </script>
-                            ";
-                        }
-                        elseif ($imageSize > 1200000){
-                            echo
-                            "
-                            <script>
-                            alert('Image Size Is Too Large');
-                             document.location.href = 'profile.php';
-                            </script>
-                            ";
-                        }
-                        else{
-                            $newImageName =" - " . date("Y.m.d") . " - " . date("h.i.sa"); // Generate new image name
-                            $newImageName .= '.' . $imageExtension;
-                            $query = "UPDATE tbl_patient SET image = '$newImageName' WHERE login_id = $p_id";
-                            mysqli_query($con, $query);
-                            move_uploaded_file($tmpName, '../images/' . $newImageName);
-                            echo
-                            "
-                            <script>
-                            alert('Image Uploaded Successfully');
-                            document.location.href = 'profile.php';
-                            </script>
-                            ";
-                        }
-                        }
+                            // Image validation
+                            $validImageExtension = ['jpg', 'jpeg', 'png'];
+                            $imageExtension = explode('.', $imageName);
+                            $imageExtension = strtolower(end($imageExtension));
+                            if (!in_array($imageExtension, $validImageExtension)){
+                                echo
+                                "
+                                <script>
+                                alert('Invalid Image Extension');
+                                document.location.href = 'profile.php';
+                                </script>
+                                ";
+                            }
+                            elseif ($imageSize > 1200000){
+                                echo
+                                "
+                                <script>
+                                alert('Image Size Is Too Large');
+                                document.location.href = 'profile.php';
+                                </script>
+                                ";
+                            }
+                            else{
+                                $newImageName =" - " . date("Y.m.d") . " - " . date("h.i.sa"); // Generate new image name
+                                $newImageName .= '.' . $imageExtension;
+                                $query = "UPDATE tbl_patient SET image = '$newImageName' WHERE login_id = $p_id";
+                                mysqli_query($con, $query);
+                                move_uploaded_file($tmpName, '../images/' . $newImageName);
+                                echo
+                                "
+                                <script>
+                                alert('Image Uploaded Successfully');
+                                document.location.href = 'profile.php';
+                                </script>
+                                ";
+                            }
+                            }
                         ?>      
                         
                     </div>
+                        <div class="card mt-3">
+                            <table class="table table-borderless ml-4 mt-3">
+                                <?php
+                                    $p_id=$_SESSION['id'];
+                                    $sql="SELECT * from tbl_patient where login_id='$p_id'";
+                                    $result=$con->query($sql);
+                                    if ($result-> num_rows > 0){
+                                    while ($row=$result-> fetch_assoc()) {
+                                        $dob = $row['dob'];
+                                        $height = $row['height'];
+                                        $weight = $row['weight'];
+                                        $today = date('Y-m-d');
+                                        $diff = date_diff(date_create($dob), date_create($today));
+                                        $age = $diff->format('%y');
+                                        $bmi_r = $weight / (($height/100) * ($height/100));
+                                        $bmi=round($bmi_r, 2);
+                                        ?>
+                                <tbody>
+                                    <tr class="mt-5">
+                                        <td>Age</td>
+                                        <td><?php echo $age?></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Height</td>
+                                        <td><?php echo $row['height']; ?>cm</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Weight</td>
+                                        <td><?php echo $row['weight'];?>kg</td>
+                                    </tr>
+                                    <tr>
+                                        <td>BMI</td>
+                                        <td><?php echo $bmi;?></td>
+                                    </tr>
+                                    
+                                </tbody>
+                                <?php }}?>
+                            </table>
+                        </div>
                 </div>
 
                 <div class="col-xl-9">
@@ -494,6 +533,17 @@ include('../connection.php');
                                                                 <option value="AB+">AB+</option>
                                                             </select>
                                                         </div>    
+                                                    </div>
+
+                                                    <div class="form-group row">
+                                                        <label for="id" class="col-sm-3 col-form-label">Height(in cm)</label>
+                                                        <div class="col-md-4">
+                                                            <input type="text" class="form-control" id="height" name="height" placeholder="Height" value="<?php echo $row['height'];?>">
+                                                        </div>
+                                                        <label for="id" class="col-sm-2 col-form-label">Weight(in kg)</label>
+                                                        <div class="col-md-3">
+                                                            <input type="text" class="form-control" id="weight" name="weight" placeholder="Weight" value="<?php echo $row['weight'];?>">
+                                                        </div>
                                                     </div>
 
                                                     <div class="form-group row">

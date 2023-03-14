@@ -20,12 +20,8 @@ include('../connection.php');
     <link rel="stylesheet" href="./plugins/chartist-plugin-tooltips/css/chartist-plugin-tooltip.css">
     <link href="css/style.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
     <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous"> -->
 	<!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script> -->
-    <script src="js/validate_report.js"></script>
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-   
 </head>
 
 <body>
@@ -207,9 +203,10 @@ include('../connection.php');
 									$result=$con->query($sql);
 									if ($result-> num_rows > 0){
 									while ($row=$result-> fetch_assoc()) {
-                                        $image=$row['image'];
-                                    echo '<img src="../images/'.$image.'" width = 140 height = 150 title="'. $image.'">';
-								 }}?>
+                                        $image=$row['image'];?>
+                                    <img src="../images/<?php echo $image; ?>" width = 140 height = 150 title="<?php echo $image; ?>">
+									<?php }
+									}?>
                             </div>
                             <div class="drop-down dropdown-profile animated fadeIn dropdown-menu">
                                 <div class="dropdown-content-body">
@@ -265,7 +262,7 @@ include('../connection.php');
                         </a>
                         <ul aria-expanded="false">
                             <li><a href="offline_consultation.php">Offline Consultation</a></li>
-                            <li><a href="./layout-one-column.html">Online Consultation</a></li>
+                            <!-- <li><a href="./layout-one-column.html">Online Consultation</a></li> -->
                             <!-- <li><a href="./layout-two-column.html">Two column</a></li>
                             <li><a href="./layout-compact-nav.html">Compact Nav</a></li>
                             <li><a href="./layout-vertical.html">Vertical</a></li>
@@ -288,7 +285,7 @@ include('../connection.php');
                         </a>
                     </li>
                     <li>
-                        <a href="javascript:void()" aria-expanded="false">
+                        <a href="reports.php" aria-expanded="false">
                         <i class="bi bi-card-checklist"></i></i><span class="nav-text">Reports</span>
                         </a>
                     </li>
@@ -298,7 +295,7 @@ include('../connection.php');
                         </a>
                     </li>
                     <li>
-                        <a href="javascript:void()" aria-expanded="false">
+                        <a href="payment_report.php" aria-expanded="false">
                         <i class="bi bi-credit-card-2-front-fill"></i></i><span class="nav-text">Payment</span>
                         </a>
                     </li>
@@ -318,287 +315,73 @@ include('../connection.php');
     <!--******************************** Sidebar end ***********************************-->
 
     <!--********************************** Content body start ***********************************-->
-    
     <div class="content-body">
         <div class="container-fluid">   
             <div class="row">
-                <div class="col-5">
-                    <h2 class="text-center">Add Medical Data</h2>
-                    <form method="POST" action="process_report.php">
-                        <div class="form-group">
-                            <label for="glucose">Glucose (mg/dL):</label>
-                            <input type="text" class="form-control" name="symtomp1" id="symtomp1" onkeyup="validateGlucose()" required>
-                            <h6 class="error-message" style="color:red;" id="glu_err"></h6>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="blood_pressure">Blood Pressure (mmHg):</label>
-                            <input type="text" class="form-control" name="symtomp2" id="symtomp2" onkeyup="validatebp()" required>
-                            <h6 class="error-message" style="color:red;" id="bp_err"></h6>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="haemoglobin">Insulin Level (g/dL):</label>
-                            <input type="text" class="form-control" name="symtomp3" id="symtomp3" onkeyup="validateInsulin()" required>
-                            <h6 class="error-message" style="color:red;" id="ins_err"></h6>
-                        </div>
-                        
-                            <?php
-                                $p_id=$_SESSION['id'];
-                                $sql="SELECT * from tbl_patient where login_id='$p_id'";
-                                $result=$con->query($sql);
-                                if ($result-> num_rows > 0){
-                                while ($row=$result-> fetch_assoc()) {
-                                    $dob = $row['dob'];
-                                    $height = $row['height'];
-                                    $weight = $row['weight'];
-                                    $today = date('Y-m-d');
-                                    $diff = date_diff(date_create($dob), date_create($today));
-                                    $age = $diff->format('%y');
-                                    $bmi_r = $weight / (($height/100) * ($height/100));
-                                    $bmi=round($bmi_r, 2);
-                            ?>
-                        <div class="form-group">
-                            <!-- <label for="haemoglobin">Insulin Level (g/dL):</label> -->
-                            <input type="hidden" class="form-control" name="symtomp4" id="symtomp4" value="<?php echo $bmi;?>" required>
-                        </div>
-                        <div class="form-group">
-                            <!-- <label for="haemoglobin">Insulin Level (g/dL):</label> -->
-                            <input type="hidden" class="form-control" name="symtomp5" id="symtomp5" value="<?php echo $age;?>" required>
-                        </div>
-                            <?php
-                                }}
-                            ?>
-                        <div class="form-group">
-                            <!-- <label for="haemoglobin">Insulin Level (g/dL):</label> -->
-                            <input type="hidden" class="form-control" name="pid" id="pid" value="<?php echo $_SESSION['p_id'];?>" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="cholestrol">Haemoglobin (dL):</label>
-                            <input type="text" class="form-control" name="haemoglobin" id="haemoglobin" onkeyup="validatehb()" required>
-                            <h6 class="error-message" style="color:red;" id="hb_err"></h6>  
-                        </div> 
-                         
-                        <div class="form-group">
-                            <label for="cholestrol">Cholestrol Level (dL):</label>
-                            <input type="text" class="form-control" name="cholestrol" id="cholestrol" onkeyup="validateCholestrol()" required>
-                            <h6 class="error-message" style="color:red;" id="chl_err"></h6>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="heart_rate">Heart Rate (bpm):</label>
-                            <input type="text" class="form-control" name="heart_rate" id="heart_rate" onkeyup="validateHeartRate()" required>
-                            <h6 class="error-message" style="color:red;" id="hr_err"></h6>        
-                        </div>
-                        
-                        <!-- <div class="form-group">
-                            <label for="oxygen">Blood oxygen levels :</label>
-                            <input type="number" class="form-control" name="oxygen" id="oxygen" required>
-                        </div> -->
-                        
-                        <button type="submit" class="btn btn-primary" name="predict" id="predict">Submit</button>
-                    </form>
-                    
-                </div>
-                <div class="col-6 pl-5">
-                    <h2 class="text-center">Medical Data</h2>
-                    <div class="row">
-                        <div class="col-auto" style=" font-weight:bold; font-size:20px; margin-left:220px; margin-top:20px">
-                        <button class="btn btn-success float-right" title="Based on last updated data" onclick="showAlert()">Diabetic Data</button>
+            <div class="col">
+                    <h2 class="text-center">Payment Reports</h2>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th scope="col">Sl No</th>
+                                <th scope="col">Payment ID</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Order ID</th>
+                                <th scope="col">Amount</th>
+                                <th scope="col">Date</th>
+                                <th scope="col">Time</th>
+                                <th scope="col">Status</th>
+                            </tr>
+                        </thead>
                         <?php
-                            $db="SELECT * FROM diabetic ORDER BY diabetic_id DESC LIMIT 1";
-                            $result_db=$con->query($db);
-                            if($result_db-> num_rows > 0){
-                                while ($row_db=$result_db-> fetch_assoc()) {
-                                    if($row_db['result']=="Diabetic")
-                                    {
-                                        echo "
-                                        <script>
-                                        function showAlert() {
-                                            swal({
-                                                title: 'Diabetic Prediction',
-                                                text: 'High Chance of being Diabetic',
-                                              });
-                                        }
-                                        </script>";
-                                    }
-                                    else
-                                    {
-                                        echo "<script>
-                                                function showAlert() {
-                                                    swal({
-                                                        title: 'Diabetic Prediction',
-                                                        text: 'Low Chance of being Diabetic', 
-                                                      });
-                                                }
-                                            </script>";
-                                    }
-                                    
-                        ?>
-                        <?php
-                     }}
-                     ?>
-                     <script>
-		
-	</script>
-                        </div>
-                        <div class="col-auto">
-                            <img src="images/question.png" style="margin-top:26px" width="16px" alt="Icon" title="Predicted based on the data given">
-                        </div>
-                    </div>
-
-                    
-                    
-                    <!-- <i class="fa fa-question-circle" aria-hidden="true"></i> -->
-                    <?php   
-                        $p_id=$_SESSION['p_id'];
-                        $sqll="SELECT * from tbl_reports where p_id='$p_id' ORDER BY report_date DESC LIMIT 1";
-                        $result=$con->query($sqll);
-                        
-                        if($result-> num_rows > 0){
-                            while ($row=$result-> fetch_assoc()) {?>
-                                    <table class="table mt-4">
-                                        <tbody>
-                                        <tr>
-                                                <td>Glucose :</td>
-                                                <td><?=$row["glucose"]?>mg/dL</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Blood Pressure:</td>
-                                                <td><?=$row["blood_pressure"]?>mmHg</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Insulin :</td>
-                                                <td><?=$row["insulin"]?>IU/mL</td>
-                                            </tr>
-                                            <tr>
-                                                <td> Haemoglobin :</td>
-                                                <td><?=$row["hb"]?>g/dL</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Cholestrol Level :</td>
-                                                <td><?=$row["cholestrol"]?>mg/dL</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Heart Rate:</td>
-                                                <td><?=$row["heart_rate"]?>bpm</td>
-                                            </tr>
-                                            
-                                        </tbody> 
-                                    </table>
-                               <?php }}?>
-                    
-                    <div class="col mt-5">
-                        <p><a href="previous_data.php">View Previous Data</a></p>
-                    </div>
+                            $p_id=$_SESSION['id'];
+                            $sqll="SELECT * from tbl_payment where p_id='$p_id'";
+                            $count=1;
+                            $result=$con->query($sqll);
+                            if($result-> num_rows > 0){
+                                while ($row=$result-> fetch_assoc()) {?>
+                        <tbody>
+                            <tr>
+                                <th scope="row"><?=$count?></th>
+                                <td><?=$row["payment_id"]?></td>
+                                <?php 
+                                $p_id=$_SESSION['p_id'];
+                                $sql2="SELECT * from tbl_patient where p_id='$p_id'";
+                                $result2=$con->query($sql2);
+                                if($result2-> num_rows > 0){
+                                while ($row2=$result2-> fetch_assoc()) {?>
+                                <td><?=$row2["name"]?></td>
+                                <?php }}?>
+                                <td><?=$row["order_id"]?></td>
+                                <td><?=$row["amount"]?></td>
+                                <td><?=$row["pay_date"]?></td>
+                                <td><?=$row["pay_time"]?></td>
+                                <td>Paid</td>
+                            </tr>
+                        </tbody>
+                        <?php $count=$count+1;}}?>
+                        </table>
                 </div>
+
+            
             </div>
+            <!-- #/ container -->
         </div>
         <!--********************************** Content body end ***********************************-->
-    </div>
+        
         
         <!--********************************** Footer start ***********************************-->
-        <div class="footer">
+        
+        <!--********************************** Footer end ***********************************-->
+    </div>
+    <div class="footer">
             <div class="copyright">
                 <p>Copyright &copy; Designed & Developed by <a href="https://themeforest.net/user/quixlab">MedSphere</a> 2018</p>
             </div>
         </div>
-        <!--********************************** Footer end ***********************************-->
-    
     <!--********************************** Main wrapper end ***********************************-->
 
     <!--********************************** Scripts ***********************************-->
-    <!-- <script>
-        $("#submit_report").click(() => {
-        glu = document.getElementById("glucose").value;
-        bp = $("#blood_pressure").val();
-        insul = $("#insulin").val();
-        $.ajax({
-            type: "POST",
-            url: "external_api.php",
-            data: {
-            "symptom": {
-                "symp1": glu,
-                "symp2": bp,
-                "symp3": insul,
-                // "symp4": symp4,
-                // "symp5": symp5
-            },
-              "type": 1,
-              'action': 1,
-            },
-            dataType: 'JSON',
-            cache: false,
-            beforeSend: function() {
-            $('#loading').show();
-            },
-            success: function(response) {
-                
-            $('#loading').hide();
-            $("#finalSbtBtn").removeAttr('disabled', 'disabled');
-            if (response.status == 1) {
-                alert("success", "Predicted Data : \"" + (response.data).toUpperCase() + "\"", "success");
-            } else {
-                alert("error", response.data, "error");
-            }
-            }
-        });
-        // } else {
-        //   swal("error", "Plaease select prediction method", "info");
-        // }
-        })
-
-        function swal(tittle, text, icon) {
-            Swal.fire({
-            title: tittle,
-            text: text,
-            icon: icon,
-            });
-        }
-    </script> -->
-    <script>
-  $("#predict").click(() => {
-    symp1 = document.getElementById("symtomp1").value;
-    symp2 = $("#symtomp2").val();
-    symp3 = $("#symtomp3").val();
-    symp4 = $("#symtomp4").val();
-    symp5 = $("#symtomp5").val();
-    pid = $("#pid").val();
-    console.log(pid);
-      $.ajax({
-        type: "POST",
-        url: "seminar/external_api.php",
-        data: {
-          "symptom": {
-            "symp1": symp1,
-            "symp2": symp2,
-            "symp3": symp3,
-            "symp4": symp4,
-            "symp5": symp5,
-            "pid" : pid
-          },
-          'action': 1,
-        },
-        dataType: 'JSON',
-        cache: false,
-        beforeSend: function() {
-          $('#loading').show();
-        },
-        success: function(response) {
-          $('#loading').hide();
-          $("#finalSbtBtn").removeAttr('disabled', 'disabled');
-          if (response.status == 1) {
-            console.log(response.data);
-          } else {
-            console.log(response.data);
-          }
-        }
-      });
-    
-  })
-</script>
-    
     <script src="plugins/common/common.min.js"></script>
     <script src="js/custom.min.js"></script>
     <script src="js/settings.js"></script>
