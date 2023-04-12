@@ -1514,3 +1514,239 @@ doctor profile
 						</tbody> 
 					</table>';
 				}}?>
+
+
+
+
+
+
+				<?php
+											$cpid=$_SESSION['cur_pid'];
+											$sql="SELECT * from tbl_patient where p_id='$cpid'";
+											$result=$con->query($sql);
+											$count=1;
+											if($result-> num_rows > 0){
+											while ($row=$result-> fetch_assoc()) {
+												$image=$row['image'];?>
+
+												<?php }}?>
+
+												<!-- <div class="col-lg-8">
+												<div class="card mb-4">
+													<div class="card-body">
+														<div class="row">
+														<div class="col-sm-3">
+															<p class="mb-0">Name</p>
+														</div>
+														<div class="col-sm-9">
+															<p class="text-muted mb-0"><?=$row["name"]?></p>
+														</div>
+														</div>
+														<hr>
+														<div class="row">
+														<div class="col-sm-3">
+															<p class="mb-0">Email</p>
+														</div>
+														<div class="col-sm-9">
+															<p class="text-muted mb-0">geyams16@gmail.com</p>
+														</div>
+														</div>
+														<hr>
+														<div class="row">
+														<div class="col-sm-3">
+															<p class="mb-0">Phone</p>
+														</div>
+														<div class="col-sm-9">
+															<p class="text-muted mb-0"><?=$row["phone"]?></p>
+														</div>
+														</div>
+														<hr>
+														<div class="row">
+														<div class="col-sm-3">
+															<p class="mb-0">DOB</p>
+														</div>
+														<div class="col-sm-9">
+															<p class="text-muted mb-0"><?=$row["dob"]?></p>
+														</div>
+														</div>
+														<hr>
+														<div class="row">
+														<div class="col-sm-3">
+															<p class="mb-0">Address</p>
+														</div>
+														<div class="col-sm-9">
+															<p class="text-muted mb-0">ABC XYZ PQR</p>
+														</div>
+														</div>
+													</div>
+												</div>
+											</div> -->
+
+
+
+
+											<div class="form-group">
+														<div class="row">
+															<div class="col-sm-8">
+																<input type="text" id="medicine" name="medicine" class="form-control" placeholder="Medicine Name" required>
+															</div>
+															<div class="col-sm-4">
+																<input type="text" id="dose" name="dose" class="form-control" placeholder="Dose" required>
+															</div>
+														</div>
+													</div>
+													
+													<div class="form-group">
+														<input type="text" id="cnt" name="cnt" class="form-control" placeholder="Count" required>
+													</div>
+
+													<td><?=$row["med_name"]?></td>
+												<td><?=$row["dosage"]?>mg</td>
+												<td><?=$row["med_count"]?></td>
+
+
+
+												<div class="col-3">
+								<section style="background-color: #eee;">
+									<div class="container-fluid py-4">
+										<h2 class="text-center" style="font-size:30px;">Patient Data</h2>
+										<div class="row">
+											<div class="col-lg-12">
+												<div class="card">
+													<div class="card-body text-center">
+														<?php
+														$cpid=$_SESSION['cur_pid'];
+														$sql="SELECT * from tbl_patient where p_id='$cpid'";
+														$result=$con->query($sql);
+														$count=1;
+														if($result-> num_rows > 0){
+														while ($row=$result-> fetch_assoc()) {
+															$image=$row['image'];?>
+														<img src="../images/<?php echo $image;?>" alt="avatar" class="rounded-circle" style="width:120px; height:130px;">
+														<h5 class="my-2"><?php echo $row['name']; ?></h5>
+														<p class="text-muted">Hospital ID :MS<?php echo $row['p_id']; ?></p>
+
+														<?php }}?>
+													</div>
+												</div>
+											</div>
+											<!-- <p class="col ml-5" style="font-size:20px;">Last Consulted:</p> -->
+										</div>
+										<div class="col">
+											<p style="font-size:15px; text-align:center;"><a href="previous_data.php">View Previous Data</a></p>
+										</div>
+									</div>
+								</section>
+							</div>
+
+
+
+
+
+
+
+							// Profile page of doctor
+							<div class="content">
+				<div class="row">
+										
+					<div class="container mt-5">
+						<div class="row">
+							<div class="col">
+						<button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#exampleModal">
+							Update Profile
+						</button>
+						</div>
+						</div>
+						<div class="row">
+							<div class="col-md-4" style="background-color:green;">
+									<!-- <img src="https://via.placeholder.com/150" alt="Doctor's photo" class="img-fluid rounded-circle my-3"> -->
+									<form class="form" id = "form" action="" enctype="multipart/form-data" method="post">
+										<div class="upload mt-5 mb-5">
+											<?php
+											$doc_id=$_SESSION['docid'];
+											$sql="SELECT * from tbl_doctor where doc_id='$doc_id'";
+											$result=$con->query($sql);
+											if ($result-> num_rows > 0){
+											while ($row=$result-> fetch_assoc()) {
+												$image=$row['image'];?>
+												<img src="../images/<?php echo $image; ?>" width = 140 height = 150 title="<?php echo $image; ?>">
+												<?php }}?>
+											<div class="round">
+												<input type="file" name="image" id = "image" accept=".jpg, .jpeg, .png">
+												<i class = "fa fa-camera" style = "color: #fff;"></i>
+											</div>
+										</div>
+                        			</form>
+									<script type="text/javascript">
+										document.getElementById("image").onchange = function(){
+											document.getElementById("form").submit();
+										};
+                        			</script>
+									<?php
+										if(isset($_FILES["image"]["name"])){
+											$doc_id=$_SESSION['docid'];
+										$imageName = $_FILES["image"]["name"];
+										$imageSize = $_FILES["image"]["size"];
+										$tmpName = $_FILES["image"]["tmp_name"];
+
+										// Image validation
+										$validImageExtension = ['jpg', 'jpeg', 'png'];
+										$imageExtension = explode('.', $imageName);
+										$imageExtension = strtolower(end($imageExtension));
+										if (!in_array($imageExtension, $validImageExtension)){
+											echo
+											"
+											<script>
+											alert('Invalid Image Extension');
+											document.location.href = 'profile.php';
+											</script>
+											";
+										}
+										elseif ($imageSize > 1200000){
+											echo
+											"
+											<script>
+											alert('Image Size Is Too Large');
+											document.location.href = 'profile.php';
+											</script>
+											";
+										}
+										else{
+											$newImageName =" - " . date("Y.m.d") . " - " . date("h.i.sa"); // Generate new image name
+											$newImageName .= '.' . $imageExtension;
+											$query = "UPDATE tbl_doctor SET image = '$newImageName' WHERE doc_id = $doc_id";
+											mysqli_query($con, $query);
+											move_uploaded_file($tmpName, '../images/' . $newImageName);
+											echo
+											"
+											<script>
+											alert('Image Uploaded Successfully');
+											document.location.href = 'profile.php';
+											</script>
+											";
+										}
+										}
+                        			?>  
+								</div>
+								<div class="col-md-7" style="background-color:red;">
+									<?php
+										$doc_id=$_SESSION['docid'];
+										$sql="SELECT * from tbl_doctor where doc_id='$doc_id'";
+										$result=$con->query($sql);
+										if ($result-> num_rows > 0){
+										while ($row=$result-> fetch_assoc()) {?>
+										<h1 class="my-3"><?=$row["doc_name"]?></h1>
+										<h2 class="text-muted">Department: Cardiology</h4>
+										<p class="my-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam lobortis orci vel metus hendrerit ultricies. Donec pellentesque, est ut efficitur lacinia, ex sapien hendrerit tellus, a finibus risus ex eu nisl. Fusce euismod velit ac tellus auctor, eget commodo purus interdum. Integer ultricies augue id lorem pellentesque faucibus. Vestibulum vestibulum varius tincidunt.</p>
+										<ul class="list-unstyled">
+											<li><strong>Email:</strong> john.doe@example.com</li>
+											<li><strong>Phone:</strong> (123) 456-7890</li>
+											<li><strong>Address:</strong> 123 Main St, Anytown USA 12345</li>
+										</ul>
+									<?php }} ?>
+								</div>
+							</div>
+    					</div>
+					</div>
+				</div>
+			</div>

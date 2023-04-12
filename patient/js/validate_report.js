@@ -9,7 +9,7 @@ function validateGlucose()
     }
     //   Check if glucose is within a reasonable range (70-400 mg/dL)
     if (glucose.value < 60 || glucose.value > 400) {
-        text="Glucose range between 60 and 400 ";
+        text="Glucose range between 60mg/dL and 400mg/dL";
         document.getElementById('glu_err').innerHTML = text;
         document.getElementById('predict').disabled = true;
         return true; 
@@ -33,7 +33,7 @@ function validatebp()
         return true; 
     }
     if (bp.value < 40 || bp.value > 220) {
-        text="Blood Pressure range between 40 and 220 ";
+        text="Blood Pressure range between 40mmHg and 220mmHg ";
         document.getElementById('bp_err').innerHTML = text;
         document.getElementById('predict').disabled = true;
         return true; 
@@ -56,8 +56,8 @@ function validateInsulin()
         document.getElementById('predict').disabled = true;
         return true; 
     }
-    if (insulin.value < 0 || insulin.value > 400) {
-        text="Insulin range between 0 and 400 ";
+    if (insulin.value < 0 || insulin.value > 220) {
+        text="Insulin range between 0IU/mL and 400IU/mL";
         document.getElementById('ins_err').innerHTML = text;
         document.getElementById('predict').disabled = true;
         return true; 
@@ -81,7 +81,7 @@ function validatehb()
         return true; 
     }
     if (hb.value < 12 || hb.value > 18) {
-        text="Haemoglobin range between 12 and 18 ";
+        text="Haemoglobin range between 12g/dL and 18g/dL ";
         document.getElementById('hb_err').innerHTML = text;
         document.getElementById('predict').disabled = true;
         return true; 
@@ -105,7 +105,7 @@ function validateCholestrol()
         return true; 
     }
     if (chl.value < 120 || chl.value > 200) {
-        text="Cholestrol range between 120 and 200 ";
+        text="Cholestrol range between 120mg/dL and 200mg/dL";
         document.getElementById('chl_err').innerHTML = text;
         document.getElementById('predict').disabled = true;
         return true; 
@@ -129,7 +129,7 @@ function validateHeartRate()
         return true; 
     }
     if (hr.value < 60 || hr.value > 100) {
-        text="Heart Rate range between 60 and 100 ";
+        text="Heart Rate range between 60bpm and 100bpm ";
         document.getElementById('hr_err').innerHTML = text;
         document.getElementById('predict').disabled = true;
         return true; 

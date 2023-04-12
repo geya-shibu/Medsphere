@@ -241,7 +241,7 @@ include('../connection.php');
                 <ul class="metismenu" id="menu">
                     <!-- <li class="nav-label">Dashboard</li> -->
                     <li>
-                        <a href="javascript:void()" aria-expanded="false">
+                        <a href="homepage.php" aria-expanded="false">
                         <i class="bi bi-ui-checks-grid"></i><span class="nav-text">Dashboard</span>
                         </a>
                     </li>
@@ -490,36 +490,61 @@ include('../connection.php');
                                 <div class="card-body">
                                     <!-- <span class="token">Token Number</span> -->
                                     <!-- <h2 class="tnum">5</h2> -->
+                                    <?php
+                            $l_id=$_SESSION['p_id'];
+							$sql="SELECT * from tbl_appointment where p_id='$l_id' LIMIT 1";
+							$result=$con-> query($sql);
+							$count=1;
+							if ($result-> num_rows > 0){
+								while ($row=$result-> fetch_assoc()) {
+                                    $dept_id=$row["dept_id"];
+                                    $sql1="SELECT * from tbl_dept where dept_id='$dept_id'";
+							        $result1=$con-> query($sql1);
+							        if ($result1-> num_rows > 0){
+								        while ($row1=$result1-> fetch_assoc()) {
+                                            $doc_id=$row["doc_id"];
+                                            $sql2="SELECT * from tbl_doctor where doc_id='$doc_id'";
+							                $result2=$con-> query($sql2);
+							            
+							        if ($result2-> num_rows > 0){
+								        while ($row2=$result2-> fetch_assoc()) {        
+                                        ?>    
+                                    </tr>
                                     <div class="container">
                                         <div class="row">
                                             <div class="col dt ml-5">
-                                                Date : 
+                                                Date : <?=$row["day"]?>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col dt ml-5">
-                                                Time : 
+                                                Time : <?=$row["time"]?>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col dt ml-5">
-                                                Doctor: 
+                                                Doctor: <?=$row2["doc_name"]?>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col dt ml-5">
-                                                Department: 
+                                                Department: <?=$row1["dept_name"]?>
                                             </div>
                                         </div>
-                                        <div class="row pb-3">
+                                        <!-- <div class="row pb-3">
                                             <div class="col dtd">
                                             <button type="submit" class="btn btn-warning">Cancel</button>
                                             </div>
                                             <div class="col dtd">
                                                 <button type="submit" class="btn btn-success">Rebook</button>
                                             </div>
-                                        </div>
+                                        </div> -->
                                     </div>
+                                    <?php
+						$count=$count+1;
+					}
+					}}}}}
+				?> 
                                     <!-- <div class="mt-4">
                                         <h4>30</h4>
                                         <h6>Dr. Mary <span class="pull-right">30%</span></h6>

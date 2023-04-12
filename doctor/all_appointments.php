@@ -69,10 +69,10 @@
 
 			<!-- Sidebar -->
 			<div class="sidebar">
-				<div class="sidebar-background"></div>
-					<div class="sidebar-wrapper scrollbar-inner">
-						<div class="sidebar-content">
-							<div class="user">
+			<div class="sidebar-background"></div>
+				<div class="sidebar-wrapper scrollbar-inner">
+					<div class="sidebar-content">
+						<div class="user">
 							<div class="avatar-sm ml-4" style="height:120px; width:120px;">
 								<?php
 									$doc_id=$_SESSION['docid'];
@@ -88,162 +88,79 @@
 							</div>
 							<div class="info">
 								<a data-toggle="collapse" href="#collapseExample" aria-expanded="true">
-									<span class="ml-4 mt-2">
+									<span class="text-center mt-2">
 									<?php
 										$doc_id=$_SESSION['id'];
 										$sql="SELECT * from tbl_doctor where login_id='$doc_id'";
 										$result=$con->query($sql);
 										if ($result-> num_rows > 0){
 										while ($row=$result-> fetch_assoc()) {?>
-										<h4 style="margin-left:10px;"><?=$row["doc_name"]?></h4>
+										<h4><?=$row["doc_name"]?></h4>
+										<?php $docid=$row["doc_id"];
+										$_SESSION['docid']=$docid;?>
 										<?php }
 											}?>
-										<span class="ml-5">Doctor</span>
-										<!-- <span class="caret"></span> -->
 									</span>
+										<span class="text-center">Doctor</span>
+										<!-- <span class="caret"></span> -->
+									
 								</a>
 							</div>
 						</div>
-						<ul class="nav">
-							<li class="nav-item">
-								<a href="doctor.php">
-								<i class="fa-solid fa-bars"></i>
-									<p>Dashboard</p>
-									<!-- <span class="badge badge-count">5</span> -->
-								</a>
-							</li>
-							<li class="nav-item">
-								<a href="schedule.php">
-								<i class="fa-regular fa-calendar"></i>
-									<p>Schedule</p>
-									<!-- <span class="badge badge-count">5</span> -->
-								</a>
-							</li>
-							<li class="nav-item active">
-								<a href="appointment.php">
-								<i class="fa-solid fa-user"></i>
-									<p>Appointment</p>
-									<!-- <span class="caret"></span> -->
-								</a>
-							</li>
-							<!-- <li class="nav-item">
-								<a data-toggle="collapse" href="#base">
-									<i class="fas fa-layer-group"></i>
-									<p>Patients</p>
-									<span class="caret"></span>
-								</a>
-							</li> -->
-							<li class="nav-item">
-								<a href="all_appointments.php">
-									<i class="fas fa-pen-square"></i>
-									<p>Details</p>
-									<!-- <span class="caret"></span> -->
-								</a>
-							</li>
-							
-							<li class="nav-item">
-								<a href="profile.php">
-								<i class="fa-solid fa-circle-user"></i>
-									<p>Profile</p>
-								</a>
-							</li>
-						</ul>
-					</div>
+					<ul class="nav">
+						<li class="nav-item">
+							<a href="doctor.php">
+							<i class="fa-solid fa-bars"></i>
+								<p>Dashboard</p>
+								<!-- <span class="badge badge-count">5</span> -->
+							</a>
+						</li>
+						<li class="nav-item">
+							<a href="schedule.php">
+							<i class="fa-regular fa-calendar"></i>
+								<p>Schedule</p>
+								<!-- <span class="badge badge-count">5</span> -->
+							</a>
+						</li>
+						<li class="nav-item">
+							<a href="appointment.php">
+							<i class="fa-solid fa-user"></i>
+								<p>Appointment</p>
+								<!-- <span class="caret"></span> -->
+							</a>
+						</li>
+						<!-- <li class="nav-item">
+							<a href="all_patients.php">
+								<i class="fas fa-layer-group"></i>
+								<p>Patients</p>
+								<span class="caret"></span>
+							</a>
+						</li> -->
+						<li class="nav-item">
+							<a href="all_appointments.php">
+								<i class="fas fa-pen-square"></i>
+								<p>Details</p>
+								<!-- <span class="caret"></span> -->
+							</a>
+						</li>
+						
+						<li class="nav-item active">
+							<a href="profile.php">
+							<i class="fa-solid fa-circle-user"></i>
+								<p>Profile</p>
+							</a>
+						</li>
+					</ul>
 				</div>
 			</div>
+		</div>
 			<!-- End Sidebar -->
 
 			<div class="main-panel">
 				<div class="content">
 					<div class="card-body">
-						<h4 class="page-title text-center">Consultation Remaining</h4>
 						<div class="container-fluid">
-  							<div class="row">
-    							<div class="col-sm-12" style="height: 50vh; overflow-y: scroll;">
-									<div class="table-responsive">
-										<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-											<thead>
-												<tr>
-													<th> Sl No</th>
-													<th> Patient Name</th>
-													<th> Date</th>
-													<th> Time</th>
-													<th> Status</th>
-													<!-- <th> Next Visit</th> -->
-												</tr>
-											</thead>
-											<?php
-												$doc_id=$_SESSION['docid'];
-												$sql1 = "SELECT a.*, p.name FROM tbl_appointment a
-												JOIN tbl_patient p ON a.p_id = p.p_id
-												WHERE a.doc_id = '$doc_id' AND a.status = 'pending'";
-												$result1=$con->query($sql1);
-												$count=1;
-												while ($row1= mysqli_fetch_assoc($result1)) {
-													$p=$row1['p_id'];?>
-											<tbody>
-												<tr>
-													<td> <?=$count?> </td>
-													<td> <a href="patient_page.php?cur_id=<?=$row1['p_id']?>"><?=$row1["name"]?></a></td>
-													<td> <?=$row1["day"]?></td>
-													<td> <?=$row1["time"]?></td>
-													<td> <?=$row1["status"]?></td>
-													<!-- <td>
-														<button class="btn btn-primary" name="a_btn" value="" style="height:40px">Next Visit</button>
-														<form action="patient_page.php" method="POST">
-														<input type="hidden" name="delete_id" value="">
-														<button type="submit" name="delete_btn" class="btn btn-danger"> DELETE</button>
-														<button class="btn btn-primary" name="a_btn" value"" style="height:40px">Add More</button>
-														</form>
-														<button type="button" class="btn btn-primary"  data-toggle="modal" data-target="#exampleModal">
-															Next Visit
-														</button>
-													</td> -->
-												</tr>
-												<?php $count=$count+1;
-										}?>
-											</tbody>
-										</table>
-									</div>
-									<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-										<div class="modal-dialog" role="document">
-											<div class="modal-content">
-											<div class="modal-header">
-												<h5 class="modal-title" id="exampleModalLabel">Next Consultation Details</h5>
-												<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-												<span aria-hidden="true">&times;</span>
-												</button>
-											</div>
-											<div class="modal-body">
-												
-												<form action="next_visit.php" method="POST">
-													<div class="form-group">
-														<input type="date" id="date_picker" min="'.date('Y-m-d').'" name="next_date" class="form-control" placeholder="Enter Date">
-														<script language="javascript">
-															var today = new Date();
-															var dd = String(today.getDate()).padStart(2, '0');
-															var mm = String(today.getMonth() + 1).padStart(2, '0');
-															var yyyy = today.getFullYear();
-
-															today = yyyy + '-' + mm + '-' + dd;
-															$('#date_picker').attr('min',today);
-														</script>
-													</div>
-
-													<div class="modal-footer">
-														<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-														<button type="submit" name="next_consult" value="<?=$p?>" class="btn btn-primary">Send</button>
-													</div>
-												</form>
-											</div>
-										</div>
-									</div>
-									
-								</div>
-  							</div>
-						</div>
-						<div class="container-fluid">
-						<h4 class="page-title text-center">Consultation Finished</h4>
+						<h4 class="page-title text-center">All Appointments</h4>
   							<div class="row">
     							<div class="col-sm-12" style="height: 50vh; overflow-y: scroll;">
 									<div class="table-responsive">
@@ -286,17 +203,7 @@
 													<td> <?=$row1["day"]?></td>
 													<td> <?=$row1["time"]?></td>
 													<td> <?=$row1["status"]?></td>
-													<td>
-														<!-- <button class="btn btn-primary" name="a_btn" value="<?=$row2['p_id']?>" style="height:40px">Next Visit</button> -->
-														<!-- <form action="patient_page.php" method="POST">
-														<input type="hidden" name="delete_id" value="">
-														<button type="submit" name="delete_btn" class="btn btn-danger"> DELETE</button>
-														<button class="btn btn-primary" name="a_btn" value"" style="height:40px">Add More</button>
-														</form> -->
-														<!-- <button type="button" class="btn btn-primary"  data-toggle="modal" data-target="#exampleModal">
-															Next Visit
-														</button> -->
-													</td>
+													
 												</tr>
 											</tbody>
 										</table>

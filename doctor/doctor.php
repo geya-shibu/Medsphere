@@ -230,8 +230,18 @@
 				<div class="sidebar-wrapper scrollbar-inner">
 					<div class="sidebar-content">
 						<div class="user">
-							<div class="avatar-sm ml-4" style="height:120px; width:120px;">
-								<img src="../patient/images/no_image.jpg" alt="..." class="avatar-img rounded-circle">
+							<div class="avatar-sm ml-4" style="height:120px; width:120px; ">
+							<?php
+									$doc_id=$_SESSION['docid'];
+									$sql="SELECT * from tbl_doctor where doc_id='$doc_id'";
+									$result=$con->query($sql);
+									if ($result-> num_rows > 0){
+									while ($row=$result-> fetch_assoc()) {
+                                        $image=$row['image'];?>
+                                    <img class="avatar-img rounded-circle" src="../images/<?php echo $image; ?>" width = 140 height = 150 title="<?php echo $image;  ?>" style="margin-left:10px;">
+									<?php }
+									}?>
+								<!-- <img src="../patient/images/no_image.jpg" alt="..." class="avatar-img rounded-circle"> -->
 							</div>
 							<div class="info">
 								<a data-toggle="collapse" href="#collapseExample" aria-expanded="true">
@@ -276,15 +286,9 @@
 								<!-- <span class="caret"></span> -->
 							</a>
 						</li>
+						
 						<li class="nav-item">
-							<a href="all_patients.php">
-								<i class="fas fa-layer-group"></i>
-								<p>Patients</p>
-								<!-- <span class="caret"></span> -->
-							</a>
-						</li>
-						<li class="nav-item">
-							<a href="patient_page.php">
+							<a href="all_appointments.php">
 								<i class="fas fa-pen-square"></i>
 								<p>Details</p>
 								<!-- <span class="caret"></span> -->
@@ -334,8 +338,14 @@
 										</div>
 										<div class="col col-stats ml-3 ml-sm-0">
 											<div class="numbers">
-												<p class="card-category">Total Patients</p>
-												<h4 class="card-title">0</h4>
+											<?php
+												$doc_id=$_SESSION['docid'];
+												$sql="SELECT DISTINCT p_id from tbl_appointment where doc_id='$doc_id'";
+												$query_run=mysqli_query($con, $sql);
+												$c=mysqli_num_rows($query_run);?>
+													<p class="card-category">Total Patients</p>
+													<h4 class="card-title"><?=$c;?></h4>
+											
 											</div>
 										</div>
 									</div>
@@ -353,27 +363,13 @@
 										</div>
 										<div class="col col-stats ml-3 ml-sm-0">
 											<div class="numbers">
+											<?php
+												$doc_id=$_SESSION['docid'];
+												$sql="SELECT DISTINCT * from tbl_appointment where doc_id='$doc_id'";
+												$query_run=mysqli_query($con, $sql);
+												$c=mysqli_num_rows($query_run);?>
 												<p class="card-category">Total Appointments</p>
-												<h4 class="card-title">0</h4>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-sm-6 col-md-3">
-							<div class="card card-stats card-round">
-								<div class="card-body">
-									<div class="row align-items-center">
-										<div class="col-icon">
-											<div class="icon-big text-center icon-success bubble-shadow-small">
-												<i class="far fa-chart-bar"></i>
-											</div>
-										</div>
-										<div class="col col-stats ml-3 ml-sm-0">
-											<div class="numbers">
-												<p class="card-category">Income</p>
-												<h4 class="card-title">0</h4>
+												<h4 class="card-title"><?=$c;?></h4>
 											</div>
 										</div>
 									</div>
@@ -391,8 +387,40 @@
 										</div>
 										<div class="col col-stats ml-3 ml-sm-0">
 											<div class="numbers">
-												<p class="card-category">Treatments</p>
-												<h4 class="card-title">0</h4>
+											<?php
+												$doc_id=$_SESSION['docid'];
+												$sql="SELECT * from tbl_appointment where doc_id='$doc_id' and status='Consulted'";
+												$query_run=mysqli_query($con, $sql);
+												$c=mysqli_num_rows($query_run);?>
+												<p class="card-category">Total Consulted</p>
+												<h4 class="card-title"><?=$c;?></h4>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-6 col-md-3">
+							<div class="card card-stats card-round">
+								<div class="card-body">
+									<div class="row align-items-center">
+										<!-- <div class="col-icon">
+											<div class="icon-big text-center icon-success bubble-shadow-small">
+												<i class="far fa-chart-bar"></i>
+											</div>
+										</div> -->
+										<div class="col col-stats ml-3 ml-sm-0">
+											<div class="numbers">
+											<?php
+												$doc_id=$_SESSION['docid'];
+												$date = date('20y-m-d');
+												$sql="SELECT a.*, p.name FROM tbl_appointment a
+												JOIN tbl_patient p ON a.p_id = p.p_id
+												WHERE a.doc_id = '$doc_id' AND a.status = 'pending' AND day='$date'";
+												$query_run=mysqli_query($con, $sql);
+												$c=mysqli_num_rows($query_run);?>
+												<p class="card-category">Today's Appointment</p>
+												<h4 class="card-title"><?=$c;?></h4>
 											</div>
 										</div>
 									</div>
@@ -430,8 +458,8 @@
 												<th scope="col">Sl No</th>
 												<th scope="col">Patient Name</th>
 												<th scope="col">Time</th>
-												<th scope="col">Token Number</th>
-												<th scope="col">More</th>
+												<!-- <th scope="col">Token Number</th> -->
+												<!-- <th scope="col">More</th> -->
 											</tr>
 										</thead>
 										<tbody>
@@ -439,20 +467,22 @@
 												<?php
 												$doc_id=$_SESSION['docid'];
 												$date = date('20y-m-d');
-												$sql="SELECT * from tbl_appointment where doc_id='$doc_id'and day='$date'";
+												$sql = "SELECT a.*, p.name FROM tbl_appointment a
+												JOIN tbl_patient p ON a.p_id = p.p_id
+												WHERE a.doc_id = '$doc_id' AND a.status = 'pending' AND day='$date'";
+												// $sql="SELECT * from tbl_appointment where doc_id='$doc_id'and day='$date'";
 												$count=1;
 												$result=$con->query($sql);
 												if ($result-> num_rows > 0){
 												while ($row=$result-> fetch_assoc()) {?>
 												<td><?=$count?></td>
-												<td><?=$row["dept_id"]?></td>
+												<td><?=$row["name"]?></td>
 												<td><?=$row["time"]?></td>
-												<td>5</td>
 												<td>
 												<form action="disease_update.php" method="POST">
 													<!-- <input type="hidden" name="delete_id" value="">
 													<button type="submit" name="delete_btn" class="btn btn-danger"> DELETE</button> -->
-													<button class="btn btn-danger"  name="d_btn" value="<?=$row['dept_id']?>" style="height:40px">More</button>
+													<!-- <button class="btn btn-danger"  name="d_btn" value="<?=$row['dept_id']?>" style="height:40px">More</button> -->
 										</form>
 												</td>
 											</tr>

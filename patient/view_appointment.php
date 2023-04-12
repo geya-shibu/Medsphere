@@ -234,7 +234,7 @@ include('../connection.php');
                 <ul class="metismenu" id="menu">
                     <!-- <li class="nav-label">Dashboard</li> -->
                     <li>
-                        <a href="javascript:void()" aria-expanded="false">
+                        <a href="homepage.php" aria-expanded="false">
                         <i class="bi bi-ui-checks-grid"></i><span class="nav-text">Dashboard</span>
                         </a>
                     </li>
@@ -288,7 +288,7 @@ include('../connection.php');
                         </a>
                     </li>
                     <li>
-                        <a href="javascript:void()" aria-expanded="false">
+                        <a href="payment_report.php" aria-expanded="false">
                         <i class="bi bi-credit-card-2-front-fill"></i></i><span class="nav-text">Payment</span>
                         </a>
                     </li>
@@ -326,8 +326,8 @@ include('../connection.php');
 					<tbody>
 					<tr>
 						<?php
-                            $l_id=$_SESSION['id'];
-							$sql="SELECT * from tbl_appointment where login_id='$l_id'";
+                            $l_id=$_SESSION['p_id'];
+							$sql="SELECT * from tbl_appointment where p_id='$l_id'";
 							$result=$con-> query($sql);
 							$count=1;
 							if ($result-> num_rows > 0){

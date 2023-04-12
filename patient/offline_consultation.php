@@ -13,16 +13,16 @@
     $fees=$_POST['fees'];
     $date=$_POST['date'];
     $time=$_POST['time'];
-    $qid=$_SESSION['id'];
+    $qid=$_SESSION['p_id'];
     $duplicate=mysqli_query($con, "SELECT * from tbl_appointment WHERE dept_id='$specilization'");
     
-    if(mysqli_num_rows($duplicate)>0)
-    {
-    echo "<script> alert('Already Booked');
-                    windows.location.href='department.php';
-    </script>";
-    }
-    else{
+    // if(mysqli_num_rows($duplicate)>0)
+    // {
+    // echo "<script> alert('Already Booked');
+    //                 windows.location.href='department.php';
+    // </script>";
+    // }
+    // else{
     $query=mysqli_query($con,"insert into tbl_appointment(dept_id, doc_id, fees, day, time, p_id) values('$specilization','$doctorid','$fees', '$date', '$time', '$qid')");
         if($query)
         {
@@ -32,7 +32,8 @@
             // header("location:payment.php");
         }
         exit();
-    }}
+    }
+// }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -376,7 +377,7 @@
                         </a>
                         <ul aria-expanded="false">
                             <li><a href="offline_consultation.php">Offline Consultation</a></li>
-                            <li><a href="./layout-one-column.html">Online Consultation</a></li>
+                            <!-- <li><a href="./layout-one-column.html">Online Consultation</a></li> -->
                             <!-- <li><a href="./layout-two-column.html">Two column</a></li>
                             <li><a href="./layout-compact-nav.html">Compact Nav</a></li>
                             <li><a href="./layout-vertical.html">Vertical</a></li>

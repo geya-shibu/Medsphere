@@ -116,7 +116,7 @@ include('connection.php');
 									<input type="text" name="dept_name" value="<?=$data['dept_name'] ?>" class="form-control" placeholder="Enter Department Name">
 								</div>
 								<div class="form-group">
-									<input type="text" name="dept_detail" style="height:50px" value="<?=$data['dept_detail']?>" class="form-control" placeholder="Enter Department Details">
+									<input type="text" name="dept_detail" style="height:50px" row="30" value="<?=$data['dept_detail']?>" class="form-control" placeholder="Enter Department Details">
 								</div>
 								<div class="modal-footer">
 									<!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"></button> -->

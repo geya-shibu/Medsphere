@@ -59,16 +59,16 @@ include('connection.php');
             			</a>
 					</li>
 
-					<li class="sidebar-item">
+					<!-- <li class="sidebar-item">
 						<a class="sidebar-link" href="#">
 						<i class="bi bi-file-earmark-bar-graph"></i></i> 
 						<span class="align-middle">Reports</span>
             			</a>
-					</li>
+					</li> -->
 
 
 					<li class="sidebar-item">
-						<a class="sidebar-link" href="#">
+						<a class="sidebar-link" href="admin_payment.php">
 						<i class="bi bi-paypal"></i> 
 						<span class="align-middle">Payment</span>
             			</a>
@@ -94,7 +94,7 @@ include('connection.php');
 
 				<div class="navbar-collapse collapse">
 					<ul class="navbar-nav navbar-align">
-						<li class="nav-item dropdown">
+						<!-- <li class="nav-item dropdown">
 							<div class="dropdown-menu dropdown-menu-lg dropdown-menu-right py-0" aria-labelledby="alertsDropdown">
 								<div class="list-group">
 									<a href="#" class="list-group-item">
@@ -149,8 +149,8 @@ include('connection.php');
 									<a href="#" class="text-muted">Show all notifications</a>
 								</div>
 							</div>
-						</li>
-						<li class="nav-item dropdown">
+						</li> -->
+						<!-- <li class="nav-item dropdown">
 							<a class="nav-icon dropdown-toggle" href="#" id="messagesDropdown" data-toggle="dropdown">
 								<div class="position-relative">
 									<i class="align-middle" data-feather="message-square"></i>
@@ -193,26 +193,22 @@ include('connection.php');
 									<a href="#" class="text-muted">Show all messages</a>
 								</div>
 							</div>
-						</li>
+						</li> -->
 						<li class="nav-item dropdown">
 							<a class="nav-icon dropdown-toggle d-inline-block d-sm-none" href="#" data-toggle="dropdown">
-                <i class="align-middle" data-feather="settings"></i>
-              </a>				
-
-			  
-
+                				<i class="align-middle" data-feather="settings"></i>
+              				</a>				
 							<a class="nav-link dropdown-toggle d-none d-sm-inline-block" href="#" data-toggle="dropdown">
-                <img src="assets/images/avatars/avatar.jpg" class="avatar img-fluid rounded mr-1" alt="Charles Hall" /> <span class="text-dark">Admin</span>
-              </a>
+                				<img src="assets/images/avatars/avatar.jpg" class="avatar img-fluid rounded mr-1" alt="Charles Hall" /> <span class="text-dark">Admin</span>
+              				</a>
 							<div class="dropdown-menu dropdown-menu-right">
 								<a class="dropdown-item" href="pages-profile.html"><i class="align-middle mr-1" data-feather="user"></i> Profile</a>
-								<a class="dropdown-item" href="#"><i class="align-middle mr-1" data-feather="pie-chart"></i> Analytics</a>
+								<!-- <a class="dropdown-item" href="#"><i class="align-middle mr-1" data-feather="pie-chart"></i> Analytics</a> -->
 								<div class="dropdown-divider"></div>
-								<a class="dropdown-item" href="pages-settings.html"><i class="align-middle mr-1" data-feather="settings"></i> Settings & Privacy</a>
+								<!-- <a class="dropdown-item" href="pages-settings.html"><i class="align-middle mr-1" data-feather="settings"></i> Settings & Privacy</a>
 								<a class="dropdown-item" href="#"><i class="align-middle mr-1" data-feather="help-circle"></i> Help Center</a>
-								<div class="dropdown-divider"></div>
+								<div class="dropdown-divider"></div> -->
 								<a class="dropdown-item" href="logout.php">Log out</a>
-								
 							</div>
 						</li>
 					</ul>

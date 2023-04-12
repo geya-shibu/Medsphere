@@ -4,38 +4,36 @@
 
 if(isset($_POST['add_schedule']))
 {
-	$s_date=$_POST['s_date'];
-	$s_stime=$_POST['s_stime'];
-    $s_etime=$_POST['s_etime'];
+	$d_id=$_SESSION['id'];
+	$start_date=$_POST['s_date'];
+	$end_date=$_POST['e_date'];
+	$start_ti=$_POST['s_stime'];
+	$start_t = date('h:i A', strtotime($start_ti));
+    $end_t=$_POST['s_etime'];
+	$end_time=date('h:i A', strtotime($end_t));
+	$day_of_week = $_POST['dow'];
     $s_nop=$_POST['s_nop'];
-    // $s_session=$_POST['session'];
-	$duplicate=mysqli_query($con, "SELECT * from tbl_schedule WHERE start_time='$s_stime' AND end_time='$s_etime'");
-	if(mysqli_num_rows($duplicate)>0)
+	// $time_slot_duration = 30;
+	$sqll="SELECT * from tbl_doctor where login_id='$d_id'";
+	$sql_run=mysqli_query($con, $sqll);
+	if($sql_run)
 	{
-	echo "<script> alert('Already Added');</script>";
-	// header('location:department.php');
-	}
-    else
-    {
-		$d_id=$_SESSION['id'];
-		$sql="SELECT * from tbl_doctor where login_id='$d_id'";
-		$sql_run=mysqli_query($con, $sql);
-		if($sql_run)
-		{
-			$val_fetch=mysqli_fetch_assoc($sql_run);
-			$doc_id=$val_fetch['doc_id'];
-			// foreach($s_date as $sday)
-			// {
-			$ins="INSERT INTO tbl_schedule (doc_id, s_day, start_time, end_time, nop) VALUES ('$doc_id', '$s_date', '$s_stime', '$s_etime', '$s_nop')";
-			if($con->query($ins)=== TRUE)
-			{
-				// echo "<script> alert('Record Added Successfully'); </script>";
-				header('location:schedule.php');
+		$val_fetch=mysqli_fetch_assoc($sql_run);
+		$doc_id=$val_fetch['doc_id'];
+		$start_time = strtotime($start_date);
+		$alertShown = false;
+		for ($i = 0; $i <= (strtotime($end_date) - $start_time) / 86400; $i++) {
+			$date = date('Y-m-d', $start_time + ($i * 86400));
+			$sql = "INSERT INTO tbl_schedule (doc_id, s_day, e_day, start_time, end_time, day_of_week, nop) VALUES ('$doc_id', '$start_date', '$end_date', '$start_t', '$end_time', '$date', '$s_nop')";
+				if (mysqli_query($con, $sql) && !$alertShown) {
+					echo "<script>alert('Schedule added successfully'); 
+						window.location.href='schedule.php'; </script>";
+            			$alertShown = true;
+				} else {
+					echo "Error inserting record: " . mysqli_error($con) . "<br>";
+				}
 			}
-			}
-			
-		}
-	// }
+}
 }
 
 if(isset($_POST['suspend']))
@@ -298,11 +296,21 @@ if(isset($_POST['suspend']))
 				<div class="sidebar-content">
 				<div class="user">
 						<div class="avatar-sm ml-4" style="height:120px; width:120px;">
-							<img src="../patient/images/no_image.jpg" alt="..." class="avatar-img rounded-circle">
+							<?php
+								$doc_id=$_SESSION['docid'];
+								$sql="SELECT * from tbl_doctor where doc_id='$doc_id'";
+								$result=$con->query($sql);
+								if ($result-> num_rows > 0){
+								while ($row=$result-> fetch_assoc()) {
+									$image=$row['image'];?>
+								<img class="avatar-img rounded-circle" src="../images/<?php echo $image; ?>" width = 140 height = 150 title="<?php echo $image;  ?>" style="margin-left:10px;">
+								<?php }
+								}?>	
+						<!-- <img src="../patient/images/no_image.jpg" alt="..." class="avatar-img rounded-circle"> -->
 						</div>
 						<div class="info">
 							<a data-toggle="collapse" href="#collapseExample" aria-expanded="true">
-								<span class="ml-5 mt-2">
+								<span class="ml-4 mt-2">
 								<?php
 									
 									$doc_id=$_SESSION['id'];
@@ -310,7 +318,7 @@ if(isset($_POST['suspend']))
 									$result=$con->query($sql);
 									if ($result-> num_rows > 0){
 									while ($row=$result-> fetch_assoc()) {?>
-									<h4><?=$row["doc_name"]?></h4>
+									<h4 style="margin-left:10px;"><?=$row["doc_name"]?></h4>
 									<?php $docid=$row["doc_id"];
 									$_SESSION['docid']=$docid;?>
 									<?php }
@@ -322,7 +330,7 @@ if(isset($_POST['suspend']))
 				</div>
 				<ul class="nav">
 						<li class="nav-item">
-							<a href="index.html">
+							<a href="doctor.php">
 							<i class="fa-solid fa-bars"></i>
 								<p>Dashboard</p>
 								<!-- <span class="badge badge-count">5</span> -->
@@ -342,15 +350,9 @@ if(isset($_POST['suspend']))
 								<!-- <span class="caret"></span> -->
 							</a>
 						</li>
+						
 						<li class="nav-item">
-							<a data-toggle="collapse" href="#base">
-								<i class="fas fa-layer-group"></i>
-								<p>Patients</p>
-								<!-- <span class="caret"></span> -->
-							</a>
-						</li>
-						<li class="nav-item">
-							<a href="patient_page.php">
+							<a href="all_appointments.php">
 								<i class="fas fa-pen-square"></i>
 								<p>Details</p>
 								<!-- <span class="caret"></span> -->
@@ -398,38 +400,21 @@ if(isset($_POST['suspend']))
                                         today = yyyy + '-' + mm + '-' + dd;
                                         $('#date_picker').attr('min',today);
                                     </script>
-									<!-- <label>Select Days : </label><br>
-									<div class="checkboxes">
-									
-										<input type="checkbox" name="day[]" value="Monday" class="ml-3">Monday
-										<input type="checkbox" name="day[]" value="Tuesday" class="ml-4">Tuesday
-										<input type="checkbox" name="day[]" value="Wednesday" class="ml-4">Wednesday
-										<input type="checkbox" name="day[]" value="Thurday" class="ml-4">Thursday
-										<div class="row mt-3">
-											<input type="checkbox" name="day[]" value="Friday" class="ml-5">Friday
-											<input type="checkbox" name="day[]" value="Saturday" class="ml-4">Saturday
-											<input type="checkbox" name="day[]" value="Sunday" class="ml-4">Sunday
-										</div>
-									</div> -->
+								</div>
+								<div class="form-group">
+									<input type="date" id="date_picker" min="'.date('Y-m-d').'" name="e_date" class="form-control" placeholder="Enter Date">
 								</div>
                                 <div class="form-group">
 									<input type="time" name="s_stime" id="s_stime" class="form-control" placeholder="Enter Start Time">
 								</div>
+								
                                 <div class="form-group">
 									<input type="time" name="s_etime" id="s_etime" class="form-control" placeholder="Enter End Time">
 								</div>
+
 								<div class="form-group">
 									<input type="text" name="s_nop" id="s_nop" class="form-control" placeholder="Enter Number of Patients">
 								</div>
-                                <!-- <div class="form-group">
-									<input type="text" name="session" class="form-control" placeholder="Enter Session">
-                                    <label>Select session : </label>
-                                    <select name="session">
-                                        <option value="Morning">Morning</option>
-                                        <option value="Afternoon">Afternoon</option>
-                                        <option value="Evening">Evening</option>
-                                    </select>       
-								</div> -->
 								<div class="modal-footer">
 									<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
 									<button type="submit" name="add_schedule" id="sch" class="btn btn-primary">Add</button>
@@ -474,7 +459,7 @@ if(isset($_POST['suspend']))
         			while ($row=$result-> fetch_assoc()) {	
 			?>
 				<td> <?=$count?></td>
-				<td> <?=$row["s_day"]?></td>
+				<td> <?=$row["day_of_week"]?></td>
 				<td> <?=$row["start_time"]?></td>
 				<td> <?=$row["end_time"]?></td>
 				<td> <?=$row["nop"]?></td>

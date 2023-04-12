@@ -225,7 +225,7 @@ include('../connection.php');
                 <ul class="metismenu" id="menu">
                     <!-- <li class="nav-label">Dashboard</li> -->
                     <li>
-                        <a href="javascript:void()" aria-expanded="false">
+                        <a href="homepage.php" aria-expanded="false">
                         <i class="bi bi-ui-checks-grid"></i><span class="nav-text">Dashboard</span>
                         </a>
                     </li>
@@ -279,11 +279,11 @@ include('../connection.php');
                         </a>
                     </li>
                     <li>
-                        <a href="javascript:void()" aria-expanded="false">
+                        <a href="payment.php" aria-expanded="false">
                         <i class="bi bi-credit-card-2-front-fill"></i></i><span class="nav-text">Payment</span>
                         </a>
                     </li>
-                    <li>
+                    <!-- <li>
                         <a href="javascript:void()" aria-expanded="false">
                         <i class="bi bi-gear-wide-connected"></i><span class="nav-text">Settings</span>
                         </a>
@@ -292,7 +292,7 @@ include('../connection.php');
                         <a href="javascript:void()" aria-expanded="false">
                         <i class="bi bi-info-circle-fill"></i></i><span class="nav-text">Help</span>
                         </a>
-                    </li>
+                    </li> -->
                 </ul>
             </div>
         </div>
@@ -356,9 +356,9 @@ include('../connection.php');
                                             }}
                                     ?>
                                 </p>
-                                <form action="#" method="POST">
+                                <!-- <form action="#" method="POST">
                                     <button type="submit" class="btn btn-info">View Profile</button>
-                                </form>
+                                </form> -->
                                 <form action="offline_consultation.php" method="POST">
                                     <button type="submit" class="btn btn-primary mt-2">Book an Appointment</button>
                                 </form> 

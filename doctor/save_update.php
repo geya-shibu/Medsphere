@@ -7,8 +7,10 @@ if(!isset($_SESSION["email"]))
 }
 if(isset($_POST['consult']))
 {
+    date_default_timezone_set("Asia/Kolkata");
+	$today = date("Y-m-d H:i:s");
     $cpid=$_SESSION['cur_pid'];
-    $query="UPDATE tbl_appointment SET status='Consulted' where login_id='3'";
+    $query="UPDATE tbl_appointment SET status='Consulted', con_date='$today' where p_id='$cpid'";
     $query_run=mysqli_query($con, $query);
     if($query_run)
     {

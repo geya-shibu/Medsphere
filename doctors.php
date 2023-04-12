@@ -64,6 +64,7 @@ if(isset($_POST['add_doctor']))
 					if($con->query($sql2))
 					{
 					echo "<script> alert('Doctor Added Successfully'); </script>";
+					exit();
 					}
 				}
 			}
@@ -118,7 +119,7 @@ if(isset($_POST['add_doctor']))
             			</a>
 					</li>
 
-					<li class="sidebar-item" active>
+					<li class="sidebar-item active" >
 						<a class="sidebar-link" href="doctors.php">
 						<i class="bi bi-person-hearts"></i>
 						<span class="align-middle">Doctors</span>
@@ -132,16 +133,16 @@ if(isset($_POST['add_doctor']))
             			</a>
 					</li>
 
-					<li class="sidebar-item">
+					<!-- <li class="sidebar-item">
 						<a class="sidebar-link" href="pages-invoice.html">
 						<i class="bi bi-file-earmark-bar-graph"></i></i> 
 						<span class="align-middle">Reports</span>
             			</a>
-					</li>
+					</li> -->
 
 
 					<li class="sidebar-item">
-						<a class="sidebar-link" href="icons-feather.html">
+						<a class="sidebar-link" href="admin_payment.php">
 						<i class="bi bi-paypal"></i> 
 						<span class="align-middle">Payment</span>
             			</a>
@@ -164,6 +165,27 @@ if(isset($_POST['add_doctor']))
             			</button>
 					</div>
 				</form>
+				<div class="navbar-collapse collapse">
+						<ul class="navbar-nav navbar-align">
+							<li class="nav-item dropdown">
+								<a class="nav-icon dropdown-toggle d-inline-block d-sm-none" href="#" data-toggle="dropdown">
+									<i class="align-middle" data-feather="settings"></i>
+								</a>				
+								<a class="nav-link dropdown-toggle d-none d-sm-inline-block" href="#" data-toggle="dropdown">
+									<img src="assets/images/avatars/avatar.jpg" class="avatar img-fluid rounded mr-1" alt="Charles Hall" /> <span class="text-dark">Admin</span>
+								</a>
+								<div class="dropdown-menu dropdown-menu-right">
+									<a class="dropdown-item" href="pages-profile.html"><i class="align-middle mr-1" data-feather="user"></i> Profile</a>
+									<!-- <a class="dropdown-item" href="#"><i class="align-middle mr-1" data-feather="pie-chart"></i> Analytics</a> -->
+									<div class="dropdown-divider"></div>
+									<!-- <a class="dropdown-item" href="pages-settings.html"><i class="align-middle mr-1" data-feather="settings"></i> Settings & Privacy</a>
+									<a class="dropdown-item" href="#"><i class="align-middle mr-1" data-feather="help-circle"></i> Help Center</a>
+									<div class="dropdown-divider"></div> -->
+									<a class="dropdown-item" href="logout.php">Log out</a>
+								</div>
+							</li>
+						</ul>
+					</div>
 			</nav>
 
 			<main class="content">
@@ -177,8 +199,8 @@ if(isset($_POST['add_doctor']))
 						<div class="col-auto ml-auto text-right mt-n1">
 							<nav aria-label="breadcrumb">
 								<ol class="breadcrumb bg-transparent p-0 mt-1 mb-0">
-									<li class="breadcrumb-item"><a href="#">AdminKit</a></li>
-									<li class="breadcrumb-item"><a href="#">Dashboards</a></li>
+									<li class="breadcrumb-item"><a href="#">Home</a></li>
+									<!-- <li class="breadcrumb-item"><a href="#">Dashboards</a></li> -->
 									<li class="breadcrumb-item active" aria-current="page">Doctors</li>
 								</ol>
 							</nav>
@@ -238,7 +260,7 @@ if(isset($_POST['add_doctor']))
           <tr>
             <th> Sl No</th>
             <th> Doctor Name</th>
-			<!-- <th> Doctor Email</th> -->
+			<th> Doctor Email</th>
             <!-- <th> EDIT </th> -->
             <th> DELETE </th>
           </tr>
@@ -252,28 +274,42 @@ if(isset($_POST['add_doctor']))
       			if ($result->num_rows > 0){
         			while ($row=$result-> fetch_assoc()) 
 					{
-					?>
-						<td> <?=$row["doc_id"]?></td>
-						<td> <?=$row["doc_name"]?></td>
-						<!-- <td>
-							<form action="edit_dept.php" method="POST">
-								<input type="hidden" name="edit_id" value="">
-								<button  type="submit" name="edit_btn" class="btn btn-success"> EDIT</button>
-								<button class="btn btn-primary" name="edit_btn" value="" style="height:40px">Edit</button>
-							</form>
-						</td> -->
-						<td>
-							<form action="del_doctor.php" method="POST">
-							<!-- <input type="hidden" name="delete_id" value="">
-							<button type="submit" name="delete_btn" class="btn btn-danger"> DELETE</button> -->
-							<button class="btn btn-danger"  name="d_btn" value="<?=$row['doc_id']?>" style="height:40px">Delete</button>
-							</form>
-						</td>
+						$sql1="SELECT * from tbl_login where login_id=".$row["login_id"]."";
+						$result1=$con-> query($sql1);
+						$count=1;
+						if ($result1->num_rows > 0){
+							while ($row1=$result1-> fetch_assoc()) 
+							{
+								$sql2="SELECT * from tbl_dept where dept_id=".$row["dept_id"]."";
+								$result2=$con-> query($sql2);
+								$count=1;
+								if ($result2->num_rows > 0){
+									while ($row2=$result2-> fetch_assoc()) 
+									{
+							?>
+								<td> <?=$count?></td>
+								<td> <?=$row["doc_name"]?></td>
+								<td> <?=$row1["email"]?></td>
+								<td> <?=$row2["dept_name"]?></td>
+								<!-- <td>
+									<form action="edit_dept.php" method="POST">
+										<input type="hidden" name="edit_id" value="">
+										<button  type="submit" name="edit_btn" class="btn btn-success"> EDIT</button>
+										<button class="btn btn-primary" name="edit_btn" value="" style="height:40px">Edit</button>
+									</form>
+								</td> -->
+							<td>
+								<form action="del_doctor.php" method="POST">
+								<!-- <input type="hidden" name="delete_id" value="">
+								<button type="submit" name="delete_btn" class="btn btn-danger"> DELETE</button> -->
+								<button class="btn btn-danger"  name="d_btn" value="<?=$row['doc_id']?>" style="height:40px">Delete</button>
+								</form>
+							</td>
 						</tr>
 						<?php
             				$count=$count+1;
 						}
-						}
+						}}}}}
 				?>
           	
         </tbody>

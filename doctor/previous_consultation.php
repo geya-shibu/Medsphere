@@ -26,22 +26,6 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-	<style>
-      .error-message
-      {
-        color:blue;
-        font-size:14px;
-        margin-top:-20px;
-      }
-    </style>
-	<script>
-		function predictdisease()
-		{
-			text="No white space allowed";
-			document.getElementById('name_err').innerHTML = text;
-			return true;
-		}
-	</script>
 	<script>
         function getdisease(val) {
             $.ajax({
@@ -356,308 +340,15 @@
 					<div class="container-fluid">
   						<div class="row">
     						<div class="col-12">
-								<h2 class="text-center" style="font-size:27px;">Consultation Details</h2>
-								<?php
-								$cpid=$_SESSION['cur_pid'];
-								$sql3="SELECT * from tbl_appointment where p_id='$cpid'";
-								$result3=$con->query($sql3);
-								$count=1;
-								if($result3-> num_rows > 0){
-								$row3=$result3-> fetch_assoc()?>
-								
-								<p class="text-center" style="font-size:15px; color:brown;"><i class="bi bi-calendar-check"></i> Last Consulted: <?php echo $row3['con_date'] ?></p>
-								<?php }?>
-								<!-- Button trigger modal -->
-								<div class="row">
-									<div class="col">
-										<button type="button" class="btn btn-secondary float-right"  data-toggle="modal" data-target="#exampleModalEmail">
-											Next Visit
-										</button>
-										<form action="previous_consultation.php" method="POST">
-											<button type="submit" class="btn btn-warning mx-2 mb-2 float-right">
-												View Previous Data
-											</button>
-										</form>
-										<button type="button" class="btn btn-success mx-2 mb-2 float-right" data-toggle="modal" data-target="#exampleModalProfile">
-											View Profile
-										</button>
-										
-										<button type="button" class="btn btn-primary mb-2 float-right" data-toggle="modal" data-target="#exampleMedform">
-											Add Medicine
-										</button>
-										<button type="button" class="btn btn-primary mx-2 mb-2 float-right" data-toggle="modal" data-target="#exampleModalLong">
-											Add Disease
-										</button>
-									</div>
-								</div>
-								<!-- Modal -->
-
-
-								<div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-									<div class="modal-dialog" role="document">
-										<div class="modal-content">
-											<div class="modal-header">
-												<h5 class="modal-title" id="exampleModalLongTitle">Consultation Details</h5>
-												<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-												<span aria-hidden="true">&times;</span>
-												</button>
-											</div>
-											<div class="modal-body">
-												<style>
-													select {
-														width: 450px;
-														
-													}
-													select:focus {
-														min-width: 150px;
-														width: auto;
-													}
-												</style>
-												<form action="disease_update.php" method="POST">	
-													<!-- <div class="form-group">
-														<label>Patient Name</label>
-														<input type="text" id="name" name="dept_name" class="form-control" placeholder="Patient Name" value="Geya Merin Shibu" required>
-													</div> -->
-													<!-- <h6 class="error-message" id="name_err" style="color:red;"></h6> -->
-													<div class="form-group" >
-														<label>Symptoms</label><br>
-														<select class="js-example-basic-multiple" name="sym" width="50" multiple="multiple" onChange="getdisease(this.value)" onkeyup="predictdisease()">
-															<?php
-																$sql="SELECT * from tbl_symptoms";
-																$result=$con->query($sql);
-																if ($result-> num_rows > 0){
-																while ($row=$result-> fetch_assoc()) {
-															?>
-																<option value="<?=$row["dis_id"];?>">
-																	<?=$row["sym_name"];?>
-																</option>
-															<?php }}?>
-														</select>
-														<h6 class="error-message" id="name_err"></h6>
-													</div>
-																	
-													<div class="form-group">
-														<select name="disease" class="form-control" id="disease"  required="required">
-															<option value="">Disease</option>
-														</select>
-													</div>
-													
-												
-													<div class="modal-footer">
-														<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-														<button type="submit" name="add_consultation" class="btn btn-primary">Add</button>
-													</div>
-												</form>
-											</div>
-										</div>
-									</div>
-								</div>
-								
-								<div class="modal fade" id="exampleModalEmail" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-									<div class="modal-dialog" role="document">
-										<div class="modal-content">
-											<div class="modal-header">
-												<h5 class="modal-title" id="exampleModalLabel">Next Consultation Details</h5>
-												<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-												<span aria-hidden="true">&times;</span>
-												</button>
-											</div>
-											<div class="modal-body">
-												<form action="next_visit.php" method="POST">
-													<div class="form-group">
-														<input type="date" id="date_picker" min="'.date('Y-m-d').'" name="next_date" class="form-control" placeholder="Enter Date">
-														<script language="javascript">
-															var today = new Date();
-															var dd = String(today.getDate()).padStart(2, '0');
-															var mm = String(today.getMonth() + 1).padStart(2, '0');
-															var yyyy = today.getFullYear();
-
-															today = yyyy + '-' + mm + '-' + dd;
-															$('#date_picker').attr('min',today);
-														</script>
-													</div>
-
-													<div class="modal-footer">
-													<?php
-														$cpid=$_SESSION['cur_pid'];
-														$sql3="SELECT * from tbl_appointment where p_id='$cpid'";
-														$result3=$con->query($sql3);
-														$count=1;
-														if($result3-> num_rows > 0){
-														$row3=$result3-> fetch_assoc();
-															$p=$row3['p_id'];?>
-														<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-														<button type="submit" name="next_consult" value="<?=$p?>" class="btn btn-primary">Send</button>
-														<?php }?>	
-													</div>
-												</form>
-											</div>
-										</div>
-									</div>
-								</div>
-
-								<div class="modal fade" id="exampleMedform" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-									<div class="modal-dialog" role="document">
-										<div class="modal-content">
-											<div class="modal-header">
-												<h5 class="modal-title" id="exampleModalLongTitle">Medicine Details</h5>
-												<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-												<span aria-hidden="true">&times;</span>
-												</button>
-											</div>
-											<div class="modal-body">
-												<style>
-													select {
-														width: 450px;
-														
-													}
-													select:focus {
-														min-width: 150px;
-														width: auto;
-													}
-												</style>
-												<form action="disease_update.php" method="POST">	
-													<!-- <div class="form-group">
-														<label>Patient Name</label>
-														<input type="text" id="name" name="dept_name" class="form-control" placeholder="Patient Name" value="Geya Merin Shibu" required>
-													</div> -->
-													<!-- <h6 class="error-message" id="name_err" style="color:red;"></h6> -->
-													<div class="form-group">
-														<div class="row">
-															<div class="col-sm-8">
-															<label>Medicine Name</label>
-																<input type="text" id="medicine" name="medicine" class="form-control" placeholder="Medicine Name" required>
-															</div>
-															<div class="col-sm-4">
-															<label>Dose</label>
-																<input type="text" id="dose" name="dose" class="form-control" placeholder="Dose" required>
-															</div>
-														</div>
-													</div>
-													<div class="form-group">
-														<label>Start Date:</label>
-														<input type="date" name="start_date" class="form-control">
-													</div>
-													<div class="form-group">	
-														<label>End Date:</label>
-														<input type="date" name="end_date" class="form-control">
-													</div>
-													<div class="form-group">
-														<label>Timings:</label><br>
-														<input type="checkbox" name="timings[]" value="morning" class="form-control">Morning<br>
-														<input type="checkbox" name="timings[]" value="afternoon" class="form-control">Afternoon<br>
-														<input type="checkbox" name="timings[]" value="night" class="form-control">Night<br><br>
-													</div>
-													<!-- <div class="form-group">
-														<input type="text" id="cnt" name="cnt" class="form-control" placeholder="Count" required>
-													</div> -->
-												
-													<div class="modal-footer">
-														<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-														<button type="submit" name="add_medicine" class="btn btn-primary">Add</button>
-													</div>
-												</form>
-											</div>
-										</div>
-									</div>
-								</div>
-
-								<div class="modal fade" id="exampleModalProfile" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-									<div class="modal-dialog" role="document">
-										<div class="modal-content">
-											<div class="modal-header">
-												<h5 class="modal-title" id="exampleModalLongTitle">Patient Profile</h5>
-												<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-												<span aria-hidden="true">&times;</span>
-												</button>
-											</div>
-											<div class="modal-body">
-												<?php
-												$cpid=$_SESSION['cur_pid'];
-												$sql="SELECT * from tbl_patient where p_id='$cpid'";
-												$result=$con->query($sql);
-												$count=1;
-												if($result-> num_rows > 0){
-												while ($row=$result-> fetch_assoc()) {
-													$image=$row['image'];?>
-													<div class="col text-center">
-														<img src="../images/<?php echo $image;?>" alt="avatar" class="rounded-circle" style="width:120px; height:130px;">
-														<h5 class="my-2"><?php echo $row['name']; ?></h5>
-														<p class="text-muted">Hospital ID :MS<?php echo $row['p_id']; ?></p>
-													</div>
-													<div class="col-lg-10">
-														<div class="card ml-5 mb-4" >
-															<div class="card-body">
-																<div class="row">
-																	<div class="col-5">
-																		<p class="mb-0">Date of Birth</p>
-																	</div>
-																	<div class="col-sm-7">
-																		<p class="text-muted mb-0"><?=$row["dob"]?></p>
-																	</div>
-																</div>
-																<hr>
-																<div class="row">
-																	<div class="col-sm-5">
-																		<p class="mb-0">Email</p>
-																	</div>
-																	<div class="col-sm-7">
-																		<p class="text-muted mb-0">geyams16@gmail.com</p>
-																	</div>
-																</div>
-																<hr>
-																<div class="row">
-																	<div class="col-sm-5">
-																		<p class="mb-0">Phone</p>
-																	</div>
-																	<div class="col-sm-7">
-																		<p class="text-muted mb-0"><?=$row["phone"]?></p>
-																	</div>
-																</div>
-																<hr>
-												
-																<div class="row">
-																	<div class="col-sm-5">
-																		<p class="mb-0">Address</p>
-																	</div>
-																	<div class="col-sm-7">
-																		<p class="text-muted mb-0"><?=$row["address_line_1"]?><br><?=$row["address_line_2"]?><br><?=$row["address_line_3"]?></p>
-																	</div>
-																</div>
-																<hr>
-																<div class="row">
-																	<div class="col-sm-5">
-																		<p class="mb-0">Height</p>
-																	</div>
-																	<div class="col-sm-7">
-																		<p class="text-muted mb-0"><?=$row["height"]?></p>
-																	</div>
-																</div>
-																<hr>
-																<div class="row">
-																	<div class="col-sm-5">
-																		<p class="mb-0">Weight</p>
-																	</div>
-																	<div class="col-sm-7">
-																		<p class="text-muted mb-0"><?=$row["weight"]?></p>
-																	</div>
-																</div>
-															</div>
-														</div>
-													</div>
-												<?php }}?>
-											</div>
-										</div>
-									</div>
-								</div>
-
+								<h2 class="text-center mb-5" style="font-size:27px;">Previous Consultation Details</h2>
 								<div class="row">	
-									<div class="col-5">			
+									<div class="col-5">	
+                                        <h3 class="text-center" style="font-size:19px; color:#C70039;"><i class="bi bi-lungs"></i> Symptoms and Diseases</h3>		
 									<table class="table table-bordered" width="100%">
 										<thead>
 											<tr>
 											<th scope="col" width="10%">Sl No</th>
-											<th scope="col">Date</th>
+                                            <th scope="col">Date</th>
 											<th scope="col">Symptoms</th>
 											<th scope="col">Disease</th>
 											<!-- <th scope="col">Medicine</th>
@@ -667,7 +358,7 @@
 										</thead>
 										<?php
 											$cpid=$_SESSION['cur_pid'];
-											$sql="SELECT * from tbl_record where p_id='$cpid' ORDER BY con_date DESC LIMIT 1";
+											$sql="SELECT * from tbl_record where p_id='$cpid'";
 											$result=$con->query($sql);
 											$count=1;
 											if($result-> num_rows > 0){
@@ -675,7 +366,7 @@
 											<tbody>
 												<tr>
 													<th scope="row"><?php echo $count;?></th>
-													<td><?php echo $row["con_date"]; ?></th>
+                                                    <td><?php echo $row["con_date"]; ?></th>
 													<td><?php
 														$symid=$row["symptoms"];
 														$sql1="SELECT * from tbl_symptoms where sym_id='$symid'";
@@ -700,11 +391,12 @@
 									</div>
 
 									<div class="col">
+                                    <h3 class="text-center" style="font-size:19px;  color:#C70039;"><i class="bi bi-capsule-pill"></i> Medicine Details</h3>
 									<table class="table table-bordered" width="100%">
 										<thead>
 											<tr>
 											<th scope="col" width="10%">Sl No</th>
-											<th scope="col">Date</th>
+                                            <th scope="col">Date</th>
 											<th scope="col">Medicine</th>
 											<th scope="col">Dosage</th>
 											<th scope="col">Start date</th>
@@ -723,7 +415,7 @@
 											<tbody>
 												<tr>
 													<th scope="row"><?php echo $count;?></th>
-													<td><?=$row1["con_date"]?></td>
+                                                    <td><?=$row1["con_date"]?></td>
 													<td><?=$row1["med_name"]?></td>
 													<td><?=$row1["med_dose"]?></td>
 													<td><?=$row1["start_date"]?></td>
@@ -735,22 +427,22 @@
 											<?php $count=$count+1;}}?>
 									</table>
 									</div>
-								</div>
-
+								</div>	
     						</div>
+
   						</div>
 
 						<div class="row">
 							<div class="col ">
 								<div class="back-button" id="button-container">
-									<a href="appointment.php" class="btn btn-info">Back</a>
+									<a href="patient_page.php" class="btn btn-info">Back</a>
 								</div>
 							</div>
-							<div class="col" >
+							<!-- <div class="col" >
 								<form action="save_update.php" method="POST">			
 									<button class="btn btn-primary" id="button-containersave" name="consult">Save</button>
 								</form>
-							</div>
+							</div> -->
 						</div>
 					</div>
 				</div>
@@ -763,12 +455,6 @@
 			bottom: 25px;
 			right: 10;
   			text-align: left;
-			}
-			#button-containersave {
-			position: fixed;
-			bottom: 25px;
-			right: 40px;
-  			text-align: right;
 			}
 		</style>
 		<script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>

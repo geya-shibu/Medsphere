@@ -16,9 +16,9 @@
         
         while($row=mysqli_fetch_array($sql))
         {
-            $day=$row['s_day'];
+            $day=$row['day_of_week'];
             $date = date('l', strtotime($day));?>
-            <option value="<?php echo htmlentities($row['s_day']);?>">Date : <?php echo $day;?>, Day : <?php echo $date;?></option>
+            <option value="<?php echo htmlentities($row['day_of_week']);?>">Date : <?php echo $day;?>, Day : <?php echo $date;?></option>
             <?php
         }
     }

@@ -23,6 +23,7 @@ include('../connection.php');
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
     <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous"> -->
 	<!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script> -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-EkdRDouo36U6eQ2N4pdFMNqKvXomqN6LrbFW12pSihIM44hRVAP8gKtv5qrztV5x5e5QvK8mE6bng06y7kyLwQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="js/validate_report.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
    
@@ -324,22 +325,23 @@ include('../connection.php');
             <div class="row">
                 <div class="col-5">
                     <h2 class="text-center">Add Medical Data</h2>
+                    <h4 class="text-center">Enter your data from the lab report</h4>
                     <form method="POST" action="process_report.php">
                         <div class="form-group">
                             <label for="glucose">Glucose (mg/dL):</label>
-                            <input type="text" class="form-control" name="symtomp1" id="symtomp1" onkeyup="validateGlucose()" required>
+                            <input type="text" class="form-control" name="symtomp1" id="symtomp1" onkeyup="validateGlucose()" placeholder="Enter Glucose level (in mg/dL)" required>
                             <h6 class="error-message" style="color:red;" id="glu_err"></h6>
                         </div>
                         
                         <div class="form-group">
                             <label for="blood_pressure">Blood Pressure (mmHg):</label>
-                            <input type="text" class="form-control" name="symtomp2" id="symtomp2" onkeyup="validatebp()" required>
+                            <input type="text" class="form-control" name="symtomp2" id="symtomp2" onkeyup="validatebp()" placeholder="Enter Blood Pressure (in mmHg)" required>
                             <h6 class="error-message" style="color:red;" id="bp_err"></h6>
                         </div>
                         
                         <div class="form-group">
-                            <label for="haemoglobin">Insulin Level (g/dL):</label>
-                            <input type="text" class="form-control" name="symtomp3" id="symtomp3" onkeyup="validateInsulin()" required>
+                            <label for="haemoglobin">Insulin Level (IU/mL):</label>
+                            <input type="text" class="form-control " name="symtomp3" id="symtomp3" onkeyup="validateInsulin()" placeholder="Enter Insulin level (in IU/mL)" required>
                             <h6 class="error-message" style="color:red;" id="ins_err"></h6>
                         </div>
                         
@@ -375,20 +377,20 @@ include('../connection.php');
                         </div>
 
                         <div class="form-group">
-                            <label for="cholestrol">Haemoglobin (dL):</label>
-                            <input type="text" class="form-control" name="haemoglobin" id="haemoglobin" onkeyup="validatehb()" required>
+                            <label for="cholestrol">Haemoglobin (g/dL):</label>
+                            <input type="text" class="form-control" name="haemoglobin" id="haemoglobin" onkeyup="validatehb()" placeholder="Enter Haemoglobin (in g/dL)" required>
                             <h6 class="error-message" style="color:red;" id="hb_err"></h6>  
                         </div> 
                          
                         <div class="form-group">
-                            <label for="cholestrol">Cholestrol Level (dL):</label>
-                            <input type="text" class="form-control" name="cholestrol" id="cholestrol" onkeyup="validateCholestrol()" required>
+                            <label for="cholestrol">Cholestrol Level (mg/dL):</label>
+                            <input type="text" class="form-control" name="cholestrol" id="cholestrol" onkeyup="validateCholestrol()" placeholder="Enter Cholestrol level (in mg/dL)" required>
                             <h6 class="error-message" style="color:red;" id="chl_err"></h6>
                         </div>
                         
                         <div class="form-group">
                             <label for="heart_rate">Heart Rate (bpm):</label>
-                            <input type="text" class="form-control" name="heart_rate" id="heart_rate" onkeyup="validateHeartRate()" required>
+                            <input type="text" class="form-control" name="heart_rate" id="heart_rate" onkeyup="validateHeartRate()" placeholder="Enter Heart Rate (in bpm)" required>
                             <h6 class="error-message" style="color:red;" id="hr_err"></h6>        
                         </div>
                         
@@ -419,6 +421,7 @@ include('../connection.php');
                                             swal({
                                                 title: 'Diabetic Prediction',
                                                 text: 'High Chance of being Diabetic',
+                                                icon: 'warning'
                                               });
                                         }
                                         </script>";
@@ -430,6 +433,7 @@ include('../connection.php');
                                                     swal({
                                                         title: 'Diabetic Prediction',
                                                         text: 'Low Chance of being Diabetic', 
+                                                        icon: 'success',
                                                       });
                                                 }
                                             </script>";
@@ -447,10 +451,21 @@ include('../connection.php');
                             <img src="images/question.png" style="margin-top:26px" width="16px" alt="Icon" title="Predicted based on the data given">
                         </div>
                     </div>
+                     <style>
+                        .icon-cell, .label-cell {
+                        display: inline-block;
+                        vertical-align: middle;
+                        }
 
+                        .icon-cell img {
+                        vertical-align: middle;
+                        }
+                        
+                            
+                     </style>
                     
-                    
-                    <!-- <i class="fa fa-question-circle" aria-hidden="true"></i> -->
+                   
+                    <!-- <i class="fa fa-question-circle"<i class="fas fa-user"></i> aria-hidden="true"></i> -->
                     <?php   
                         $p_id=$_SESSION['p_id'];
                         $sqll="SELECT * from tbl_reports where p_id='$p_id' ORDER BY report_date DESC LIMIT 1";
@@ -458,31 +473,133 @@ include('../connection.php');
                         
                         if($result-> num_rows > 0){
                             while ($row=$result-> fetch_assoc()) {?>
-                                    <table class="table mt-4">
+                                    <table class="table mt-4" style="font-size:18px;">
                                         <tbody>
-                                        <tr>
-                                                <td>Glucose :</td>
+                                            <tr>
+                                                <td class="icon-cell"><img src="images/icons/glucose-meter.png" width="22"></td>
+                                                <td class="label-cell">Glucose :</td>
                                                 <td><?=$row["glucose"]?>mg/dL</td>
+                                                <td>
+                                                    <?php
+                                                        if($row["glucose"]>90 && $row["glucose"]<125)
+                                                        {
+                                                            echo "<span style='color:green'>Normal</span>";
+                                                        }
+                                                        elseif($row["glucose"]<90)
+                                                        {
+                                                            echo "<span style='color:blue'>Low glucose level</span>";
+                                                        }
+                                                        else
+                                                        {
+                                                            echo "<span style='color:red'>High glucose level</span>";
+                                                        }
+                                                    ?>
+                                                </td>
                                             </tr>
                                             <tr>
-                                                <td>Blood Pressure:</td>
+                                                <td class="icon-cell"><img src="images/icons/droplet.png" width="22"></td>
+                                                <td class="label-cell">Blood Pressure:</td>
                                                 <td><?=$row["blood_pressure"]?>mmHg</td>
+                                                <td>
+                                                    <?php
+                                                        if($row["blood_pressure"]>90 && $row["blood_pressure"]<129)
+                                                        {
+                                                            echo "<span style='color:green'>Normal</span>";
+                                                        }
+                                                        elseif($row["blood_pressure"]<90)
+                                                        {
+                                                            echo "<span style='color:blue'>Low Blood Pressure</span>";
+                                                        }
+                                                        else
+                                                        {
+                                                            echo "<span style='color:red'>High glucose level</span>";
+                                                        }
+                                                    ?>
+                                                </td>
                                             </tr>
                                             <tr>
-                                                <td>Insulin :</td>
+                                                <td class="icon-cell"><img src="images/icons/rapid-test.png" width="22"></td>
+                                                <td class="label-cell">Insulin :</td>
                                                 <td><?=$row["insulin"]?>IU/mL</td>
+                                                <td>
+                                                    <?php
+                                                        if($row["insulin"]>5 && $row["insulin"]<15)
+                                                        {
+                                                            echo "<span style='color:green'>Normal</span>";
+                                                        }
+                                                        elseif($row["insulin"]<5)
+                                                        {
+                                                            echo "<span style='color:blue'>Low Insulin level</span>";
+                                                        }
+                                                        else
+                                                        {
+                                                            echo "<span style='color:red'>High Insulin level</span>";
+                                                        }
+                                                    ?>
+                                                </td>
                                             </tr>
                                             <tr>
-                                                <td> Haemoglobin :</td>
+                                                <td class="icon-cell"><img src="images/icons/flask.png" width="22"></td>
+                                                <td class="label-cell">Haemoglobin :</td>
                                                 <td><?=$row["hb"]?>g/dL</td>
+                                                <td>
+                                                    <?php
+                                                        if($row["hb"]>11.6 && $row["hb"]<16.6)
+                                                        {
+                                                            echo "<span style='color:green'>Normal</span>";
+                                                        }
+                                                        elseif($row["hb"]<10.5)
+                                                        {
+                                                            echo "<span style='color:blue'>Low Haemoglobin  </span>";
+                                                        }
+                                                        else
+                                                        {
+                                                            echo "<span style='color:red'>High Haemoglobin</span>";
+                                                        }
+                                                    ?>
+                                                </td>
                                             </tr>
                                             <tr>
-                                                <td>Cholestrol Level :</td>
+                                                <td class="icon-cell"><img src="images/icons/blood-test.png" width="22"></td>
+                                                <td class="label-cell">Cholestrol Level :</td>
                                                 <td><?=$row["cholestrol"]?>mg/dL</td>
+                                                <td>
+                                                    <?php
+                                                        if($row["cholestrol"]>120 && $row["cholestrol"]<200)
+                                                        {
+                                                            echo "<span style='color:green'>Normal</span>";
+                                                        }
+                                                        elseif($row["cholestrol"]<119)
+                                                        {
+                                                            echo "<span style='color:blue'>Low Cholestrol  </span>";
+                                                        }
+                                                        else
+                                                        {
+                                                            echo "<span style='color:red'>High Cholestrol</span>";
+                                                        }
+                                                    ?>
+                                                </td>
                                             </tr>
                                             <tr>
-                                                <td>Heart Rate:</td>
+                                                <td class="icon-cell"><img src="images/icons/checkup.png" width="22"></td>
+                                                <td class="label-cell">Heart Rate:</td>
                                                 <td><?=$row["heart_rate"]?>bpm</td>
+                                                <td>
+                                                    <?php
+                                                        if($row["heart_rate"]>60 && $row["heart_rate"]<100)
+                                                        {
+                                                            echo "<span style='color:green'>Normal</span>";
+                                                        }
+                                                        elseif($row["heart_rate"]<60)
+                                                        {
+                                                            echo "<span style='color:blue'>Low Heart Rate  </span>";
+                                                        }
+                                                        else
+                                                        {
+                                                            echo "<span style='color:red'>High Heart Rate</span>";
+                                                        }
+                                                    ?>
+                                                </td>
                                             </tr>
                                             
                                         </tbody> 
@@ -565,7 +682,6 @@ include('../connection.php');
     symp4 = $("#symtomp4").val();
     symp5 = $("#symtomp5").val();
     pid = $("#pid").val();
-    console.log(pid);
       $.ajax({
         type: "POST",
         url: "seminar/external_api.php",

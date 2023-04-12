@@ -33,7 +33,7 @@
     if(!empty($_POST["date"])) 
     {
         $did=$_POST["date"];
-        $sql=mysqli_query($con,"select * from tbl_schedule where s_day='".$did."'");
+        $sql=mysqli_query($con,"select * from tbl_schedule where day_of_week='".$did."'");
         ?>
         <option selected="selected">Select Time Slot </option>
         <?php

@@ -310,7 +310,7 @@ include('../connection.php');
                         </a>
                     </li>
                     <li>
-                        <a href="javascript:void()" aria-expanded="false">
+                        <a href="payment_report.php" aria-expanded="false">
                         <i class="bi bi-credit-card-2-front-fill"></i></i><span class="nav-text">Payment</span>
                         </a>
                     </li>
@@ -347,14 +347,14 @@ include('../connection.php');
                 </div>
 
                 <div class="col-6">
-                    <div class="input-group">
+                    <!-- <div class="input-group">
                         <input type="text" id="searchBox" name="search" class="form-control" placeholder="Search...">
                         <div class="input-group-append">
                             <button class="btn btn-outline-secondary" id="searchButton" type="submit">
                             <i class="fa fa-search"></i>
                             </button>
                         </div>
-                    </div>
+                    </div> -->
                     <ul class="searchResults"style="background-color:white; "></ul>
                 </div>
             </div>

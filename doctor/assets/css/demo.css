@@ -1,9 +1,103 @@
+.upload{
+	width: 125px;
+	position: relative;
+	margin-left:55px;
+  }
+  
+  .upload img{
+	border-radius: 50%;
+	border: 8px solid #DCDCDC;
+  }
+  
+  .upload .round{
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	background: #00B4FF;
+	width: 32px;
+	height: 32px;
+	line-height: 33px;
+	text-align: center;
+	border-radius: 50%;
+	overflow: hidden;
+  }
+  
+  .upload .round input[type = "file"]{
+	position: absolute;
+	transform: scale(2);
+	opacity: 0;
+  }
+  
+  input[type=file]::-webkit-file-upload-button{
+	  cursor: pointer;
+  }
 
 
+/* Nav tab css */
+
+/* Rounded tabs */
+
+@media (min-width: 576px) {
+	.rounded-nav {
+	  border-radius: 50rem !important;
+	}
+  }
+  
+  @media (min-width: 576px) {
+	.rounded-nav .nav-link {
+	  border-radius: 50rem !important;
+	}
+  }
+  
+  #link1
+  {
+	margin-left: 25%;
+	width: 150px;
+  }
+  #link2
+  {
+	margin-left: 40px;
+	width: 200px;
+  }
+  
+  
+  
+  .with-arrow .nav-link.active {
+	position: relative;
+  }
+  
+  .with-arrow .nav-link.active::after {
+	content: '';
+	border-left: 6px solid transparent;
+	border-right: 6px solid transparent;
+	border-top: 6px solid #d9482b;
+	position: absolute;
+	bottom: -6px;
+	left: 50%;
+	transform: translateX(-50%);
+	display: block;
+  }
+  
+  
+  
+  .lined .nav-link {
+	border: none;
+	border-bottom: 3px solid transparent;
+  }
+  
+  .lined .nav-link:hover {
+	border: none;
+	border-bottom: 3px solid transparent;
+  }
+  
+  .lined .nav-link.active {
+	background: none;
+	color: #555;
+	border-color: #2b90d9;
+  }
 
 
-
-
+  
 
 .custom-template {
 	position: fixed;

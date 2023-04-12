@@ -19,13 +19,14 @@ include('connection.php');
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
 	<title>Admin</title>
 	<link href="assets/css/app.css" rel="stylesheet">
+	<script src= "https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
 
 <body>
 	<div class="wrapper">
 		<nav id="sidebar" class="sidebar">
 			<div class="sidebar-content js-simplebar">
-				<a class="sidebar-brand" href="admin_patient.html">
+				<a class="sidebar-brand" href="adminpage.php">
           			<span class="align-middle">Admin</span>
         		</a>
 
@@ -51,7 +52,7 @@ include('connection.php');
             			</a>
 					</li>
 
-					<li class="sidebar-item active">
+					<li class="sidebar-item">
 						<a class="sidebar-link" href="admin_patient.php">
 						<i class="bi bi-person-heart"></i>
 						<span class="align-middle">Patients</span>
@@ -59,31 +60,19 @@ include('connection.php');
 					</li>
 
 					<!-- <li class="sidebar-item">
-						<a class="sidebar-link" href="pages-invoice.html">
+						<a class="sidebar-link" href="#">
 						<i class="bi bi-file-earmark-bar-graph"></i></i> 
 						<span class="align-middle">Reports</span>
             			</a>
 					</li> -->
 
 
-					<li class="sidebar-item">
-						<a class="sidebar-link" href="admin_payment.php">
+					<li class="sidebar-item active">
+						<a class="sidebar-link" href="#">
 						<i class="bi bi-paypal"></i> 
 						<span class="align-middle">Payment</span>
             			</a>
 					</li>
-
-					<!-- <li class="sidebar-item">
-						<a class="sidebar-link" href="charts-chartjs.html">
-              				<i class="align-middle" data-feather="bar-chart-2"></i> <span class="align-middle">Charts</span>
-            			</a>
-					</li>
-
-					<li class="sidebar-item">
-						<a class="sidebar-link" href="maps-google.html">
-             				 <i class="align-middle" data-feather="map"></i> <span class="align-middle">Maps</span>
-            			</a>
-					</li> -->
 				</ul>
 			</div>
 		</nav>
@@ -105,113 +94,16 @@ include('connection.php');
 
 				<div class="navbar-collapse collapse">
 					<ul class="navbar-nav navbar-align">
-						<!-- <li class="nav-item dropdown">
-							<div class="dropdown-menu dropdown-menu-lg dropdown-menu-right py-0" aria-labelledby="alertsDropdown">
-								<div class="list-group">
-									<a href="#" class="list-group-item">
-										<div class="row g-0 align-items-center">
-											<div class="col-2">
-												<i class="text-danger" data-feather="alert-circle"></i>
-											</div>
-											<div class="col-10">
-												<div class="text-dark">Update completed</div>
-												<div class="text-muted small mt-1">Restart server 12 to complete the update.</div>
-												<div class="text-muted small mt-1">30m ago</div>
-											</div>
-										</div>
-									</a>
-									<a href="#" class="list-group-item">
-										<div class="row g-0 align-items-center">
-											<div class="col-2">
-												<i class="text-warning" data-feather="bell"></i>
-											</div>
-											<div class="col-10">
-												<div class="text-dark">Lorem ipsum</div>
-												<div class="text-muted small mt-1">Aliquam ex eros, imperdiet vulputate hendrerit et.</div>
-												<div class="text-muted small mt-1">2h ago</div>
-											</div>
-										</div>
-									</a>
-									<a href="#" class="list-group-item">
-										<div class="row g-0 align-items-center">
-											<div class="col-2">
-												<i class="text-primary" data-feather="home"></i>
-											</div>
-											<div class="col-10">
-												<div class="text-dark">Login from 192.186.1.8</div>
-												<div class="text-muted small mt-1">5h ago</div>
-											</div>
-										</div>
-									</a>
-									<a href="#" class="list-group-item">
-										<div class="row g-0 align-items-center">
-											<div class="col-2">
-												<i class="text-success" data-feather="user-plus"></i>
-											</div>
-											<div class="col-10">
-												<div class="text-dark">New connection</div>
-												<div class="text-muted small mt-1">Christina accepted your request.</div>
-												<div class="text-muted small mt-1">14h ago</div>
-											</div>
-										</div>
-									</a>
-								</div>
-								<div class="dropdown-menu-footer">
-									<a href="#" class="text-muted">Show all notifications</a>
-								</div>
-							</div>
-						</li> -->
-						<!-- <li class="nav-item dropdown">
-							<a class="nav-icon dropdown-toggle" href="#" id="messagesDropdown" data-toggle="dropdown">
-								<div class="position-relative">
-									<i class="align-middle" data-feather="message-square"></i>
-								</div>
-							</a>
-							<div class="dropdown-menu dropdown-menu-lg dropdown-menu-right py-0" aria-labelledby="messagesDropdown">
-								<div class="dropdown-menu-header">
-									<div class="position-relative">
-										4 New Messages
-									</div>
-								</div>
-								<div class="list-group">
-									<a href="#" class="list-group-item">
-										<div class="row g-0 align-items-center">
-											<div class="col-2">
-												<img src="assets/images/avatars/avatar-5.jpg" class="avatar img-fluid rounded-circle" alt="Vanessa Tucker">
-											</div>
-											<div class="col-10 pl-2">
-												<div class="text-dark">Vanessa Tucker</div>
-												<div class="text-muted small mt-1">Nam pretium turpis et arcu. Duis arcu tortor.</div>
-												<div class="text-muted small mt-1">15m ago</div>
-											</div>
-										</div>
-									</a>
-									
-									<a href="#" class="list-group-item">
-										<div class="row g-0 align-items-center">
-											<div class="col-2">
-												<img src="assets/images/avatars/avatar-3.jpg" class="avatar img-fluid rounded-circle" alt="Sharon Lessman">
-											</div>
-											<div class="col-10 pl-2">
-												<div class="text-dark">Sharon Lessman</div>
-												<div class="text-muted small mt-1">Aenean tellus metus, bibendum sed, posuere ac, mattis non.</div>
-												<div class="text-muted small mt-1">5h ago</div>
-											</div>
-										</div>
-									</a>
-								</div>
-								<div class="dropdown-menu-footer">
-									<a href="#" class="text-muted">Show all messages</a>
-								</div>
-							</div>
-						</li> -->
 						<li class="nav-item dropdown">
 							<a class="nav-icon dropdown-toggle d-inline-block d-sm-none" href="#" data-toggle="dropdown">
-                				<i class="align-middle" data-feather="settings"></i>
-              				</a>				
+                <i class="align-middle" data-feather="settings"></i>
+              </a>				
+
+			  
+
 							<a class="nav-link dropdown-toggle d-none d-sm-inline-block" href="#" data-toggle="dropdown">
-                				<img src="assets/images/avatars/avatar.jpg" class="avatar img-fluid rounded mr-1" alt="Charles Hall" /> <span class="text-dark">Admin</span>
-              				</a>
+                <img src="assets/images/avatars/avatar.jpg" class="avatar img-fluid rounded mr-1" alt="Charles Hall" /> <span class="text-dark">Admin</span>
+              </a>
 							<div class="dropdown-menu dropdown-menu-right">
 								<a class="dropdown-item" href="pages-profile.html"><i class="align-middle mr-1" data-feather="user"></i> Profile</a>
 								<!-- <a class="dropdown-item" href="#"><i class="align-middle mr-1" data-feather="pie-chart"></i> Analytics</a> -->
@@ -220,6 +112,7 @@ include('connection.php');
 								<a class="dropdown-item" href="#"><i class="align-middle mr-1" data-feather="help-circle"></i> Help Center</a>
 								<div class="dropdown-divider"></div> -->
 								<a class="dropdown-item" href="logout.php">Log out</a>
+								
 							</div>
 						</li>
 					</ul>
@@ -228,14 +121,10 @@ include('connection.php');
 			</nav>
 
 			<main class="content">
-                <div class="container-fluid p-0">
-                <div class="row mb-2 mb-xl-3">
-						<div class="col-auto d-none d-sm-block">
-							<h3>  
-							<!-- if(($_SESSION['email'])){
-							echo $_SESSION["email"];}
-							else {header("location:login.php");} -->
-							 </h3>
+				<div class="container-fluid p-0">
+					<div class="row mb-2 mb-xl-3">
+						<div class="col-auto d-none d-sm-block text-center">
+							<h3 class="">Payment Details </h3>
 						</div>
 
 						<div class="col-auto ml-auto text-right mt-n1">
@@ -243,66 +132,61 @@ include('connection.php');
 								<ol class="breadcrumb bg-transparent p-0 mt-1 mb-0">
 									<li class="breadcrumb-item"><a href="#">Home</a></li>
 									<!-- <li class="breadcrumb-item"><a href="adminpage.php">Dashboards</a></li> -->
-									<li class="breadcrumb-item active" aria-current="page">Patients</li>
+									<li class="breadcrumb-item active" aria-current="page">Payment</li>
 								</ol>
 							</nav>
 						</div>
-				</div>
-				<form action="docdef_pdf.php" method="POST">
-				<button type="submit" class="btn btn-primary float-right" name="btn_pdf">Print Details</button><br>
-				</form>
-                <div class="card-body">
-				<div class="table-responsive">
-				<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-					<thead>
-					<tr>
-						<th> Sl No</th>
-						<th> Patient Name</th>
-						<th> Patient Email</th>
-						<th> Phone Number </th>
-						<th> DELETE </th>
-					</tr>
-					</thead>
-					<tbody>
-					<tr>
-						<?php
-							$sql="SELECT * from tbl_patient where status!='1'";
-							$result=$con-> query($sql);
-							$count=1;
-							if ($result-> num_rows > 0){
-								while ($row=$result-> fetch_assoc()) {
-									$sql1="SELECT * from tbl_login where login_id=".$row["login_id"]."";
-									$result1=$con-> query($sql1);
-									if ($result1->num_rows > 0){
-										while ($row1=$result1-> fetch_assoc()) 
-										{
-						?>
-						<td> <?=$count?></td>
-						<td> <?=$row["name"]?></td>
-						<td> <?php echo $row1['email'];?></td>
-                        <td> <?=$row["phone"]?></td>
+					</div>
 					
-						
-						<td>
-							<form action="del_pat.php" method="POST">
-							<!-- <input type="hidden" name="delete_id" value="">
-							<button type="submit" name="delete_btn" class="btn btn-danger"> DELETE</button> -->
-							<button class="btn btn-danger"  name="d_btn" value="<?=$row['p_id']?>" style="height:40px">Delete</button>
-							</form>
-						</td>
-					</tr>
-					<?php
-						$count=$count+1;
-					}
-					}}}
-				?> 
-					</tbody>
-				</table>
+                    <div class="row">
+                    <div class="table-responsive">
+      <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+        <thead>
+          <tr>
+            <th> Sl No</th>
+            <th> Payment ID</th>
+			<th> Patient Name</th>
+            <th> Order ID </th>
+            <th> Amount </th>
+            <th> Paid Date </th>
+            <th> Paid Time </th>
+          </tr>
+        </thead>
+        <tbody>
+          	<tr>
+		  		<?php
+				$sql="SELECT * from tbl_payment";
+				$result=$con-> query($sql);
+      			$count=1;
+      			if ($result->num_rows > 0){
+        			while ($row=$result-> fetch_assoc()) 
+					{    
+                        $sql1="SELECT * from tbl_patient where login_id=".$row['p_id']."";
+                        $result1=$con-> query($sql1);
+                        $count=1;
+                        if ($result1->num_rows > 0){
+                            while ($row1=$result1-> fetch_assoc()) 
+					        {
+					    ?>
+                        <td><?=$count;?></td>
+						<td> <?=$row["payment_id"]?></td>
+						<td> <?=$row1["name"]?></td>
+                        <td> <?=$row["order_id"]?></td>
+						<td> <?=$row["amount"]?></td>
+						<td> <?=$row["pay_date"]?></td>
+						<td> <?=$row["pay_time"]?></td>	
+			</tr>
+                <?php
+                    $count=$count+1;
+                }
+                }}}
+                ?>
+        </tbody>
+      </table>
     </div>
-  </div>
-</div>
-</div>
-                </div>
+						
+					</div>	
+				</div>
 			</main>
 
 			<footer class="footer">
@@ -316,9 +200,9 @@ include('connection.php');
 						<div class="col-6 text-right">
 							<ul class="list-inline">
 								<li class="list-inline-item">
-									<a class="text-muted" href="#">Support</a>
+									<a class="text-muted" href="#">Support :medsphere687@gmail.com </a>
 								</li>
-								<li class="list-inline-item">
+								<!-- <li class="list-inline-item">
 									<a class="text-muted" href="#">Help Center</a>
 								</li>
 								<li class="list-inline-item">
@@ -326,7 +210,7 @@ include('connection.php');
 								</li>
 								<li class="list-inline-item">
 									<a class="text-muted" href="#">Terms</a>
-								</li>
+								</li> -->
 							</ul>
 						</div>
 					</div>

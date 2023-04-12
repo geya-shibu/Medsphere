@@ -12,12 +12,10 @@
 	<link rel="shortcut icon" href="../assets/images/logo1.png" />
 	<link rel="stylesheet" href="assets/css/bootstrap.min.css">
 	<link rel="stylesheet" href="assets/css/azzara.min.css">
-	<!-- <link rel="stylesheet" href="assets/css/font-awesome.min.css"> -->
 	<link rel="stylesheet" href="assets/css/demo.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-	
 </head>
 <body>
 	<div class="wrapper">
@@ -94,14 +92,14 @@
 					<div class="sidebar-content">
 						<div class="user">
 							<div class="avatar-sm ml-4" style="height:120px; width:120px;">
-								<?php
+							<?php
 									$doc_id=$_SESSION['docid'];
 									$sql="SELECT * from tbl_doctor where doc_id='$doc_id'";
 									$result=$con->query($sql);
 									if ($result-> num_rows > 0){
 									while ($row=$result-> fetch_assoc()) {
                                         $image=$row['image'];?>
-                                    <img class="avatar-img rounded-circle" src="../images/<?php echo $image; ?>" width = 140 height = 150 title="<?php echo $image;  ?>" style="margin-left:10px;">
+                                    <img class="avatar-img rounded-circle" src="../images/<?php echo $image; ?>" width = 140 height = 150 title="<?php echo $image;  ?>">
 									<?php }
 									}?>
 								<!-- <img src="../patient/images/no_image.jpg" alt="..." class="avatar-img rounded-circle"> -->
@@ -116,20 +114,18 @@
 										if ($result-> num_rows > 0){
 										while ($row=$result-> fetch_assoc()) {?>
 										<h4><?=$row["doc_name"]?></h4>
-										<?php $docid=$row["doc_id"];
-										$_SESSION['docid']=$docid;?>
 										<?php }
 											}?>
 									</span>
-										<span class="text-center">Doctor</span>
+										<span class="" style="margin-left:65px;">Doctor</span>
 										<!-- <span class="caret"></span> -->
-									
 								</a>
 							</div>
 						</div>
-					<ul class="nav">
+				
+						<ul class="nav">
 						<li class="nav-item">
-							<a href="doctor.php">
+							<a href="index.html">
 							<i class="fa-solid fa-bars"></i>
 								<p>Dashboard</p>
 								<!-- <span class="badge badge-count">5</span> -->
@@ -149,15 +145,15 @@
 								<!-- <span class="caret"></span> -->
 							</a>
 						</li>
-						<!-- <li class="nav-item">
-							<a href="all_patients.php">
+						<li class="nav-item">
+							<a data-toggle="collapse" href="#base">
 								<i class="fas fa-layer-group"></i>
 								<p>Patients</p>
-								<span class="caret"></span>
+								<!-- <span class="caret"></span> -->
 							</a>
-						</li> -->
+						</li>
 						<li class="nav-item">
-							<a href="all_appointments.php">
+							<a href="patient_page.php">
 								<i class="fas fa-pen-square"></i>
 								<p>Details</p>
 								<!-- <span class="caret"></span> -->
@@ -291,23 +287,42 @@
 									</table>
 								</div>
 						</div>
-						
+
+						<style>
+						.nav-tabs {
+							border-bottom: 1px solid #ddd;
+						}
+						.nav-tabs li {
+							margin-bottom: -1px;
+						}
+						.nav-tabs li a {
+							color: red;
+							font-size:20px;
+							font-weight: bold;
+							border-radius: 0;
+						}
+						.nav-tabs li.active a {
+							color: #333;
+							border: 5px solid #ddd;
+							border-top: none;
+						}
+						.tab-content {
+							border: 1px solid #ddd;
+							padding: 10px;
+						}
+						</style>
+
 						<div class="col-xl-9">
 							<div class="col-xl-12">
 								<div class="card mb-3 mb-xl-">
-									<div class="p-5 bg-white rounded shadow mb-5">
-										<!-- Rounded tabs -->
-										<ul id="myTab" role="tablist" class="nav nav-tabs nav-pills flex-column flex-sm-row text-center bg-light border-0 rounded-nav">
-											<li class="nav-item flex-sm-fill" id="link1">
-												<a id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true" class="nav-link border-0 text-uppercase font-weight-bold active">Personal Profile</a>
-											</li>
-											<li class="nav-item flex-sm-fill" id="link2">
-												<a id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false" class="nav-link border-0 text-uppercase font-weight-bold">Professional Profile</a>
-											</li>
+									<div class="container mt-5">
+										<ul class="nav nav-tabs">
+											<li class="active"><a data-toggle="tab" href="#personal">Personal Profile</a></li>
+											<li><a data-toggle="tab" href="#professional">Professional Profile</a></li>
 										</ul>
-										<!-- End rounded tabs -->
-										<div id="myTabContent" class="tab-content">
-											<div id="home" role="tabpanel" aria-labelledby="home-tab" class="tab-pane fade px-4 py-5 show active">
+										
+										<div class="tab-content">
+											<div id="personal" class="tab-pane active">
 												<div class="edit-button mt-4 mr-4">
 													<!-- Button to Open the Modal -->
 													<button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#myModal">
@@ -566,180 +581,12 @@
 												</table>
 											</div>
 
-											<div id="profile" role="tabpanel" aria-labelledby="profile-tab" class="tab-pane fade px-4 py-5">
-												<div class="edit-button mt-4 mr-4">
-													<!-- Button to Open the Modal -->
-													<button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#myModal1">
-														Edit Professional Data
-													</button>
-
-														<!-- The Modal -->
-													<div class="modal" id="myModal1">
-														<div class="modal-dialog modal-lg">
-															<div class="modal-content">
-																<!-- Modal Header -->
-																<div class="modal-header">
-																	<h4 class="modal-title w-100 text-center">Edit Professional Details</h4>
-																	<button type="button" class="close" data-dismiss="modal">&times;</button>
-																</div>
-
-																<!-- Modal body -->
-																<div class="modal-body col-12">
-																	<form action="php/updatedoc_professional.php" method="POST" id="myForm" class="needs-validation" novalidate>
-																		<div class="container">
-																		<?php
-																			// $doc_id=$_SESSION['docid'];
-																			// $sql="SELECT * from tbl_doctor where doc_id='$doc_id'";
-																			// $result=$con->query($sql);
-																			// if ($result-> num_rows > 0){
-																			// while ($row=$result-> fetch_assoc()) {?>
-																			<div class="form-group row">
-																				<label for="validationCustomUsername"  class="col-sm-3 col-form-label">Qualification</label>
-																				<div class="input-group col-sm-9">
-																					<div id="fields">
-																						<div class="field" style="width:300px;">
-																							<input type="text" class="form-control" name="qual[]" width="80px" required />
-																						</div>
-																					</div>
-																					<button type="button" style="margin-left:30px; max-height:26px;" onclick="addFields()">Add more field</button>
-																					<button class="btn btn-success" style="margin-left:30px; max-height:37px;" type="submit" name="update_qual">Add</button>
-																				</div>
-																			</div>
-																				
-
-																			<div class="form-group row">
-																				<label for="validationCustomUsername"  class="col-sm-3 col-form-label">Area of Expertise</label>
-																				<div class="input-group col-sm-9">
-																					<div id="fields1">
-																						<div class="field1" style="width:300px;">
-																							<input type="text" class="form-control" name="exp[]" width="80px" required />
-																						</div>
-																					</div>
-																					<button type="button" style="margin-left:30px; max-height:26px;" onclick="addFields1()">Add more field</button>
-																					<button class="btn btn-success" style="margin-left:30px; max-height:37px;" type="submit" name="update_exp">Add</button>
-																				</div>
-																			</div>
-
-																			<div class="form-group row">
-																				<label for="validationCustomUsername"  class="col-sm-3 col-form-label">Awards & Achievements</label>
-																				<div class="input-group col-sm-9">
-																					<div id="fields2">
-																						<div class="field2" style="width:300px;">
-																							<input type="text" class="form-control" name="award[]" width="80px" required />
-																						</div>
-																					</div>
-																					<button type="button" style="margin-left:30px; max-height:26px;" onclick="addFields2()">Add more field</button>
-																					<button class="btn btn-success" style="margin-left:30px; max-height:37px;" type="submit" name="update_award">Add</button>
-																				</div>
-																			</div>
-
-																			<!-- <div class="form-group row">
-																				<label for="validationCustomUsername"  class="col-sm-3 col-form-label">Languages Known</label>
-																				<div class="input-group col-sm-9">
-																					<div id="fields3">
-																						<div class="field3" style="width:300px;">
-																							<input type="text" class="form-control" name="lang[]" width="80px" />
-																						</div>
-																					</div>
-																					<button type="button" style="margin-left:30px; max-height:26px;" onclick="addFields3()">Add more field</button>
-																					<button class="btn btn-success" style="margin-left:30px; max-height:37px;" type="submit" name="update_lang">Add</button>
-																				</div>
-																			</div> -->
-
-																			<div class="form-group row">
-																				<label for="validationCustomUsername"  class="col-sm-3 col-form-label">Years of Experiance</label>
-																				<div class="input-group col-sm-9">
-																					<div id="fields5">
-																						<div class="field5" style="width:400px;">
-																							<input type="text" class="form-control" name="year" width="80px" required/>
-																						</div>
-																					</div>
-																					<!-- <button type="button" style="margin-left:30px; max-height:26px;" onclick="addFields4()">Add more field</button> -->
-																					<button class="btn btn-success" style="margin-left:30px; max-height:37px;" type="submit" name="update_year">Add</button>
-																				</div> 
-																			</div>
-
-																			
-																			<div class="text-center">
-																			<!-- <button class="btn btn-success" type="submit" name="update_professional">Update</button> -->
-																			</div>
-																			
-																		</div>
-																	</form>
-																	
-																	<script>
-																	
-																	</script>
-																</div>
-
-																<!-- Modal footer -->
-																<div class="modal-footer">
-																	<!-- <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button> -->
-																</div>
-
-															</div>
-														</div>
-													</div>
-
-													<table class="table table-borderless">
-													<?php
-														$doc_id=$_SESSION['docid'];
-														$sql5="SELECT * from tbl_qualification where doc_id='$doc_id'";
-														$result5=$con->query($sql5);
-														if ($result5-> num_rows > 0){
-														while ($row5=$result5-> fetch_assoc()) {?>
-													<tbody>
-														<tr>
-															<td>Qualification</td>
-															<td><?php echo $row5['qualification'];?></td>
-														</tr>														
-													</tbody>
-													<?php }}?>
-													<?php
-														$doc_id=$_SESSION['docid'];
-														$sql5="SELECT * from tbl_area_of_expertise where doc_id='$doc_id'";
-														$result5=$con->query($sql5);
-														if ($result5-> num_rows > 0){
-														while ($row5=$result5-> fetch_assoc()) {?>
-													
-														<tr>
-															<td>Area of Expertise</td>
-															<td><?php echo $row5['area_of_exp'];?></td>
-														</tr>														
-													
-													<?php }}?>
-
-													<?php
-														$doc_id=$_SESSION['docid'];
-														$sql5="SELECT * from tbl_award where doc_id='$doc_id'";
-														$result5=$con->query($sql5);
-														if ($result5-> num_rows > 0){
-														while ($row5=$result5-> fetch_assoc()) {?>
-													
-														<tr>
-															<td>Awards & Achievement</td>
-															<td><?php echo $row5['award'];?></td>
-														</tr>														
-													
-													<?php }}?>
-
-													<?php
-														$doc_id=$_SESSION['docid'];
-														$sql5="SELECT * from tbl_docprofessional where doc_id='$doc_id'";
-														$result5=$con->query($sql5);
-														if ($result5-> num_rows > 0){
-														while ($row5=$result5-> fetch_assoc()) {?>
-													
-														<tr>
-															<td>Years of Experience</td>
-															<td><?php echo $row5['experience'];?></td>
-														</tr>														
-													
-													<?php }}?>
-												</table>
-												</div>
+											<div id="professional" class="tab-pane fade">
+												<h3>Professional Profile</h3>
+												<p>Here is some information about the doctor's professional profile.</p>
 											</div>
-										</div>
+
+										</div>	
 									</div>
 								</div>
 							</div>
@@ -779,10 +626,7 @@
 	<script src="assets/js/ready.min.js"></script>
 	<script src="assets/js/setting-demo.js"></script>
 	<script src="assets/js/demo.js"></script>
-	<script src="assets/js/fields.js"></script>
 	<script src="./plugins/validation/jquery.validate.min.js"></script>
     <script src="./plugins/validation/jquery.validate-init.js"></script>
-	<!-- <script src="assets/css/bootstrap.bundle.min.js"></script> -->
-	<!-- <script src="assets/css/jquery-3.3.1.slim.min.js"></script> -->
 </body>
 </html>
