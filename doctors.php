@@ -250,7 +250,7 @@ if(isset($_POST['add_doctor']))
 						</div>
 					</div>
 				</div>
-				</div>
+			</div>
 
 
 	<div class="card-body">

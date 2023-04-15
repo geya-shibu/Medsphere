@@ -117,8 +117,8 @@ include_once('includes/header.php');
               <a href="forgot_password.php"> Forgot password ?
           </span>
           
-<span class="error_form" id="captcha_message"></span>
-          <div class="g-recaptcha" data-sitekey="6LcOQockAAAAAEpK4j5wNSPxIvFrbqs5B4UDxvjj"></div>
+<!-- <span class="error_form" id="captcha_message"></span> -->
+          <!-- <div class="g-recaptcha" data-sitekey="6LcOQockAAAAAEpK4j5wNSPxIvFrbqs5B4UDxvjj"></div> -->
           <button type="submit" name="submit" id="login" class="submit">Login </button>
         </form>
             <p class="no-c">Not a member yet? <a href="signup.php" style="color:#2030F4;font-weight:bold;">Create your Account</a></p>

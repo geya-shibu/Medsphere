@@ -4,7 +4,7 @@ include('../connection.php');
 	if(!isset($_SESSION["email"])) 
 	{
 		header("Location:../login.php");
-	}
+	} 
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -20,7 +20,7 @@ include('../connection.php');
     <link href="css/style.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
+    <!-- <script>
         $(document).ready(function() {
         $('#searchBox, #searchButton').on('keyup click', function() {
         var query = $('#searchBox').val();
@@ -38,7 +38,7 @@ include('../connection.php');
         }
     });
 });
-    </script>
+    </script> -->
 <body>
     <!--***************************** Preloader start ***********************-->
     <div id="preloader">
@@ -347,16 +347,43 @@ include('../connection.php');
                 </div>
 
                 <div class="col-6">
-                    <!-- <div class="input-group">
-                        <input type="text" id="searchBox" name="search" class="form-control" placeholder="Search...">
-                        <div class="input-group-append">
+                    <div class="input-group">
+                    <div class="search-box">
+                        <div class="input-group">
+                            <div class="form-outline form">
+                                <input type="search" autocomplete="off" class="form-control" id="search-input" placeholder="Search Department..." name="attribute" />
+                            </div>
+                            <button class="btn btn-primary" name="dept-search_sub" id="dept-search-form">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                        <div id="dept-search-results" style="background-color:white"></div>
+                    </div>
+                    <script>
+                        $("#dept-search-form").click(function() {
+                            var id = $("#search-input").val();
+                            $('.results-item').hide();
+                            $.ajax({
+                                url: "php/search.php",
+                                method: "GET",
+                                data: {search: id},
+                                success: function(data){
+                                    $("#profilepage").html(data);
+                                } 
+                            });
+                        });
+                    </script>
+                      
+                        <!-- <input type="text" id="searchBox" name="search" class="form-control" placeholder="Search..."> -->
+                        <!-- <div class="input-group-append">
                             <button class="btn btn-outline-secondary" id="searchButton" type="submit">
                             <i class="fa fa-search"></i>
                             </button>
-                        </div>
-                    </div> -->
-                    <ul class="searchResults"style="background-color:white; "></ul>
+                        </div> -->
+                    </div>
+                    <!-- <ul class="searchResults"style="background-color:white; "></ul> -->
                 </div>
+                
             </div>
             <div class="row ml-3">
                 <?php
